@@ -1,0 +1,176 @@
+* {
+	font-family: "Myriad Pro", Myriad, "Liberation Sans", "Nimbus Sans L", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+html, body {
+	height: 100%;
+}
+
+body {
+	background-color: #EDF3F9;
+	margin: auto;
+}
+
+header {
+	position: fixed;
+	width: 100%;
+	height: 42px;
+	margin: auto;
+	padding: 10px 15px;
+	box-sizing: border-box;
+	overflow: hidden;
+
+	background-color: #8A8888;
+}
+
+header > .title-header {
+	float: left;
+
+	font-size: 18px;
+	color: white;
+}
+
+header > a.logout-header {
+	margin-top: 5px;
+	float: right;
+
+	font-size: 12px;
+	color: white;
+
+	text-decoration: none;
+}
+
+.burger-button {
+	position: fixed;
+	left: 20px;
+	top: 70px;
+	cursor: pointer;
+	z-index: 999999;
+}
+
+nav {
+	transform: translateX(-250px);
+	transition: transform .8s cubic-bezier(1, 0, 0, 1);
+	width: 250px;
+	height: calc(100% - 40px);
+	top: 42px;
+	margin: auto;
+	padding-top: 50px;
+	float: left;
+	box-sizing: border-box;
+	position: fixed;
+
+	background-color: #214288;
+}
+
+nav > .nav-wrapper {
+	overflow: auto;
+	height: calc(100% - 32px);
+	margin-top: 10px;
+}
+
+nav > .nav-wrapper > ul {
+	margin: 0;
+	padding: 0;
+}
+
+nav > .nav-wrapper > ul > li {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+
+	border-top: 1px solid #2951A4;
+	border-bottom: 1px solid #1B3771;
+}
+
+nav > .nav-wrapper > ul > li > a {
+	display: block;
+	padding: 10px 10px 10px 20px;
+	box-sizing: border-box;
+
+
+	font-size: 15px;
+	color: white;
+	text-decoration: none;
+}
+
+nav > .nav-wrapper > ul > li:first-child {
+	border-top: none;
+}
+
+nav > .nav-wrapper > ul > li:last-child {
+	border-bottom: 1px solid #2951A4;
+}
+
+nav > .nav-wrapper > ul > li:last-child::after {
+	content: "";
+	display: block;
+	height: 1px;
+	background-color: #1B3771;
+}
+
+nav > .nav-wrapper > ul > li > ul {
+	margin: 0;
+	padding: 0;
+
+	display: none;
+}
+
+nav > .nav-wrapper > ul > li > ul > li {
+	margin: 0;
+	padding: 0;
+
+	list-style: none;
+
+	background-color: #395796;
+}
+
+nav > .nav-wrapper > ul > li > ul > li > a {
+	display: block;
+	padding: 5px 10px 5px 40px;
+
+	font-size: 15px;
+	text-decoration: none;
+	color: white;
+}
+
+nav > .nav-wrapper > ul > li > ul > li > a::before {
+	/*	content: "+";
+	margin-right: 5px;*/
+}
+
+nav > .nav-wrapper > ul > li.sub > a::after {
+	font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+	font-size: 10px;
+	margin-top: 5px;
+	float: right;
+	text-decoration: none;
+}
+
+nav > .nav-wrapper > ul > li.sub > a.inactive::after {
+	content: "\f054";
+}
+
+nav > .nav-wrapper ul > li.sub > a.active::after {
+	content: "\f078";
+}
+
+main {
+	padding: 100px;
+	margin-left: 300px;
+	float: left;
+	300px;
+}
+
+@media only screen and (min-width: 500px) {
+	.burger-button {
+		display: none;
+	}
+
+	nav {
+		transform: translateX(0px) !important;
+	}
+}
