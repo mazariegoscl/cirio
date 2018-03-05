@@ -14,7 +14,7 @@
       </header>
       <div class="wrapper-login">
             <h3>Iniciar sesión</h3>
-            <form style="text-align: center;">
+            <form id="login-user" style="text-align: center;">
                   <div class="box-input">
                         <label>Usuario</label>
                         <input type="text" />
@@ -29,3 +29,11 @@
       </div>
 </body>
 </html>
+<script>
+$(document).ready(function() {
+      $("form#login-user").submit(function(e) {
+            e.preventDefault();
+            window.location.href = "home.html";
+      });
+});
+</script>
