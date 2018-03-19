@@ -15,6 +15,8 @@ body {
 	margin: auto;
 }
 
+
+
 header {
 	position: fixed;
 	width: 100%;
@@ -253,6 +255,23 @@ main {
 	vertical-align: top;
 }
 
+.wrapper-charts .box-style0 {
+	width: 100%;
+	display: inline-block;
+	padding: 10px 0;
+	box-sizing: border-box;
+	vertical-align: top;
+}
+
+.wrapper-charts .box-style0 .wrapper-box-content {
+	padding: 10px;
+	box-sizing: border-box;
+	background-color: #ffffff;
+	box-shadow: -3px 3px 0px #a6abae;
+}
+
+
+
 .wrapper-charts .box-4 .wrapper-box-content {
 	padding: 10px;
 	box-sizing: border-box;
@@ -320,6 +339,14 @@ main {
 .wrapper-charts .box-2 .wrapper-box-content > small {
 	font-size: 10px;
 	color: #a7a7a7;
+}
+
+.wrapper-charts h1.title-app {
+	font-size: 23px;
+	border-bottom: 1px solid #5d5d5d;
+	padding-bottom: 5px;
+	font-weight: 400;
+	color: #5d5d5d;
 }
 
 .wrapper-chart-index {
@@ -400,6 +427,71 @@ main {
 	color: #5d5d5d;
 }
 
+.table-main-3 {
+	display: table;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.table-main-3 .col-main-2 {
+	display: inline-block;
+	width: 50%;
+	padding: 10px 0;
+	box-sizing: border-box;
+
+	font-size: 15px;
+	color: #214388;
+}
+
+.table-main-3 .col-main-2:nth-child(2n+0) {
+	color: #8a8989;
+}
+
+.table-main-inventary {
+	display: table;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.table-main-inventary .col-main-inventary-1, .table-main-inventary .col-main-inventary-2 {
+	display: inline-block;
+	padding: 10px 0;
+	box-sizing: border-box;
+
+	font-size: 15px;
+	color: #214388;
+}
+
+.table-main-inventary .col-main-inventary-1 {
+	width: calc(100% - 100px);
+	padding: 10px 15px 10px 0px !important;
+}
+
+.table-main-inventary .col-main-inventary-2 {
+	text-align: right;
+	width: 100px;
+}
+
+.table-main-inventary .col-main-inventary-2 span, .table-main-inventary .col-main-inventary-2 i {
+	padding: 0 5px;
+}
+
+.table-main-inventary .col-main-inventary-2 span {
+	color: #8a8989;
+}
+
+.table-main-inventary .col-main-inventary-2 i {
+	cursor: pointer;
+}
+
+.table-main-inventary .col-main-inventary-2 i.fa-trash {
+	color: #ef4056;
+}
+
+.table-main-inventary .col-main-inventary-2 i.fa-edit {
+	color: #1ce8bb;
+}
+
 .wrapper-total-percent {
 	display: table;
 	width: 100%;
@@ -429,7 +521,7 @@ table.default th, table.default td {
 }
 
 table.default th, table.default td {
-    padding: 5px;
+	padding: 5px;
 }
 
 table.default > thead > tr {
@@ -459,6 +551,16 @@ table.default > tbody > tr:last-child, table.default > tbody > tr:first-child {
 
 table.default > tbody > tr:last-child td {
 	font-weight: bold;
+}
+
+.box-3-style2 {
+	padding: 10px 0px 10px 0 !important;
+}
+
+.wrapper-charts .box-style0 .h3-style2 > span {
+	font-size: 17px;
+	font-weight: 400;
+	color: #5d5d5d;
 }
 
 
@@ -510,12 +612,26 @@ table.default > tbody > tr:last-child td {
 		vertical-align: top;
 	}
 
+	.wrapper-charts .box-style0 {
+		width: 50%;
+		display: inline-block;
+		padding: 10px 20px 10px 0;
+		box-sizing: border-box;
+		vertical-align: top;
+	}
+
+
+
 	.wrapper-charts .box-2 {
 		width: 100%;
 		display: inline-block;
 		padding: 10px 20px 10px 0;
 		box-sizing: border-box;
 		vertical-align: top;
+	}
+
+	.box-3-style2 {
+		padding: 10px 40px 10px 0 !important;
 	}
 
 }
@@ -538,4 +654,68 @@ table.default > tbody > tr:last-child td {
 		vertical-align: top;
 	}
 
+}
+
+.h3-style2 {
+	margin-bottom: 0;
+	margin-top: 20px !important;
+}
+
+/*CUSTOM SELECT*/
+.custom-select {
+	position: relative;
+	font-family: Arial;
+	margin-bottom: 20px;
+	box-sizing: border-box;
+background-color: #ffffff;
+box-shadow: -3px 3px 0px #a6abae;
+}
+.custom-select select {
+	display: none; /*hide original SELECT element:*/
+}
+.select-selected {
+	background-color: white;
+}
+/*style the arrow inside the select element:*/
+.select-selected:after {
+	position: absolute;
+	content: "";
+	top: 14px;
+	right: 10px;
+	width: 0;
+	height: 0;
+	border: 6px solid transparent;
+	border-color: #807f7f transparent transparent transparent;
+}
+/*point the arrow upwards when the select box is open (active):*/
+.select-selected.select-arrow-active:after {
+	border-color: transparent transparent #807f7f  transparent;
+	top: 7px;
+}
+/*style the items (options), including the selected item:*/
+.select-items div,.select-selected {
+	color: #807f7f;
+	padding: 8px 16px;
+	/*border: 1px solid transparent;
+	border-color: transparent transparent #807f7f transparent;*/
+	cursor: pointer;
+	user-select: none;
+}
+/*style items (options):*/
+.select-items {
+	position: absolute;
+	background-color: white;
+	top: 100%;
+	left: 0;
+	right: 0;
+	z-index: 99;
+	background-color: #ffffff;
+	box-shadow: -3px 3px 0px #a6abae;
+}
+/*hide the items when the select box is closed:*/
+.select-hide {
+	display: none;
+}
+.select-items div:hover {
+	background-color: rgba(0, 0, 0, 0.1);
 }
