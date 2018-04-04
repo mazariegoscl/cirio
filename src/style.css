@@ -1,5 +1,11 @@
 * {
 	font-family: "Myriad Pro", Myriad, "Liberation Sans", "Nimbus Sans L", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	outline: none;
+	-webkit-appearance: none;
+}
+
+input, button, select, textarea {
+	-webkit-appearance: none;
 }
 
 input {
@@ -15,7 +21,9 @@ body {
 	margin: auto;
 }
 
-
+button, input[type='submit'] {
+	cursor: pointer;
+}
 
 header {
 	position: fixed;
@@ -27,6 +35,8 @@ header {
 	overflow: hidden;
 
 	background-color: #8A8888;
+	z-index: 999;
+	/*MAD*/
 }
 
 header > .title-header {
@@ -228,7 +238,7 @@ main {
 	padding: 20px 20px;
 	box-sizing: border-box;
 	display: table;
-
+	z-index: 2;
 }
 
 .wrapper-charts .box-4 {
@@ -665,10 +675,11 @@ table.default > tbody > tr:last-child td {
 .custom-select {
 	position: relative;
 	font-family: Arial;
-	margin-bottom: 20px;
+	/*margin-bottom: 20px;*/
 	box-sizing: border-box;
 background-color: #ffffff;
 box-shadow: -3px 3px 0px #a6abae;
+font-size: 12px;
 }
 .custom-select select {
 	display: none; /*hide original SELECT element:*/
