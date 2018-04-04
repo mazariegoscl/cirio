@@ -110,7 +110,7 @@ header > a.logout-header {
 	left: 20px;
 	top: 50px;
 	cursor: pointer;
-	z-index: 999999;
+	z-index: 100;
 }
 
 nav {
@@ -126,7 +126,7 @@ nav {
 	position: fixed;
 
 	background-color: #214288;
-	z-index: 999;
+	z-index: 99;
 }
 
 nav > .nav-wrapper {
