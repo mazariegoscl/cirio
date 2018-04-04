@@ -116,7 +116,7 @@
         <div class="wrapper-charts">
             <h1 class="title-app">Reservaciones</h1>
             <div class="buttons-top">
-                <button class="button-normal button-lblue">Agregar Reservación</button>
+                <button class="data-modal button-normal button-lblue" data-target="modal-reservaciones">Agregar Reservación</button>
             </div>
             <div class="filters">
                 <div class="form-control">
@@ -429,6 +429,8 @@
 
             right: 10px;
             top: 10px;
+
+            cursor: pointer;
         }
 
         .wrapper-modal {
@@ -439,11 +441,28 @@
 
         .content-modal {
             max-width: 300px;
+            height: calc(100vh - 150px);
+
             padding: 10px;
             box-sizing: border-box;
 
             background-color: white;
             margin: auto;
+
+            border-radius: 5px;
+            overflow: auto;
+        }
+
+        .content-modal h3 {
+            text-align: center;
+            margin-top: 0;
+            font-weight: 400;
+            color: rgb(122, 122, 122);
+        }
+
+        .wrapper-content-modal {
+            overflow: auto;
+            /**/
         }
         </style>
 
@@ -454,12 +473,118 @@
 
             <div class="wrapper-modal">
                 <div class="content-modal">
-                    Aqui el contenido
+                    <div class="wrapper-content-modal">
+                    <h3><i class="fa fa-calendar-alt" style="color: #c94646;"></i> Nueva reservación</h3>
+                    <style>
+                    .form-modal {
+                        display: table;
+                        width: 100%;
+                    }
+
+                    .form-modal {
+                        display: inline-block;
+                        width: 100%;
+                        vertical-align: top;
+                        padding: 10px 0;
+
+                        box-sizing: border-box;
+                    }
+
+                    .form-modal label, .form-modal input {
+                        display: inline-block;
+                        width: 50%;
+                        font-size: 11px;
+                        vertical-align: middle;
+                        /**/
+                    }
+
+                    .form-modal input {
+                        width: auto;
+                    }
+
+                    .form-modal input[type='text'], .form-modal input[type='date'], .form-modal input[type='number'], select {
+                        width: calc(50% - 5px);
+                        border: 1px solid #c3c3c3;
+                        border-radius: 5px;
+                        padding: 5px 10px;
+                        box-sizing: border-box;
+                    }
+
+                    .form-modal .submit-modal {
+                        margin: auto;
+                        margin-top: 10px;
+                        text-align: center;
+
+                    }
+                    </style>
+                    <form class="form-modal">
+                        <div class="form-modal">
+                            <label><i class="fa fa-home"></i> Propiedad: </label>
+                            <select>
+                                <option value="" selected>Casa 1</option>
+                                <option value="">Casa 2</option>
+                                <option value="">Casa 3</option>
+                            </select>
+                        </div>
+                        <div class="form-modal">
+                            <label><i class="fa fa-male"></i> Cliente: </label>
+                            <input type="text" />
+                        </div>
+
+                        <div class="form-modal">
+                            <label><i class="fa fa-calendar-alt"></i> Fecha de Entrada: </label>
+                            <input type="date" value="2018-03-03" />
+                        </div>
+
+                        <div class="form-modal">
+                            <label><i class="fa fa-calendar-alt"></i> Fecha de Salida: </label>
+                            <input type="date" value="2018-03-03" />
+                        </div>
+
+                        <div class="form-modal">
+                            <label><i class="fa fa-money-bill-alt"></i> Deposito en garantía: </label>
+                            <div class="form-modal">
+                                <label>Entrada: </label>
+                                <input id="deposit_enter" type="number" pattern="[0-9]*" oninput="validateNumber(this)" />
+                            </div>
+
+                            <div class="form-modal">
+                                <label>Salida: </label>
+                                <input type="number"  pattern="[0-9]*" />
+                            </div>
+                        </div>
+
+                        <div class="form-modal">
+                            <label><i class="fa fa-percent"></i> Comisiones: </label>
+                            <div class="modal-commissions">
+                                <label>Web</label> <input type="checkbox" />
+                                <label>Airbnb</label> <input type="checkbox" />
+                                <label>VRBO</label> <input type="checkbox" />
+                                <label>Agentes</label> <input type="checkbox" />
+                            </div>
+                        </div>
+
+                        <div class="submit-modal">
+                            <input type="submit" value="RESERVAR" class="button-normal button-lblue" />
+                        </div>
+                    </form>
+                </div>
                 </div>
             </div>
         </div>
     </main>
     <script>
+    $(document).ready(function() {
+        $(".data-modal").click(function() {
+            var modal = $(this).attr('data-target');
+            $("#" + modal).show();
+        });
+
+        $(".close-button").click(function() {
+            console.log("CERRAR");
+            $(this).parent('.modal').hide();
+        });
+    });
     var x, i, j, selElmnt, a, b, c;
     /*look for any elements with the class "custom-select":*/
     x = document.getElementsByClassName("custom-select");
@@ -527,6 +652,19 @@
     /*if the user clicks anywhere outside the select box,
     then close all select boxes:*/
     document.addEventListener("click", closeAllSelect);
+
+    function validateNumber(el) {
+        /*console.log(el);
+        console.log(Number(el.value).toFixed(2));
+        var val = el.value;
+        var where = document.getElementById(el.id);
+
+        if(val.length > 3) {
+            where.value = Number(el.value).toFixed(2);
+        } else {
+            where.value = Number(el.value);
+        }*/
+    }
 </script>
 </body>
 </html>

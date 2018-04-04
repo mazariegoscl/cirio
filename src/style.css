@@ -1,11 +1,11 @@
 * {
 	font-family: "Myriad Pro", Myriad, "Liberation Sans", "Nimbus Sans L", "Helvetica Neue", Helvetica, Arial, sans-serif;
 	outline: none;
-	-webkit-appearance: none;
 }
 
-input, button, select, textarea {
+input[type="text"], input[type="date"], input[type="submit"], input[type="password"], .form-modal input[type='number'], button, select, textarea {
 	-webkit-appearance: none;
+	/**/
 }
 
 input {
