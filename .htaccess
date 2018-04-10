@@ -1,0 +1,50 @@
+ErrorDocument 404 /404.php
+<IfModule mod_rewrite.c>
+Options +FollowSymLinks
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+Rewriterule ^panel(/)?$ index.php?mode=panel&controller=HomeController&action=home [L,NC]
+Rewriterule ^panel/(.*)?$ index.php?mode=panel&controller=HomeController&action=$1 [L,NC]
+ErrorDocument 404 /404.php
+</IfModule>
+
+<IfModule mod_rewrite.c>
+Options +FollowSymLinks
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^reservations/(.*)?$ index.php?mode=panel&controller=ReservationsController&action=$1 [L,NC]
+RewriteRule ^properties/(.*)?$ index.php?mode=panel&controller=PropertiesController&action=$1 [L,NC]
+RewriteRule ^tExpenses/(.*)?$ index.php?mode=panel&controller=TExpensesController&action=$1 [L,NC]
+RewriteRule ^inventory/(.*)?$ index.php?mode=panel&controller=InventoryController&action=$1 [L,NC]
+RewriteRule ^propertyInventory/(.*)?$ index.php?mode=panel&controller=PropertyInventoryController&action=$1 [L,NC]
+RewriteRule ^project/(.*)?$ index.php?mode=panel&controller=ProjectsController&action=$1 [L,NC]
+RewriteRule ^zone/(.*)?$ index.php?mode=panel&controller=ZonesController&action=$1 [L,NC]
+RewriteRule ^service/(.*)?$ index.php?mode=panel&controller=ServicesController&action=$1 [L,NC]
+RewriteRule ^property/(.*)?$ index.php?mode=panel&controller=PropertiesController&action=$1 [L,NC]
+RewriteRule ^field/(.*)?$ index.php?mode=panel&controller=FieldsController&action=$1 [L,NC]
+RewriteRule ^projectFields/(.*)?$ index.php?mode=panel&controller=ProjectFieldsController&action=$1 [L,NC]
+ErrorDocument 404 /404.php
+</IfModule>
+
+<IfModule mod_rewrite.c>
+Options +FollowSymLinks
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(en|es)/team/(.*)?$ index.php?lang=$1&mode=page&controller=PageController&action=team&person=$2 [L,NC]
+RewriteRule ^(en|es)/projects/(.*)?$ index.php?lang=$1&mode=page&controller=PageController&action=getProject&id=$2 [L,NC]
+RewriteRule ^(en|es)/project/(.*)/(.*)?$ index.php?lang=$1&mode=page&controller=PageController&action=project&id=$2 [L,NC]
+ErrorDocument 404 /404.php
+</IfModule>
+
+<IfModule mod_rewrite.c>
+Options +FollowSymLinks
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-l
+RewriteRule ^(en|es)/?$ index.php?lang=$1&mode=page&controller=PageController&action=home [L,NC]
+RewriteRule ^(en|es)/(.*)?$ index.php?lang=$1&mode=page&controller=PageController&action=$2 [L,NC]
+</IfModule>

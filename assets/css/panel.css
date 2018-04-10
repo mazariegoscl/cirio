@@ -1,0 +1,1200 @@
+* {
+  -webkit-touch-callout: none !important;
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+}
+@font-face {
+  font-family: "brown-regular";
+  src: url('../fonts/lineto-brown-regular.ttf');
+}
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
+}
+body,
+html {
+  height: 100%;
+  background: #171717;
+}
+button,
+textarea,
+input,
+a {
+  outline: none;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
+body {
+  background: white;
+}
+main {
+  position: fixed;
+  left: 0px;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  padding: 80px 0;
+  overflow: auto;
+}
+#mdrawer_trgger {
+  position: fixed;
+  right: 20px;
+  top: 10px;
+  font-size: 30px;
+  color: gray;
+  z-index: 1;
+  cursor: pointer;
+}
+#search {
+  position: fixed;
+  left: 0px;
+  top: 0;
+  width: 100vw;
+  height: 50px;
+  background: white;
+  z-index: 9;
+  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.3);
+}
+#search i {
+  font-size: 34px;
+  margin: 8px;
+  display: inline-block;
+  float: left;
+  color: gray;
+}
+#search input {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  font-size: 20px;
+  padding-left: 50px;
+  border: none;
+}
+.md-modal {
+  display: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+#projects {
+  text-align: center;
+}
+#projects:empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#projects:empty::before {
+  content: "No hay contenido";
+  color: gray;
+}
+#projects .card {
+  position: relative;
+  display: inline-block;
+  width: 300px;
+  height: 300px;
+  background: white;
+  margin: 10px;
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+}
+#projects .card:hover .move-project {
+  opacity: 0.5;
+}
+#projects .card:hover .move-project:hover {
+  opacity: 1;
+}
+#projects .card .move-project {
+  opacity: 0;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 20px;
+  height: 20px;
+  background: white;
+  border: 2px solid black;
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 14px;
+  border-radius: 6px;
+  transition: opacity 0.2s ease;
+}
+#projects .card figure {
+  display: block;
+  width: 100%;
+  height: 215px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+#projects .card > div {
+  display: inline-flex;
+  height: 75px;
+  justify-content: space-around;
+  flex-direction: column;
+}
+#projects .card > div:first-of-type {
+  width: 270px;
+  float: left;
+  padding-left: 20px;
+}
+#projects .card > div:last-of-type {
+  width: 30px;
+  float: right;
+  padding-right: 10px;
+  justify-content: flex-start;
+  padding-top: 10px;
+}
+#projects .card > div h3 {
+  font-size: 18px;
+  text-align: left;
+}
+#projects .card > div h5 {
+  text-align: left;
+}
+#projects .card > div i {
+  cursor: pointer;
+}
+#projects .card .options {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  box-shadow: 0 -5px 10px rgba(0, 0, 0, 0.5);
+  transform: translateY(170PX);
+  transition: 0.2s ease;
+}
+#projects .card .options li {
+  height: 50px;
+  background-color: white;
+  cursor: pointer;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 20px;
+}
+#projects .card .options li i {
+  margin-right: 20px;
+  font-size: 20px;
+  color: gray;
+}
+#projects .card .options li:hover {
+  background-color: whitesmoke;
+}
+[for=photo] {
+  display: block;
+  width: 100%;
+  background: #2296f3;
+  color: white;
+  padding: 11px;
+  cursor: pointer;
+  text-align: center;
+  border-radius: 6px;
+}
+[for=photo]:hover {
+  opacity: 0.8;
+}
+[for=photo]:active {
+  transform: scale(0.95);
+}
+.md-modal {
+  position: fixed;
+  left: 0px;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  display: none;
+}
+#addProjectForm {
+  position: fixed;
+  display: none;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 750px;
+  width: 100vw;
+  z-index: 9999;
+  background-color: white;
+  padding: 25px;
+  border-radius: 10px;
+  max-height: 100vh;
+  overflow: auto;
+}
+#addProjectForm #addImage,
+#addProjectForm #addVideo {
+  position: absolute;
+  top: 86px;
+  right: 20px;
+  background: #2196F3;
+  color: white;
+  border-radius: 5px;
+  padding: 8px;
+}
+#addProjectForm #imageLists,
+#addProjectForm #videoLists {
+  display: block;
+  text-align: center;
+  padding-top: 50px;
+}
+#addProjectForm #imageLists:empty::before,
+#addProjectForm #videoLists:empty::before {
+  content: "Pulse en nuevo para añadir";
+}
+#addProjectForm #imageLists > li,
+#addProjectForm #videoLists > li {
+  width: 165px;
+  height: 165px;
+  background-color: whitesmoke;
+  border-radius: 5px;
+  display: inline-flex;
+  position: relative;
+  margin: 10px;
+  background-size: cover;
+  background-position: center;
+  justify-content: center;
+  align-items: center;
+}
+#addProjectForm #imageLists > li vide,
+#addProjectForm #videoLists > li vide {
+  width: 100px !important;
+  height: auto !important;
+}
+#addProjectForm #imageLists > li > .material-icons,
+#addProjectForm #videoLists > li > .material-icons {
+  position: absolute;
+  width: 33px;
+  height: 33px;
+  display: inline-block;
+  justify-content: center;
+  align-content: center;
+  padding: 2.5px;
+  background-color: white;
+  border-radius: 50%;
+  cursor: pointer;
+  color: black;
+  border: 2px solid black;
+  top: -10px;
+  right: -10px;
+}
+#addProjectForm #my-awesome-dropzone-gallery,
+#addProjectForm #my-awesome-dropzone-videos {
+  display: none;
+  margin-top: 60px;
+}
+#addProjectForm #tabHeaders {
+  width: 100%;
+  width: calc(100% + 52px);
+  margin-bottom: 40px;
+  border-bottom: 2px solid gray;
+  margin-left: -27px;
+  padding-left: 30px;
+}
+#addProjectForm #tabHeaders > span {
+  display: inline-block;
+  padding: 10px 7px;
+  border-radius: 10px 10px 0 0;
+  border: 2px solid rgba(128, 128, 128, 0.5);
+  border-bottom: 0;
+  margin-bottom: -2px;
+  cursor: pointer;
+}
+#addProjectForm #tabHeaders > span.active {
+  border: 2px solid gray;
+  border-bottom: 0;
+  background-color: white;
+}
+#addProjectForm #tabHeaders [trigger=t2],
+#addProjectForm #tabHeaders [trigger=t3] {
+  display: none;
+}
+#addProjectForm #thumbnail {
+  display: block;
+  width: 47%;
+  margin: 10px auto;
+  height: 20px;
+  border-radius: 5px;
+  background-position: center;
+  background-size: cover;
+  position: relative;
+  overflow: hidden;
+  padding-top: 0%;
+  transition: 0.3s padding-top ease;
+}
+#addProjectForm #thumbnail #erasePhoto {
+  position: absolute;
+  bottom: 20px;
+  right: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  display: inline-block;
+  float: right;
+  background-color: #f13232;
+  border: 2px solid white;
+  color: white;
+  padding: 5px;
+  font-family: 'Montserrat';
+}
+#addProjectForm .flex {
+  display: flex;
+  justify-content: space-between;
+}
+
+
+
+/*
+PROPERTIES
+*/
+
+.filters {
+    width: 100%;
+    display: table;
+}
+
+.filters .form-control {
+    padding-left: 0;
+}
+
+.form-control {
+    width: auto;
+    height: auto;
+    display: inline-block;
+    padding: 15px;
+    box-sizing: border-box;
+
+    vertical-align: top;
+}
+
+.form-control label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 13px;
+    font-weight: bold;
+    color: #767676;
+}
+
+.form-control  input {
+    height: 35px;
+    width: 150px;
+    padding: 5px;
+    box-sizing: border-box;
+    border: 1px solid #c3c3c3;
+    border-radius: 1px;
+}
+
+.form-control button {
+    background-color: #214288;
+    color: white;
+    font-weight: bold;
+    font-size: 13px;
+    border-radius: 5px;
+    border: 0;
+    padding: 10px 15px;
+}
+
+.buttons-top {
+    width: 100%;
+    display: block;
+    padding-bottom: 10px;
+    text-align: right;
+}
+
+.button-normal {
+    background-color: #214288;
+    color: white;
+    font-weight: bold;
+    font-size: 13px;
+    border-radius: 5px;
+    border: 0;
+    padding: 10px 15px;
+}
+
+.button-lblue {
+    background-color: #24bfa2;
+    color: white;
+}
+
+.button-lred {
+    background-color: rgb(176, 59, 77);
+    color: white;
+}
+
+
+.wrapper-box-reservation {
+    padding: 30px 30px 30px 0;
+    display: inline-block;
+    text-align: left;
+}
+.box-reservation {
+    width: 250px;
+    height: 100px;
+    border-radius: 10px;
+
+    background-color: rgb(255, 255, 255);
+
+    position: relative;
+    padding: 10px;
+    box-sizing: border-box;
+    box-shadow: 1px 1px 10px #c3c3c3;
+}
+
+.res-clock {
+    /*position: absolute;
+    top: -5px;
+    right: -5px;*/
+    color: rgb(182, 45, 43);
+}
+
+.res-person {
+    font-size: 13px;
+    font-weight: bold;
+    color: rgb(93, 93, 93);
+}
+
+.res-dates {
+    padding-top: 10px;
+    font-size: 11px;
+    font-style: italic;
+}
+
+.initial-date {
+    color: #00a8f5;
+}
+
+.end-date {
+    color: rgb(222, 45, 88);
+}
+
+.res-actions {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
+
+.res-actions i {
+    width: 10px;
+    height: 10px;
+    padding: 7px;
+    border-radius: 12px;
+    background-color: #cacaca;
+    font-size: 11px;
+
+    cursor: pointer;
+}
+
+i.edit-reservation {
+    background-color: #23bfa2;
+    font-weight: bold;
+    color: white;
+}
+
+i.delete-reservation {
+    background-color: rgb(232, 98, 89);
+    font-weight: bold;
+    color: white;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    background-color: #000000e3;
+    z-index: 2000;
+    padding-top: 50px;
+    display: none;
+}
+
+.close-button {
+    color: white;
+    font-weight: bold;
+    position: absolute;
+
+    right: 10px;
+    top: 10px;
+
+    cursor: pointer;
+}
+
+.wrapper-modal {
+    width: 100%;
+    height: auto;
+    margin: auto;
+}
+
+.content-modal {
+    max-width: 300px;
+    max-height: calc(100vh - 150px);
+
+    padding: 10px;
+    box-sizing: border-box;
+
+    background-color: white;
+    margin: auto;
+
+    border-radius: 5px;
+    overflow: auto;
+}
+
+.content-modal h3 {
+    text-align: center;
+    margin-top: 0;
+    font-weight: 400;
+    color: rgb(122, 122, 122);
+}
+
+.wrapper-content-modal {
+    overflow: auto;
+    /**/
+}
+
+.form-modal {
+    display: table;
+    width: 100%;
+
+    text-align: center;
+}
+
+.form-input {
+    display: inline-block;
+    width: 100%;
+    vertical-align: top;
+    padding: 10px 2px;
+
+    box-sizing: border-box;
+    text-align: left;
+}
+
+.form-modal label, .form-modal input {
+    display: inline-block;
+    width: 50%;
+    font-size: 11px;
+    vertical-align: middle;
+    /**/
+}
+
+.form-modal input {
+    width: auto;
+}
+
+.form-modal input[type='text'], .form-modal input[type='date'], .form-modal input[type='number'], select {
+    width: calc(50% - 5px);
+    border: 1px solid #c3c3c3;
+    border-radius: 5px;
+    padding: 5px 10px;
+    box-sizing: border-box;
+}
+
+.form-modal .submit-modal {
+    margin: auto;
+    margin-top: 10px;
+    text-align: center;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media (max-width: 525px) {
+  #addProjectForm .flex {
+    flex-wrap: wrap;
+  }
+}
+#addProjectForm .flex label {
+  padding-left: 2px;
+  margin-top: 12px;
+  display: inline-block;
+}
+#addProjectForm .flex > * {
+  width: 48%;
+  min-width: 48%;
+  max-width: 48%;
+}
+@media (max-width: 525px) {
+  #addProjectForm .flex > * {
+    min-width: calc(100% - 10px);
+    max-height: calc(100% - 10px);
+  }
+}
+#addProjectForm input:not([type=checkbox]),
+#addProjectForm textarea,
+#addProjectForm select {
+  display: block;
+  width: 100%;
+  font-size: 20px;
+  padding: 7px;
+  margin: 10px 0;
+  border: 2px solid gray;
+  background-color: whitesmoke;
+  border-radius: 4px;
+}
+#addProjectForm hr {
+  display: block;
+  margin: 10px 5px;
+}
+#addProjectForm .group,
+#addProjectForm .dropzone {
+  margin: 20px 5px;
+}
+#addProjectForm .dropzone-previews {
+  border: 1px dotted gray;
+  background: whitesmoke;
+  border-radius: 4px;
+  height: 100%;
+}
+#addProjectForm textarea {
+  min-height: 80px;
+  font-size: 18px;
+  display: inline-block;
+}
+#addProjectForm input[type=submit] {
+  color: white;
+  background-color: #2196f3;
+  border: none;
+  cursor: pointer;
+}
+#addProjectForm input[type=submit]:hover {
+  background-color: #0c7cd5;
+}
+#addProjectForm input[type=submit]:active {
+  background-color: #0a6ebd;
+}
+#addProjectForm input[type=button] {
+  color: white;
+  background-color: #C3C3C3;
+  border: none;
+  cursor: pointer;
+}
+#addProjectForm input[type=button]:hover {
+  background-color: #aaaaaa;
+}
+#addProjectForm input[type=button]:active {
+  background-color: #9d9d9d;
+}
+#uploadVideos,
+#uploadImages {
+  display: none;
+  width: 142px;
+  height: 40px;
+  background: #03A9F4;
+  padding: 0;
+  color: white;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  border-radius: 7px;
+}
+#newProject {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  width: 60px;
+  height: 60px;
+  background-color: whitesmoke;
+  border-radius: 50%;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.2s box-shadow ease;
+  cursor: pointer;
+}
+#newProject > i {
+  font-size: 26px;
+}
+#newProject:hover {
+  box-shadow: 0 7px 15px rgba(0, 0, 0, 0.4);
+}
+#users {
+  padding: 0;
+}
+#users li {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+#users li:hover {
+  background: whitesmoke;
+}
+#users li > span {
+  padding: 20px;
+}
+#fields {
+  width: 100%;
+  text-align: center;
+}
+#fields .other-flieds,
+#fields .zone-flieds {
+  z-index: 9999;
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: 0 4px 9px rgba(0, 0, 0, 0.5);
+  text-align: left;
+  display: none;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  max-width: 300px;
+  padding: 10px;
+  border: none;
+}
+#fields .other-flieds input,
+#fields .zone-flieds input,
+#fields .other-flieds select,
+#fields .zone-flieds select {
+  display: block;
+  width: 100%;
+  padding: 4px;
+  font-size: 20px;
+  border-radius: 5px;
+  border: 2px solid gray;
+}
+#fields .other-flieds input[type=submit],
+#fields .zone-flieds input[type=submit],
+#fields .other-flieds select[type=submit],
+#fields .zone-flieds select[type=submit] {
+  background-color: #2196f3;
+  color: white;
+  border: none;
+}
+#fields .other-flieds label,
+#fields .zone-flieds label {
+  margin: 10px 0;
+  display: block;
+  color: gray;
+}
+#fields ul {
+  border-radius: 5px;
+  padding: 0;
+  width: 30%;
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: top;
+  list-style: none;
+  overflow: auto;
+  border: 1px solid rgba(128, 128, 128, 0.5);
+}
+@media (max-width: 600px) {
+  #fields ul {
+    width: calc(100% - 50px);
+    margin-bottom: 24px;
+  }
+}
+#fields ul [dt-status=inactive] {
+  opacity: 0.4;
+}
+#fields ul i[dt-status=inactive] {
+  display: none;
+}
+#fields ul li {
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+}
+#fields ul li b {
+  padding: 4px;
+  display: block;
+}
+#fields ul li span {
+  padding: 10px;
+  padding-left: 10%;
+  flex: 1;
+}
+#fields ul li i {
+  padding: 10px;
+  float: right;
+  color: #da4747;
+  margin-top: -3px;
+  cursor: pointer;
+}
+#fields ul li:not(:last-of-type) {
+  border-bottom: 1px solid rgba(128, 128, 128, 0.5);
+}
+#fields ul li:last-of-type {
+  background-color: whitesmoke;
+  cursor: pointer;
+  text-align: center;
+}
+#fields ul li:last-of-type:hover {
+  opacity: 0.7;
+}
+md-settings {
+  display: none;
+}
+#toasts {
+  position: fixed;
+  right: 20px;
+  top: 70px;
+  z-index: 9999999999;
+}
+#toasts span {
+  width: 100%;
+  padding: 0px;
+  font-size: 20px;
+  color: white;
+  display: block;
+  margin-left: 10px;
+  margin-bottom: 0px;
+  border-radius: 6px;
+  padding-left: 0px;
+  background: lightcoral;
+  height: 0px;
+  overflow: hidden;
+  box-shadow: 0px 7px 20px #00000036;
+  animation: 3s toasts 1 ease;
+}
+@keyframes toasts {
+  0% {
+    opacity: 0;
+    display: block;
+    padding: 0;
+    height: 0;
+    border-radius: 10px;
+    margin-bottom: 0px;
+  }
+  15% {
+    opacity: 1;
+    padding: 7px;
+    height: 63px;
+    padding: 18px;
+    margin-bottom: 10px;
+    padding-left: 15px;
+  }
+  85% {
+    opacity: 1;
+    padding: 7px;
+    height: 63px;
+    padding: 18px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    padding-left: 15px;
+  }
+}
+#customFields ul {
+  display: block;
+  width: 100%;
+  max-width: 600px;
+  border: 2px solid gray;
+  border-radius: 8px;
+  margin: 10px auto;
+  list-style: none;
+}
+#customFields ul:empty {
+  padding: 10px;
+}
+#customFields ul:empty::before {
+  content: "No hay registros, haga click en nuevo campo";
+}
+#customFields ul li > span {
+  padding: 15px;
+  padding-left: 10%;
+  display: block;
+}
+#customFields ul li > span > b {
+  color: #cacaca;
+}
+#customFields ul li > span[status=inactive] {
+  opacity: 0.4;
+}
+#customFields ul li:not(:first-of-type) {
+  border-top: 2px solid gray;
+}
+form#login {
+  width: 100%;
+  max-width: 400px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 5px;
+  color: black;
+  background-color: #f8f8f8;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+  padding: 30px 15px;
+  box-sizing: border-box;
+}
+form#login > label {
+  width: 100%;
+  display: block;
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 18px;
+}
+form#login input[type='text'],
+form#login input[type='password'] {
+  display: block;
+  width: 100%;
+  padding: 9px;
+  padding-left: 20px;
+  background-color: #f1f1f1;
+  margin-bottom: 10px;
+  font-size: 17px;
+  border: none;
+}
+form#login input[type='submit'] {
+  display: block;
+  width: 100px;
+  margin: auto;
+  margin-top: 25px;
+  color: white;
+  background-color: #2196f3;
+  padding: 10px;
+  border: none;
+  font-size: 18px;
+  border-radius: 5px;
+}
+#loginImg {
+  position: fixed;
+  width: 140px;
+  left: calc(50% - 70px);
+  top: 15%;
+}
+#addCustomField {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #2196f3;
+  border-radius: 5px;
+  padding: 9px;
+  font-weight: bold;
+  cursor: pointer;
+  color: white;
+}
+#addCustomField:hover {
+  opacity: 0.95;
+}
+#addCustomField:active {
+  opacity: 0.8;
+}
+#fieldsManager {
+  z-index: 9999;
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: 0 4px 9px rgba(0, 0, 0, 0.5);
+  text-align: left;
+  display: none;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  max-width: 300px;
+  padding: 10px;
+  border: none;
+}
+#fieldsManager input,
+#fieldsManager select {
+  display: block;
+  width: 100%;
+  padding: 4px;
+  font-size: 20px;
+  border-radius: 5px;
+  border: 2px solid gray;
+}
+#fieldsManager input[type=submit],
+#fieldsManager select[type=submit] {
+  background-color: #2196f3;
+  color: white;
+  border: none;
+}
+#fieldsManager label {
+  margin: 10px 0;
+  display: block;
+  color: gray;
+}
+#loadgingScreen {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999999999999;
+  display: none;
+}
+.t4 #editCustomFields {
+  float: right;
+  background-color: #03a9f4;
+  padding: 7px;
+  font-size: 14px;
+  text-align: center;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+.t4 h4 {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-size: 20px;
+  color: gray;
+}
+.t4 .options ul:empty::before,
+.t4 .prepares ul:empty::before {
+  display: block;
+  width: 100%;
+  text-align: center;
+  color: gray;
+}
+.t4 #currentFields ul:empty::before {
+  content: "No hay mas campos disponibles...";
+}
+.t4 .options ul:empty::before {
+  content: "No hay mas campos disponibles...";
+}
+.t4 .prepares ul:empty::before {
+  content: "No se han agregado campos...";
+}
+.t4 .options ul,
+.t4 .prepares ul {
+  max-height: 34vh;
+  overflow: auto;
+}
+.t4 .prepares li {
+  animation: appendLi 0.3s ease;
+  background-color: whitesmoke;
+}
+.t4 .prepares li input {
+  background-color: white;
+}
+.t4 .prepares li input:focus {
+  border: 2px solid blue;
+}
+.t4 li {
+  display: flex;
+  padding: 4px;
+  border: 2px solid gray;
+  border-radius: 5px;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+}
+.t4 li:not(:last-of-type) {
+  margin-bottom: 10px;
+}
+.t4 li .val {
+  background: whitesmoke;
+  border-radius: 4px;
+  border: 2px solid gray;
+}
+.t4 li span {
+  padding: 10px;
+}
+.t4 li span:last-of-type {
+  float: right;
+  justify-content: center;
+}
+.t4 li span i {
+  display: inline-flex;
+  color: #ff5c5c;
+}
+.t4 li span i.material-icons {
+  margin-top: 3px;
+}
+.t4 #additive {
+  display: none;
+}
+#loadingScreen {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.9);
+  z-index: 999999999999999;
+}
+@keyframes appendLi {
+  from {
+    opacity: 0.6;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.settings {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.settings main {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  max-width: 400px;
+  background-color: white;
+  padding: 15px;
+  border-radius: 8px;
+  border: 2px solid lightgray;
+  margin: auto;
+  display: block;
+  height: auto;
+}
+.settings main hr {
+  margin: 20px 0;
+}
+.settings main input {
+  display: block;
+  padding: 5px;
+  width: 100%;
+  border: 2px solid gray;
+  font-size: 18px;
+  border-radius: 6px;
+  margin: 10px 0;
+  background-color: whitesmoke;
+}
+.settings main button {
+  padding: 8px;
+  color: white;
+  background: #2196f3;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 5px;
+  border: none;
+}

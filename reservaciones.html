@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="src/style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="src/js/nav.js"></script>
+    <script src="src/js/index.js"></script>
     <title>Document</title>
 </head>
 <body>
@@ -24,19 +25,20 @@
                 <li class="sub"><a class="inactive" href="#">Reportes</a>
                     <ul>
                         <li><a href="ventas.html">Ventas</a></li>
-                        <li><a href="#">Gastos</a></li>
-                        <li><a href="comisiones.html">Comisiones</a></li>
+                        <!--<li><a href="#">Gastos</a></li>-->
+                        <!--<li><a href="comisiones.html">Comisiones</a></li>-->
                     </ul>
                 </li>
                 <li class="sub"><a class="inactive" href="#">Inventario</a>
                     <ul>
                         <li><a href="inventario-fijo.html">Propiedad</a></li>
-                        <li><a href="inventario-variable.html">Operativo</a></li>
+                        <li><a href="inventory.html">Operativo</a></li>
                     </ul>
                 </li>
                 <li class="sub"><a class="inactive" href="#">Administrar Propiedades</a>
                     <ul>
-                        <li><a href="#">Modificar Propiedades</a></li>
+                        <li><a href="properties.html">Lista de Propiedades</a></li>
+                        <li><a href="tiposGastos.html">Tipos de Gastos</a></li>
                         <li><a href="#">Modificar Gastos</a></li>
                     </ul>
                 </li>
@@ -44,546 +46,319 @@
         </div>
     </nav>
     <main>
-        <style>
-        .filters {
-            width: 100%;
-            display: table;
-        }
-
-        .filters .form-control {
-            padding-left: 0;
-        }
-
-        .form-control {
-            width: auto;
-            height: auto;
-            display: inline-block;
-            padding: 15px;
-            box-sizing: border-box;
-
-            vertical-align: top;
-        }
-
-        .form-control label {
-            display: block;
-            margin-bottom: 5px;
-            font-size: 13px;
-            font-weight: bold;
-            color: #767676;
-        }
-
-        .form-control  input {
-            height: 35px;
-            width: 150px;
-            padding: 5px;
-            box-sizing: border-box;
-            border: 1px solid #c3c3c3;
-            border-radius: 1px;
-        }
-
-        .form-control button {
-            background-color: #214288;
-            color: white;
-            font-weight: bold;
-            font-size: 13px;
-            border-radius: 5px;
-            border: 0;
-            padding: 10px 15px;
-        }
-
-        .buttons-top {
-            width: 100%;
-            display: block;
-            padding-bottom: 10px;
-            text-align: right;
-        }
-
-        .button-normal {
-            background-color: #214288;
-            color: white;
-            font-weight: bold;
-            font-size: 13px;
-            border-radius: 5px;
-            border: 0;
-            padding: 10px 15px;
-        }
-
-        .button-lblue {
-            background-color: #24bfa2;
-            color: white;
-        }
-        </style>
         <div class="wrapper-charts">
             <h1 class="title-app">Reservaciones</h1>
             <div class="buttons-top">
-                <button class="data-modal button-normal button-lblue" data-target="modal-reservaciones">Agregar Reservación</button>
+                <button id="add_reservation" class="data-modal button-normal button-lblue" data-target="modal-reservaciones">Agregar Reservación</button>
             </div>
             <div class="filters">
                 <div class="form-control">
                     <label>
                         Fecha de inicio
                     </label>
-                    <input type="date" value="2018-03-01" />
+                    <input id="first_date_find" type="date" value="2018-03-01" />
                 </div>
 
                 <div class="form-control">
                     <label>
                         Fecha final
                     </label>
-                    <input type="date" value="2018-03-02" />
+                    <input id="second_date_find" type="date" value="2018-03-02" />
                 </div>
                 <div class="form-control">
                     <label>
                         Opciones
                     </label>
                     <div class="custom-select" style="width:200px;">
-                        <select>
-                            <option value="">Seleccionar una propiedad</option>
-                            <option value="">Casa 1</option>
-                            <option value="">Casa 2</option>
-                            <option value="">Casa 3</option>
+                        <select id="property_find">
+                            <option value="0">Seleccionar una propiedad</option>
+                            <option value="1">Casa 1</option>
+                            <option value="2">Casa 2</option>
+                            <option value="3">Casa 3</option>
                         </select>
                     </div>
                 </div>
 
                 <div class="form-control" style="vertical-align: bottom;">
-                    <button>Buscar</button>
+                    <button id="find_reservations">Buscar</button>
                 </div>
             </div>
-            <style>
-            .wrapper-box-reservation {
-                padding: 30px 30px 30px 0;
-                display: inline-block;
-                text-align: left;
-            }
-            .box-reservation {
-                width: 250px;
-                height: 100px;
-                border-radius: 10px;
-
-                background-color: rgb(255, 255, 255);
-
-                position: relative;
-                padding: 10px;
-                box-sizing: border-box;
-                box-shadow: 1px 1px 10px #c3c3c3;
-            }
-
-            .res-clock {
-                /*position: absolute;
-                top: -5px;
-                right: -5px;*/
-                color: rgb(182, 45, 43);
-            }
-
-            .res-person {
-                font-size: 13px;
-                font-weight: bold;
-                color: rgb(93, 93, 93);
-            }
-
-            .res-dates {
-                padding-top: 10px;
-                font-size: 11px;
-                font-style: italic;
-            }
-
-            .initial-date {
-                color: #00a8f5;
-            }
-
-            .end-date {
-                color: rgb(222, 45, 88);
-            }
-
-            .res-actions {
-                position: absolute;
-                bottom: 10px;
-                right: 10px;
-            }
-
-            .res-actions i {
-                width: 10px;
-                height: 10px;
-                padding: 7px;
-                border-radius: 12px;
-                background-color: #cacaca;
-                font-size: 11px;
-
-                cursor: pointer;
-            }
-
-            i.edit-reservation {
-                background-color: #23bfa2;
-                font-weight: bold;
-                color: white;
-            }
-
-            i.delete-reservation {
-                background-color: rgb(232, 98, 89);
-                font-weight: bold;
-                color: white;
-            }
-            </style>
             <div class="wrapper-box-content" style="margin-top: 50px;">
-                <div class="wrapper-box-reservation">
-                    <div class="box-reservation">
-                        <span class="res-person"><i class='fa fa-male'></i> John Doe</span>
-                        <div class="res-dates">
-                            <span>
-                                <i class='initial-date fa fa-calendar-alt'></i> 17 mar 2018
-                            </span>
-                            -
-                            <span>
-                                <i class='end-date fa fa-calendar-alt'></i> 19 mar 2018
-                            </span>
-                        </div>
-
-                        <div class="res-actions">
-                            <i class="edit-reservation fa fa-edit"></i>
-                            <i class="delete-reservation fa fa-trash"></i>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="wrapper-box-reservation">
-                    <div class="box-reservation">
-                        <span class="res-person"><i class='fa fa-male'></i> John Doe</span>
-                        <div class="res-dates">
-                            <span>
-                                <i class='initial-date fa fa-calendar-alt'></i> 17 mar 2018
-                            </span>
-                            -
-                            <span>
-                                <i class='end-date fa fa-calendar-alt'></i> 19 mar 2018
-                            </span>
-                        </div>
-
-                        <div class="res-actions">
-                            <i class="edit-reservation fa fa-edit"></i>
-                            <i class="delete-reservation fa fa-trash"></i>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="wrapper-box-reservation">
-                    <div class="box-reservation">
-                        <span class="res-person"><i class='fa fa-male'></i> John Doe</span>
-                        <div class="res-dates">
-                            <span>
-                                <i class='initial-date fa fa-calendar-alt'></i> 17 mar 2018
-                            </span>
-                            -
-                            <span>
-                                <i class='end-date fa fa-calendar-alt'></i> 19 mar 2018
-                            </span>
-                        </div>
-
-                        <div class="res-actions">
-                            <i class="edit-reservation fa fa-edit"></i>
-                            <i class="delete-reservation fa fa-trash"></i>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="wrapper-box-reservation">
-                    <div class="box-reservation">
-                        <span class="res-person"><i class='fa fa-male'></i> John Doe</span>
-                        <div class="res-dates">
-                            <span>
-                                <i class='initial-date fa fa-calendar-alt'></i> 17 mar 2018
-                            </span>
-                            -
-                            <span>
-                                <i class='end-date fa fa-calendar-alt'></i> 19 mar 2018
-                            </span>
-                        </div>
-
-                        <div class="res-actions">
-                            <i class="edit-reservation fa fa-edit"></i>
-                            <i class="delete-reservation fa fa-trash"></i>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="wrapper-box-reservation">
-                    <div class="box-reservation">
-                        <span class="res-person"><i class='fa fa-male'></i> John Doe</span>
-                        <div class="res-dates">
-                            <span>
-                                <i class='initial-date fa fa-calendar-alt'></i> 17 mar 2018
-                            </span>
-                            -
-                            <span>
-                                <i class='end-date fa fa-calendar-alt'></i> 19 mar 2018
-                            </span>
-                        </div>
-
-                        <div class="res-actions">
-                            <i class="edit-reservation fa fa-edit"></i>
-                            <i class="delete-reservation fa fa-trash"></i>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="wrapper-box-reservation">
-                    <div class="box-reservation">
-                        <span class="res-person"><i class='fa fa-male'></i> John Doe</span>
-                        <div class="res-dates">
-                            <span>
-                                <i class='initial-date fa fa-calendar-alt'></i> 17 mar 2018
-                            </span>
-                            -
-                            <span>
-                                <i class='end-date fa fa-calendar-alt'></i> 19 mar 2018
-                            </span>
-                        </div>
-
-                        <div class="res-actions">
-                            <i class="edit-reservation fa fa-edit"></i>
-                            <i class="delete-reservation fa fa-trash"></i>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="wrapper-box-reservation">
-                    <div class="box-reservation">
-                        <span class="res-person"><i class='fa fa-male'></i> John Doe</span>
-                        <div class="res-dates">
-                            <span>
-                                <i class='initial-date fa fa-calendar-alt'></i> 17 mar 2018
-                            </span>
-                            -
-                            <span>
-                                <i class='end-date fa fa-calendar-alt'></i> 19 mar 2018
-                            </span>
-                        </div>
-
-                        <div class="res-actions">
-                            <i class="edit-reservation fa fa-edit"></i>
-                            <i class="delete-reservation fa fa-trash"></i>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="wrapper-box-reservation">
-                    <div class="box-reservation">
-                        <span class="res-person"><i class='fa fa-male'></i> John Doe</span>
-                        <div class="res-dates">
-                            <span>
-                                <i class='initial-date fa fa-calendar-alt'></i> 17 mar 2018
-                            </span>
-                            -
-                            <span>
-                                <i class='end-date fa fa-calendar-alt'></i> 19 mar 2018
-                            </span>
-                        </div>
-
-                        <div class="res-actions">
-                            <i class="edit-reservation fa fa-edit"></i>
-                            <i class="delete-reservation fa fa-trash"></i>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="wrapper-box-reservation">
-                    <div class="box-reservation">
-                        <span class="res-person"><i class='fa fa-male'></i> John Doe</span>
-                        <div class="res-dates">
-                            <span>
-                                <i class='initial-date fa fa-calendar-alt'></i> 17 mar 2018
-                            </span>
-                            -
-                            <span>
-                                <i class='end-date fa fa-calendar-alt'></i> 19 mar 2018
-                            </span>
-                        </div>
-
-                        <div class="res-actions">
-                            <i class="edit-reservation fa fa-edit"></i>
-                            <i class="delete-reservation fa fa-trash"></i>
-                        </div>
-                    </div>
-                </div>
+                <div id="exam"></div>
             </div>
         </div>
-
-        <style>
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-
-            background-color: #000000e3;
-            z-index: 2000;
-            padding-top: 50px;
-            display: none;
-        }
-
-        .close-button {
-            color: white;
-            font-weight: bold;
-            position: absolute;
-
-            right: 10px;
-            top: 10px;
-
-            cursor: pointer;
-        }
-
-        .wrapper-modal {
-            width: 100%;
-            height: auto;
-            margin: auto;
-        }
-
-        .content-modal {
-            max-width: 300px;
-            max-height: calc(100vh - 150px);
-
-            padding: 10px;
-            box-sizing: border-box;
-
-            background-color: white;
-            margin: auto;
-
-            border-radius: 5px;
-            overflow: auto;
-        }
-
-        .content-modal h3 {
-            text-align: center;
-            margin-top: 0;
-            font-weight: 400;
-            color: rgb(122, 122, 122);
-        }
-
-        .wrapper-content-modal {
-            overflow: auto;
-            /**/
-        }
-        </style>
-
         <div class="modal" id="modal-reservaciones">
             <div class="close-button">
-                <i class="close-button fa fa-times"></i>
+                <i class="fa fa-times"></i>
             </div>
 
             <div class="wrapper-modal">
                 <div class="content-modal">
                     <div class="wrapper-content-modal">
-                    <h3><i class="fa fa-calendar-alt" style="color: #c94646;"></i> Nueva reservación</h3>
-                    <style>
-                    .form-modal {
-                        display: table;
-                        width: 100%;
-                    }
-
-                    .form-modal {
-                        display: inline-block;
-                        width: 100%;
-                        vertical-align: top;
-                        padding: 10px 0;
-
-                        box-sizing: border-box;
-                    }
-
-                    .form-modal label, .form-modal input {
-                        display: inline-block;
-                        width: 50%;
-                        font-size: 11px;
-                        vertical-align: middle;
-                        /**/
-                    }
-
-                    .form-modal input {
-                        width: auto;
-                    }
-
-                    .form-modal input[type='text'], .form-modal input[type='date'], .form-modal input[type='number'], select {
-                        width: calc(50% - 5px);
-                        border: 1px solid #c3c3c3;
-                        border-radius: 5px;
-                        padding: 5px 10px;
-                        box-sizing: border-box;
-                    }
-
-                    .form-modal .submit-modal {
-                        margin: auto;
-                        margin-top: 10px;
-                        text-align: center;
-
-                    }
-                    </style>
-                    <form class="form-modal">
-                        <div class="form-modal">
-                            <label><i class="fa fa-home"></i> Propiedad: </label>
-                            <select>
-                                <option value="" selected>Casa 1</option>
-                                <option value="">Casa 2</option>
-                                <option value="">Casa 3</option>
-                            </select>
-                        </div>
-                        <div class="form-modal">
-                            <label><i class="fa fa-male"></i> Cliente: </label>
-                            <input type="text" />
-                        </div>
-
-                        <div class="form-modal">
-                            <label><i class="fa fa-calendar-alt"></i> Fecha de Entrada: </label>
-                            <input type="date" value="2018-03-03" />
-                        </div>
-
-                        <div class="form-modal">
-                            <label><i class="fa fa-calendar-alt"></i> Fecha de Salida: </label>
-                            <input type="date" value="2018-03-03" />
-                        </div>
-
-                        <div class="form-modal">
-                            <label><i class="fa fa-money-bill-alt"></i> Deposito en garantía: </label>
-                            <div class="form-modal">
-                                <label>Entrada: </label>
-                                <input id="deposit_enter" type="number" pattern="[0-9]*" oninput="validateNumber(this)" />
+                        <h3><i class="fa fa-calendar-alt" style="color: #c94646;"></i> <span id='title-modal-reservation'>Nueva reservación</span></h3>
+                        <form class="form-modal">
+                            <div class="form-input">
+                                <label><i class="fa fa-home"></i> Propiedad: </label>
+                                <select id="property">
+                                    <option value="1" selected>Casa 1</option>
+                                    <option value="2">Casa 2</option>
+                                    <option value="3">Casa 3</option>
+                                </select>
+                            </div>
+                            <div class="form-input">
+                                <label><i class="fa fa-male"></i> Cliente: </label>
+                                <input type="text" id="customer" />
                             </div>
 
-                            <div class="form-modal">
-                                <label>Salida: </label>
-                                <input type="number"  pattern="[0-9]*" />
+                            <div class="form-input">
+                                <label><i class="fa fa-calendar-alt"></i> Fecha de Entrada: </label>
+                                <input type="date" id="init_date" value="2018-03-03" />
                             </div>
-                        </div>
 
-                        <div class="form-modal">
-                            <label><i class="fa fa-percent"></i> Comisiones: </label>
-                            <div class="modal-commissions">
-                                <label>Web</label> <input type="checkbox" />
-                                <label>Airbnb</label> <input type="checkbox" />
-                                <label>VRBO</label> <input type="checkbox" />
-                                <label>Agentes</label> <input type="checkbox" />
+                            <div class="form-input">
+                                <label><i class="fa fa-calendar-alt"></i> Fecha de Salida: </label>
+                                <input type="date" id="finish_date" value="2018-03-03" />
                             </div>
-                        </div>
 
-                        <div class="submit-modal">
-                            <input type="submit" value="RESERVAR" class="button-normal button-lblue" />
-                        </div>
-                    </form>
-                </div>
+                            <div class="form-input">
+                                <label><i class="fa fa-money-bill-alt"></i> Deposito en garantía: </label>
+                                <div class="form-input">
+                                    <label>Entrada: </label>
+                                    <input id="deposit_entry" type="number" pattern="[0-9]*" />
+                                </div>
+
+                                <div class="form-input">
+                                    <label>Salida: </label>
+                                    <input type="number" id="deposit_exit"  pattern="[0-9]*" />
+                                </div>
+                            </div>
+
+                            <div class="form-input">
+                                <label><i class="fa fa-percent"></i> Comisiones: </label>
+                                <div class="modal-commissions">
+                                    <label>Web</label> <input type="checkbox" />
+                                    <label>Airbnb</label> <input type="checkbox" />
+                                    <label>VRBO</label> <input type="checkbox" />
+                                    <label>Agentes</label> <input type="checkbox" />
+                                </div>
+                            </div>
+
+                            <div class="submit-input">
+                                <input id="insert_reservation" type="button" value="RESERVAR" class="button-normal button-lblue" />
+                                <input id="update_reservation" type="button" value="ACTUALIZAR" class="button-normal button-lblue" style="display: none;" />
+                                <input id="delete_reservation" type="button" value="ELIMINAR" class="button-normal button-lred" style="display: none;" />
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </main>
     <script>
     $(document).ready(function() {
-        $(".data-modal").click(function() {
-            var modal = $(this).attr('data-target');
-            $("#" + modal).show();
+
+        $("#find_reservations").click(function() {
+            var first_date = $("#first_date_find").val();
+            var second_date = $("#second_date_find").val();
+            var property = $("#property_find").val();
+
+            var dataString = 'first_date=' + first_date + '&second_date=' + second_date + '&property=' + property
+
+            $.ajax({
+                type: "GET",
+                url: "reservations/getBetweenDates&" + dataString,
+                data: dataString,
+                success: function( data ) {
+                    $("#exam").html("");
+                    var data = JSON.parse(data);
+                    if(data.error) {
+                        console.log(data);
+                    }else{
+                        for (var i in data) {
+                            console.log(data[i]);
+                            $("#exam").append(dataStructureReservation(data[i]));
+                            // console.log(getReservations(data[i]));
+                        }
+                        eventsActions();
+                    }
+                }
+            });
         });
 
-        $(".close-button").click(function() {
-            console.log("CERRAR");
-            $(this).parent('.modal').hide();
+        $("#insert_reservation").click(function() {
+            var dataString = {
+                property: $("#property").val(),
+                customer: $("#customer").val(),
+                init_date: $("#init_date").val(),
+                finish_date: $("#finish_date").val(),
+                deposit_entry: $("#deposit_entry").val(),
+                deposit_exit: $("#deposit_exit").val(),
+                commissions: "111"
+            };
+            $.ajax({
+                type: "POST",
+                url: "reservations/save",
+                data: dataString,
+                success: function(data) {
+                    var data = JSON.parse(data);
+                    if(data.error) {
+                        console.log(data);
+                    }else{
+                        $("#exam").append(dataStructureReservation(data));
+                        eventsActions();
+                        $(".modal").hide();
+                        $("body").css("overflow", "auto");
+                    }
+                }
+            });
         });
+
+        $("#delete_reservation").click(function() {
+            $.ajax({
+                type: "DELETE",
+                url: "reservations/delete",
+                data: {id: id_reservation},
+                success: function(data) {
+                    var data = JSON.parse(data);
+                    if(data.error) {
+                        console.log(data);
+                    }else{
+                        $(".wrapper-box-reservation").eq(position_box).remove();
+                        $(".modal").hide();
+                        $("body").css("overflow", "auto");
+                        console.log("SE ELIMINÓ");
+                    }
+                }
+            });
+        });
+
+        $("#update_reservation").click(function() {
+            var dataString = {
+                id: id_reservation,
+                property: $("#property").val(),
+                customer: $("#customer").val(),
+                init_date: $("#init_date").val(),
+                finish_date: $("#finish_date").val(),
+                deposit_entry: $("#deposit_entry").val(),
+                deposit_exit: $("#deposit_exit").val(),
+                commissions: "111"
+            };
+            $.ajax({
+                type: "PUT",
+                url: "reservations/update",
+                data: dataString,
+                success: function(data) {
+                    var data = JSON.parse(data);
+                    if(data.error) {
+                        console.log(data);
+                    }else{
+                        console.log(data);
+
+                        $(".wrapper-box-reservation").eq(position_box).remove();
+                        var who = dataStructureReservation(data);
+                        position_box == 0 ? ($("#exam").prepend(dataStructureReservation(data))) : ($(who).insertAfter($(".wrapper-box-reservation").eq(position_box - 1)));
+                        //$(who).insertAfter($(".wrapper-box-reservation").eq(actual_position));
+                        eventsActions();
+                        $(".modal").hide();
+                        $("body").css("overflow", "auto");
+                        console.log("SE ACTUALIZÓ");
+
+                    }
+                }
+            });
+        });
+
+        $("#add_reservation").click(function() {
+            $("#customer").val("");
+            $("#init_date").val("");
+            $("#finish_date").val("");
+            $("#deposit_entry").val("");
+            $("#deposit_exit").val("");
+            $("#property option[value='1']").prop("selected", true);
+
+            $("#insert_reservation").show();
+            $("#update_reservation").hide();
+            $("#delete_reservation").hide();
+            $("#title-modal-reservation").text("Nueva reservación");
+        });
+
+        function setData(data) {
+            id_reservation = Number(data.id);
+            $("#customer").val(data.customer);
+            $("#init_date").val(data.init_date);
+            $("#finish_date").val(data.finish_date);
+            $("#deposit_entry").val(data.deposit_entry);
+            $("#deposit_exit").val(data.deposit_exit);
+            $("#property option[value='" + data.property + "']").prop("selected", true);
+        }
+
+        function eventsActions() {
+            data_modal();
+            $(".edit-reservation").click(function() {
+                var data = $(this).siblings('data');
+                var reservation = data.attr("reservation");
+                var parse = JSON.parse(reservation);
+                setData(parse);
+
+                position_box = $(this).parent('div').parent('div').parent('.wrapper-box-reservation').index();
+
+                $("#insert_reservation").hide();
+                $("#update_reservation").show();
+                $("#delete_reservation").hide();
+                $("#title-modal-reservation").text("Actualizar reservación");
+            });
+
+            $(".delete-reservation").click(function() {
+                var data = $(this).siblings('data');
+                var reservation = data.attr("reservation");
+                var parse = JSON.parse(reservation);
+                setData(parse);
+
+                position_box = $(this).parent('div').parent('div').parent('.wrapper-box-reservation').index();
+
+                $("#insert_reservation").hide();
+                $("#update_reservation").hide();
+                $("#delete_reservation").show();
+                $("#title-modal-reservation").text("Eliminar reservación");
+            });
+        }
+
+        function dataStructureReservation(data) {
+            var dataStructureReservation = '<div class="wrapper-box-reservation"><div class="box-reservation">';
+            dataStructureReservation += '<span class="res-person"><i class="fa fa-male"></i> ' + data.customer + '</span>';
+            dataStructureReservation += '<div class="res-dates">';
+            dataStructureReservation += '<span>';
+            dataStructureReservation += '<i class="initial-date fa fa-calendar-alt"></i> ' + data.init_date;
+            dataStructureReservation += '</span>';
+            dataStructureReservation += ' ';
+            dataStructureReservation += '<span>';
+            dataStructureReservation += '<i class="end-date fa fa-calendar-alt"></i> ' + data.finish_date;
+            dataStructureReservation += '</span>';
+            dataStructureReservation += '</div>';
+            dataStructureReservation += '<div class="res-actions">';
+            dataStructureReservation += "<data reservation='" + JSON.stringify(data) + "'></data>";
+            dataStructureReservation += '<i class="data-modal edit-reservation fa fa-edit" data-target="modal-reservaciones"></i>';
+            dataStructureReservation += ' ';
+            dataStructureReservation += '<i class="data-modal delete-reservation fa fa-trash" data-target="modal-reservaciones"></i>';
+            dataStructureReservation += '</div>';
+            dataStructureReservation += '</div>';
+            dataStructureReservation += '</div>';
+            return  dataStructureReservation;
+        }
+        $.ajax({
+            type: "GET",
+            url: "reservations/get",
+            success: function(data) {
+                console.log(data);
+                var data = JSON.parse(data);
+                for (var i in data) {
+                    console.log(data[i]);
+                    $("#exam").append(dataStructureReservation(data[i]));
+                    // console.log(getReservations(data[i]));
+                }
+                eventsActions();
+            }
+        })
     });
     var x, i, j, selElmnt, a, b, c;
     /*look for any elements with the class "custom-select":*/
@@ -652,19 +427,6 @@
     /*if the user clicks anywhere outside the select box,
     then close all select boxes:*/
     document.addEventListener("click", closeAllSelect);
-
-    function validateNumber(el) {
-        /*console.log(el);
-        console.log(Number(el.value).toFixed(2));
-        var val = el.value;
-        var where = document.getElementById(el.id);
-
-        if(val.length > 3) {
-            where.value = Number(el.value).toFixed(2);
-        } else {
-            where.value = Number(el.value);
-        }*/
-    }
 </script>
 </body>
 </html>

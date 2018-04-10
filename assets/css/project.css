@@ -1,0 +1,250 @@
+@font-face {
+  font-family: "brown-regular";
+  src: url('../fonts/lineto-brown-regular.ttf');
+}
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
+}
+body,
+html {
+  height: 100%;
+  background: #171717;
+}
+button,
+textarea,
+input,
+a {
+  outline: none;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
+body {
+  background-color: #171717;
+}
+header nav a {
+  display: inline-block;
+  text-decoration: none;
+  color: white;
+  border-radius: 20px;
+  padding: 7px 13px;
+  border: 2px solid white;
+  margin: 100px;
+}
+@media (max-width: 680px) {
+  header nav a {
+    margin: 10px;
+    margin-top: 30px;
+    margin-left: 15px;
+  }
+}
+main h1 {
+  font-size: 46px;
+}
+@media (max-width: 680px) {
+  main h1 {
+    font-size: 30px;
+    padding-left: 15px;
+    margin-top: 40px;
+  }
+}
+main h1,
+main p {
+  padding-left: 100px;
+  color: white;
+  margin-bottom: 20px;
+  text-align: justify;
+}
+@media (max-width: 680px) {
+  main h1,
+  main p {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
+main .gallery {
+  margin-top: 50px;
+  margin-bottom: 50px;
+  width: 100vw;
+  position: relative;
+}
+main .gallery md-arrow {
+  position: absolute;
+  top: 20%;
+  right: 10px;
+  height: 75px;
+  width: 75px;
+  justify-content: center;
+  align-items: center;
+  display: inline-block;
+  padding: 20px;
+  background: lightgreen;
+  border-radius: 50%;
+  z-index: 999;
+  transform: scale(0);
+  animation: 2s bounce 1 ease;
+}
+main .gallery md-arrow > i {
+  font-size: 32px;
+}
+main .gallery .photos {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+main .gallery .photos::-webkit-scrollbar {
+  height: 10px;
+}
+main .gallery .photos::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  outline: 1px solid slategrey;
+}
+main .gallery .photos ul {
+  padding: 0;
+  display: flex;
+}
+main .gallery .photos ul li {
+  width: 500px;
+  display: inline-flex;
+  height: 400px;
+  background-position: center;
+  background-size: cover;
+}
+main .gallery .photos ul li:not(:first-of-type) {
+  min-width: none;
+  box-shadow: 0 0px 0px rgba(0, 0, 0, 0.4);
+  transform: scale(1);
+  transition: 0.3s box-shadow ease, 0.3s transform ease;
+}
+main .gallery .photos ul li:not(:first-of-type):hover {
+  position: relative;
+  cursor: pointer;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+  z-index: 2;
+  transform: scale(1.03);
+}
+main .gallery .photos ul li:first-of-type {
+  background-size: cover;
+  background-repeat: no-repeat;
+  min-width: 385px;
+  cursor: pointer;
+}
+main p {
+  max-width: 700px;
+  width: 100%;
+  line-height: 2em;
+  font-size: 18px;
+}
+main h2 {
+  margin-left: 100px;
+  font-size: 60px;
+  color: white;
+  margin-bottom: 30px;
+  margin-top: 30px;
+}
+@media (max-width: 680px) {
+  main h2 {
+    margin-left: 15px;
+  }
+}
+main .contact {
+  max-width: 400px;
+  width: 100%;
+  background: #00BCD4;
+  margin-top: 50px;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 10px 40px;
+  margin-left: 100px;
+  font-family: 'Montserrat', sans-serif;
+  margin-bottom: 100px;
+}
+main .contact > div > i {
+  color: inherit;
+}
+@media (max-width: 680px) {
+  main .contact {
+    margin-left: 0px;
+    margin-bottom: 0px;
+    width: 100vw;
+    max-width: none;
+  }
+}
+#photoModal {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background-size: contain;
+  background-position: center;
+  display: flex;
+  background-repeat: no-repeat;
+  background-color: rgba(0, 0, 0, 0.95);
+  z-index: 99999999;
+}
+#photoModal video {
+  width: 100%;
+}
+#photoModal #close {
+  position: fixed;
+  right: 10px;
+  color: white;
+  top: 10px;
+  background: #1b1b1b;
+  border-radius: 50%;
+  padding: 5px;
+  cursor: pointer;
+}
+.details {
+  margin-top: 25px;
+  line-height: 1.6em;
+  font-size: 19px;
+}
+.fields {
+  margin-top: 30px;
+  margin-left: 100px;
+  margin-bottom: 30px;
+  padding-left: 15px;
+}
+.fields:empty::before {
+  content: "No hay características disponibles...";
+  text-align: left;
+  color: white;
+}
+.fields li {
+  list-style: none;
+  color: lightgray;
+  font-size: 18px;
+  padding: 10px 0;
+}
+.fields li > span {
+  font-size: 20px;
+  display: inline-block;
+  margin-left: 20px;
+  color: white;
+  padding: 5px;
+  border: 1px solid white;
+}
+@keyframes bounce {
+  0% {
+    transform: translateX(0px);
+  }
+  25% {
+    transform: translateX(-70px);
+  }
+  50% {
+    transform: translateX(0px);
+  }
+  75% {
+    transform: translateX(-100px) scale(1);
+  }
+  100% {
+    transform: translateX(0) scale(0);
+  }
+}

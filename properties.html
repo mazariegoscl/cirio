@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="src/css/fontawesome-all.css">
+    <link rel="stylesheet" href="src/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="src/js/nav.js"></script>
+    <script src="src/js/index.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <header>
+        <div class="title-header">EL CIRIO - Administración</div>
+        <a class="logout-header" href="">Cerrar sesión</a>
+    </header>
+    <div class="burger-button"><i class="fa fa-bars"></i></div>
+    <nav>
+        <div class="nav-wrapper">
+            <ul>
+                <li><a href="home.html">Dashboard</a></li>
+                <li><a href="reservaciones.html">Reservaciones</a></li>
+                <li class="sub"><a class="inactive" href="#">Reportes</a>
+                    <ul>
+                        <li><a href="ventas.html">Ventas</a></li>
+                        <!--<li><a href="#">Gastos</a></li>-->
+                        <!--<li><a href="comisiones.html">Comisiones</a></li>-->
+                    </ul>
+                </li>
+                <li class="sub"><a class="inactive" href="#">Inventario</a>
+                    <ul>
+                        <li><a href="inventario-fijo.html">Propiedad</a></li>
+                        <li><a href="inventory.html">Operativo</a></li>
+                    </ul>
+                </li>
+                <li class="sub"><a class="inactive" href="#">Administrar Propiedades</a>
+                    <ul>
+                        <li><a href="properties.html">Lista de Propiedades</a></li>
+                        <li><a href="tiposGastos.html">Tipos de Gastos</a></li>
+                        <li><a href="#">Modificar Gastos</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <main>
+        <div class="wrapper-charts">
+            <h1 class="title-app">Propiedades</h1>
+            <div class="buttons-top">
+                <button id="add_reservation" class="data-modal button-normal button-lblue" data-target="modal-reservaciones">Agregar Propiedad</button>
+            </div>
+            <!--
+            <div class="filters">
+                <div class="form-control">
+                    <label>
+                        Fecha de inicio
+                    </label>
+                    <input id="first_date_find" type="date" value="2018-03-01" />
+                </div>
+
+                <div class="form-control">
+                    <label>
+                        Fecha final
+                    </label>
+                    <input id="second_date_find" type="date" value="2018-03-02" />
+                </div>
+                <div class="form-control">
+                    <label>
+                        Opciones
+                    </label>
+                    <div class="custom-select" style="width:200px;">
+                        <select id="property_find">
+                            <option value="0">Seleccionar una propiedad</option>
+                            <option value="1">Casa 1</option>
+                            <option value="2">Casa 2</option>
+                            <option value="3">Casa 3</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-control" style="vertical-align: bottom;">
+                    <button id="find_reservations">Buscar</button>
+                </div>
+            </div>
+            -->
+            <div class="wrapper-box-content" style="margin-top: 50px;">
+                <div id="exam"></div>
+            </div>
+        </div>
+        <div class="modal" id="modal-reservaciones">
+            <div class="close-button">
+                <i class="fa fa-times"></i>
+            </div>
+
+            <div class="wrapper-modal">
+                <div class="content-modal">
+                    <div class="wrapper-content-modal">
+                        <h3><i class="fa fa-home" style="color: #c94646;"></i> <span id='title-modal-reservation'>Nueva propiedad</span></h3>
+                        <form class="form-modal">
+                            <div class="form-input">
+                                <label><i class="fa fa-home"></i> Nombre: </label>
+                                <input type="text" id="name" />
+                            </div>
+
+                            <div class="form-input">
+                                <label><i class="fa fa-money-bill-alt"></i> Tarifa base: </label>
+                                <input id="rate" type="number" pattern="[0-9]*" />
+                            </div>
+
+                            <div class="submit-input">
+                                <input id="insert_reservation" type="button" value="AGREGAR" class="button-normal button-lblue" />
+                                <input id="update_reservation" type="button" value="ACTUALIZAR" class="button-normal button-lblue" style="display: none;" />
+                                <input id="delete_reservation" type="button" value="ELIMINAR" class="button-normal button-lred" style="display: none;" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script>
+    $(document).ready(function() {
+
+        /* $("#find_reservations").click(function() {
+            var first_date = $("#first_date_find").val();
+            var second_date = $("#second_date_find").val();
+            var property = $("#property_find").val();
+
+            var dataString = 'name=' + name + '&rate=' + rate
+
+            $.ajax({
+                type: "GET",
+                url: "reservations/getBetweenDates&" + dataString,
+                data: dataString,
+                success: function( data ) {
+                    $("#exam").html("");
+                    var data = JSON.parse(data);
+                    if(data.error) {
+                        console.log(data);
+                    }else{
+                        for (var i in data) {
+                            console.log(data[i]);
+                            $("#exam").append(dataStructureReservation(data[i]));
+                            // console.log(getReservations(data[i]));
+                        }
+                        eventsActions();
+                    }
+                }
+            });
+        }); */
+
+        $("#insert_reservation").click(function() {
+            var dataString = {
+                name: $("#name").val(),
+                rate: $("#rate").val()
+            };
+            $.ajax({
+                type: "POST",
+                url: "properties/save",
+                data: dataString,
+                success: function(data) {
+                    var data = JSON.parse(data);
+                    if(data.error) {
+                        console.log(data);
+                    }else{
+                        $("#exam").append(dataStructureReservation(data));
+                        eventsActions();
+                        $(".modal").hide();
+                        $("body").css("overflow", "auto");
+                    }
+                }
+            });
+        });
+
+        $("#delete_reservation").click(function() {
+            $.ajax({
+                type: "DELETE",
+                url: "properties/delete",
+                data: {id: id_reservation},
+                success: function(data) {
+                    var data = JSON.parse(data);
+                    if(data.error) {
+                        console.log(data);
+                    }else{
+                        $(".wrapper-box-reservation").eq(position_box).remove();
+                        $(".modal").hide();
+                        $("body").css("overflow", "auto");
+                        console.log("SE ELIMINÓ");
+                    }
+                }
+            });
+        });
+
+        $("#update_reservation").click(function() {
+            var dataString = {
+                id: id_reservation,
+                name: $("#name").val(),
+                rate: $("#rate").val()
+            };
+            $.ajax({
+                type: "PUT",
+                url: "properties/update",
+                data: dataString,
+                success: function(data) {
+                    var data = JSON.parse(data);
+                    if(data.error) {
+                         console.log(data);
+                    }else{
+                         console.log(data);
+
+                        $(".wrapper-box-reservation").eq(position_box).remove();
+                        var who = dataStructureReservation(data);
+                        position_box == 0 ? ($("#exam").prepend(dataStructureReservation(data))) : ($(who).insertAfter($(".wrapper-box-reservation").eq(position_box - 1)));
+                        //$(who).insertAfter($(".wrapper-box-reservation").eq(actual_position));
+                        eventsActions();
+                        $(".modal").hide();
+                        $("body").css("overflow", "auto");
+                        console.log("SE ACTUALIZÓ");
+
+                    }
+                }
+            });
+        });
+
+        $("#add_reservation").click(function() {
+            $("#name").val("");
+            $("#rate").val("");
+
+            $("#insert_reservation").show();
+            $("#update_reservation").hide();
+            $("#delete_reservation").hide();
+            $("#title-modal-reservation").text("Nueva propiedad");
+        });
+
+        function setData(data) {
+            id_reservation = Number(data.id);
+            $("#name").val(data.name);
+            $("#rate").val(data.rate);
+        }
+
+        function eventsActions() {
+            data_modal();
+            $(".edit-reservation").click(function() {
+                var data = $(this).siblings('data');
+                var reservation = data.attr("reservation");
+                var parse = JSON.parse(reservation);
+                setData(parse);
+
+                position_box = $(this).parent('div').parent('div').parent('.wrapper-box-reservation').index();
+
+                $("#insert_reservation").hide();
+                $("#update_reservation").show();
+                $("#delete_reservation").hide();
+                $("#title-modal-reservation").text("Actualizar propiedad");
+            });
+
+            $(".delete-reservation").click(function() {
+                var data = $(this).siblings('data');
+                var reservation = data.attr("reservation");
+                var parse = JSON.parse(reservation);
+                setData(parse);
+
+                position_box = $(this).parent('div').parent('div').parent('.wrapper-box-reservation').index();
+
+                $("#insert_reservation").hide();
+                $("#update_reservation").hide();
+                $("#delete_reservation").show();
+                $("#title-modal-reservation").text("Eliminar propiedad");
+            });
+        }
+
+        function dataStructureReservation(data) {
+            var dataStructureReservation = '<div class="wrapper-box-reservation"><div class="box-reservation" style="height: 120px;">';
+            dataStructureReservation += '<div class="top-title"><i class="fa fa-home"></i> <span>' + data.name + '</span> <span> <small style="color: black;">Tarifa:</small> $' + data.rate + '</span></div>';
+            dataStructureReservation += '<div class="res-actions">';
+            dataStructureReservation += "<data reservation='" + JSON.stringify(data) + "'></data>";
+            dataStructureReservation += '<i class="data-modal edit-reservation fa fa-edit" data-target="modal-reservaciones"></i>';
+            dataStructureReservation += ' ';
+            dataStructureReservation += '<i class="data-modal delete-reservation fa fa-trash" data-target="modal-reservaciones"></i>';
+            dataStructureReservation += '</div>';
+            dataStructureReservation += '</div>';
+            dataStructureReservation += '</div>';
+            return  dataStructureReservation;
+        }
+        $.ajax({
+            type: "GET",
+            url: "properties/get",
+            success: function(data) {
+                console.log(data);
+                var data = JSON.parse(data);
+                for (var i in data) {
+                    console.log(data[i]);
+                    $("#exam").append(dataStructureReservation(data[i]));
+                    // console.log(getReservations(data[i]));
+                }
+                eventsActions();
+            }
+        })
+    });
+</script>
+</body>
+</html>

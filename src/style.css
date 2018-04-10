@@ -25,6 +25,11 @@ button, input[type='submit'] {
 	cursor: pointer;
 }
 
+button, input[type='submit'] disabled {
+	cursor: not-allowed;
+	opacity: 0.5;
+}
+
 header {
 	position: fixed;
 	width: 100%;
@@ -427,7 +432,7 @@ main {
 	box-sizing: border-box;
 }
 
-.table-main-2 .col-main-2 {
+.col-main-2 {
 	display: inline-block;
 	width: 50%;
 	padding: 0;
@@ -437,13 +442,18 @@ main {
 	color: #5d5d5d;
 }
 
+.wrapper-content-2 {
+	display: table;
+	width: 100%;
+}
+
 .table-main-3 {
 	display: table;
 	width: 100%;
 	box-sizing: border-box;
 }
 
-.table-main-3 .col-main-2 {
+.col-main-2 {
 	display: inline-block;
 	width: 50%;
 	padding: 10px 0;
@@ -452,8 +462,7 @@ main {
 	font-size: 15px;
 	color: #214388;
 }
-
-.table-main-3 .col-main-2:nth-child(2n+0) {
+.col-main-2:nth-child(2n+0) {
 	color: #8a8989;
 }
 
@@ -463,7 +472,7 @@ main {
 	box-sizing: border-box;
 }
 
-.table-main-inventary .col-main-inventary-1, .table-main-inventary .col-main-inventary-2 {
+.col-main-inventary-1, .col-main-inventary-2 {
 	display: inline-block;
 	padding: 10px 0;
 	box-sizing: border-box;
@@ -472,33 +481,33 @@ main {
 	color: #214388;
 }
 
-.table-main-inventary .col-main-inventary-1 {
+.col-main-inventary-1 {
 	width: calc(100% - 100px);
 	padding: 10px 15px 10px 0px !important;
 }
 
-.table-main-inventary .col-main-inventary-2 {
+.col-main-inventary-2 {
 	text-align: right;
 	width: 100px;
 }
 
-.table-main-inventary .col-main-inventary-2 span, .table-main-inventary .col-main-inventary-2 i {
+.col-main-inventary-2 span, .col-main-inventary-2 i {
 	padding: 0 5px;
 }
 
-.table-main-inventary .col-main-inventary-2 span {
+.col-main-inventary-2 span {
 	color: #8a8989;
 }
 
-.table-main-inventary .col-main-inventary-2 i {
+.col-main-inventary-2 i {
 	cursor: pointer;
 }
 
-.table-main-inventary .col-main-inventary-2 i.fa-trash {
+.col-main-inventary-2 i.fa-trash {
 	color: #ef4056;
 }
 
-.table-main-inventary .col-main-inventary-2 i.fa-edit {
+.col-main-inventary-2 i.fa-edit {
 	color: #1ce8bb;
 }
 
@@ -572,6 +581,305 @@ table.default > tbody > tr:last-child td {
 	font-weight: 400;
 	color: #5d5d5d;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*JM*/
+
+.filters {
+    width: 100%;
+    display: table;
+}
+
+.filters .form-control {
+    padding-left: 0;
+}
+
+.form-control {
+    width: auto;
+    height: auto;
+    display: inline-block;
+    padding: 15px;
+    box-sizing: border-box;
+
+    vertical-align: top;
+}
+
+.form-control label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 13px;
+    font-weight: bold;
+    color: #767676;
+}
+
+.form-control  input {
+    height: 35px;
+    width: 150px;
+    padding: 5px;
+    box-sizing: border-box;
+    border: 1px solid #c3c3c3;
+    border-radius: 1px;
+}
+
+.form-control button {
+    background-color: #214288;
+    color: white;
+    font-weight: bold;
+    font-size: 13px;
+    border-radius: 5px;
+    border: 0;
+    padding: 10px 15px;
+}
+
+.buttons-top {
+    width: 100%;
+    display: block;
+    padding-bottom: 10px;
+    text-align: right;
+}
+
+.button-normal {
+    background-color: #214288;
+    color: white;
+    font-weight: bold;
+    font-size: 13px;
+    border-radius: 5px;
+    border: 0;
+    padding: 10px 15px;
+}
+
+.button-lblue {
+    background-color: #24bfa2;
+    color: white;
+}
+
+.button-lred {
+    background-color: rgb(176, 59, 77);
+    color: white;
+}
+
+
+.wrapper-box-reservation {
+    padding: 30px 30px 30px 0;
+    display: inline-block;
+    text-align: left;
+	vertical-align: top;
+}
+.box-reservation {
+    width: 250px;
+    height: 100px;
+    border-radius: 10px;
+
+    background-color: rgb(255, 255, 255);
+
+    position: relative;
+    padding: 10px;
+    box-sizing: border-box;
+    box-shadow: 1px 1px 10px #c3c3c3;
+}
+
+.res-clock {
+    /*position: absolute;
+    top: -5px;
+    right: -5px;*/
+    color: rgb(182, 45, 43);
+}
+
+.res-person {
+    font-size: 13px;
+    font-weight: bold;
+    color: rgb(93, 93, 93);
+}
+
+.res-dates {
+    padding-top: 10px;
+    font-size: 11px;
+    font-style: italic;
+}
+
+.initial-date {
+    color: #00a8f5;
+}
+
+.end-date {
+    color: rgb(222, 45, 88);
+}
+
+.res-actions {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
+
+.res-actions i {
+    width: 10px;
+    height: 10px;
+    padding: 7px;
+    border-radius: 12px;
+    background-color: #cacaca;
+    font-size: 11px;
+
+    cursor: pointer;
+}
+
+i.edit-reservation {
+    background-color: #23bfa2;
+    font-weight: bold;
+    color: white;
+}
+
+i.delete-reservation {
+    background-color: rgb(232, 98, 89);
+    font-weight: bold;
+    color: white;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    background-color: #000000e3;
+    z-index: 2000;
+    padding-top: 50px;
+    display: none;
+}
+
+.close-button {
+    color: white;
+    font-weight: bold;
+    position: absolute;
+
+    right: 10px;
+    top: 10px;
+
+    cursor: pointer;
+}
+
+.wrapper-modal {
+    width: 100%;
+    height: auto;
+    margin: auto;
+}
+
+.content-modal {
+    max-width: 300px;
+    max-height: calc(100vh - 150px);
+
+    padding: 10px;
+    box-sizing: border-box;
+
+    background-color: white;
+    margin: auto;
+
+    border-radius: 5px;
+    overflow: auto;
+}
+
+.content-modal h3 {
+    text-align: center;
+    margin-top: 0;
+    font-weight: 400;
+    color: rgb(122, 122, 122);
+}
+
+.wrapper-content-modal {
+    overflow: auto;
+    /**/
+}
+
+.form-modal {
+    display: table;
+    width: 100%;
+
+    text-align: center;
+}
+
+.form-input {
+    display: inline-block;
+    width: 100%;
+    vertical-align: top;
+    padding: 10px 2px;
+
+    box-sizing: border-box;
+    text-align: left;
+}
+
+.form-modal label, .form-modal input {
+    display: inline-block;
+    width: 50%;
+    font-size: 11px;
+    vertical-align: middle;
+    /**/
+}
+
+.form-modal input {
+    width: auto;
+}
+
+.form-modal input[type='text'], .form-modal input[type='date'], .form-modal input[type='number'], select {
+    width: calc(50% - 5px);
+    border: 1px solid #c3c3c3;
+    border-radius: 5px;
+    padding: 5px 10px;
+    box-sizing: border-box;
+}
+
+.form-modal .submit-modal {
+    margin: auto;
+    margin-top: 10px;
+    text-align: center;
+
+}
+
+.top-title {
+	display: block;
+	text-align: center;
+}
+
+.top-title i {
+	display: block;
+	font-size: 25px;
+}
+
+.top-title span {
+	display: block;
+	font-size: 14px;
+	color: #ff9600;
+}
+
+.top-title span:first-of-type {
+	font-size: 18px;
+	color: rgba(60, 60, 60, 1);
+}
+
+
+
+
+
+
+
+
+
+
 
 
 @media only screen and (min-width: 700px) {
