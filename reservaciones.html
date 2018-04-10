@@ -349,14 +349,18 @@
             type: "GET",
             url: "reservations/get",
             success: function(data) {
-                console.log(data);
-                var data = JSON.parse(data);
-                for (var i in data) {
-                    console.log(data[i]);
-                    $("#exam").append(dataStructureReservation(data[i]));
-                    // console.log(getReservations(data[i]));
+
+                if(data.error) {
+                    console.log(data);
+                }else {
+                    var data = JSON.parse(data);
+                    for (var i in data) {
+                        console.log(data[i]);
+                        $("#exam").append(dataStructureReservation(data[i]));
+                        // console.log(getReservations(data[i]));
+                    }
+                    eventsActions();
                 }
-                eventsActions();
             }
         })
     });

@@ -115,12 +115,15 @@ $(document).ready(function() {
         success: function(data) {
             console.log(data);
             var data = JSON.parse(data);
-            for (var i in data) {
-                console.log(data[i]);
-                $("#property-list").append("<option value='" + data[i].id + "'>" + data[i].name + "</option>");
-                // console.log(getReservations(data[i]));//
+            if(data.error) {
+                console.log(data);
+            }else{
+                for (var i in data) {
+                    console.log(data[i]);
+                    $("#property-list").append("<option value='" + data[i].id + "'>" + data[i].name + "</option>");
+                    // console.log(getReservations(data[i]));//
+                }
             }
-
         }
     });
 
