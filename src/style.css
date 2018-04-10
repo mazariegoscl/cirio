@@ -582,6 +582,14 @@ table.default > tbody > tr:last-child td {
 	color: #5d5d5d;
 }
 
+.select-default {
+	background-color: white;
+    border-radius: 0;
+    box-shadow: -3px 0px 0px #a6abae;
+    font-size: 15px;
+    width: auto;
+}
+
 
 
 
