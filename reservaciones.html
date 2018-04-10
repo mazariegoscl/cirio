@@ -65,19 +65,20 @@
                     </label>
                     <input id="second_date_find" type="date" value="2018-03-02" />
                 </div>
-                <!--<div class="form-control">
+                <div class="form-control">
                     <label>
                         Opciones
                     </label>
-                    <div class="custom-select" style="width:200px;">
-                        <select id="property_find">
-                            <option value="0">Seleccionar una propiedad</option>
+                    <div style="max-width:200px;">
+                        <select style="width: 100%; max-width: 200px;" class="select-default" id="property_find">
+                            <option value="0">Selecciona una propiedad</option>
+                            <!--<option value="0">Seleccionar una propiedad</option>
                             <option value="1">Casa 1</option>
                             <option value="2">Casa 2</option>
-                            <option value="3">Casa 3</option>
+                            <option value="3">Casa 3</option>-->
                         </select>
                     </div>
-                </div>-->
+                </div>
 
                 <div class="form-control" style="vertical-align: bottom;">
                     <button id="find_reservations">Buscar</button>
@@ -100,9 +101,9 @@
                             <div class="form-input">
                                 <label><i class="fa fa-home"></i> Propiedad: </label>
                                 <select id="property">
-                                    <option value="1" selected>Casa 1</option>
+                                    <!--<option value="1" selected>Casa 1</option>
                                     <option value="2">Casa 2</option>
-                                    <option value="3">Casa 3</option>
+                                    <option value="3">Casa 3</option>-->
                                 </select>
                             </div>
                             <div class="form-input">
@@ -136,10 +137,10 @@
                             <div class="form-input">
                                 <label><i class="fa fa-percent"></i> Comisiones: </label>
                                 <div class="modal-commissions">
-                                    <label>Web</label> <input type="checkbox" />
-                                    <label>Airbnb</label> <input type="checkbox" />
-                                    <label>VRBO</label> <input type="checkbox" />
-                                    <label>Agentes</label> <input type="checkbox" />
+                                    <label>Web</label> <input type="radio" name="commissions" />
+                                    <label>Airbnb</label> <input type="radio" name="commissions" />
+                                    <label>VRBO</label> <input type="radio" name="commissions" />
+                                    <label>Agentes</label> <input type="radio" name="commissions" />
                                 </div>
                             </div>
 
@@ -156,6 +157,25 @@
     </main>
     <script>
     $(document).ready(function() {
+
+        $.ajax({
+            type: "GET",
+            url: "properties/get",
+            success: function(data) {
+                console.log(data);
+                var data = JSON.parse(data);
+                if(data.error) {
+                    console.log(data);
+                }else{
+                    for (var i in data) {
+                        console.log(data[i]);
+                        $("#property").append("<option value='" + data[i].id + "'>" + data[i].name + "</option>");
+                        $("#property_find").append("<option value='" + data[i].id + "'>" + data[i].name + "</option>");
+                        // console.log(getReservations(data[i]));//
+                    }
+                }
+            }
+        });
 
         $("#find_reservations").click(function() {
             var first_date = $("#first_date_find").val();
