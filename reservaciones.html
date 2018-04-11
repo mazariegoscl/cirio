@@ -39,7 +39,7 @@
                     <ul>
                         <li><a href="properties.html">Lista de Propiedades</a></li>
                         <li><a href="tiposGastos.html">Tipos de Gastos</a></li>
-                        <li><a href="#">Modificar Gastos</a></li>
+                        <li><a href="categoryExpenses.html">Categorías de gastos</a></li>
                     </ul>
                 </li>
             </ul>
@@ -135,12 +135,17 @@
                             </div>
 
                             <div class="form-input">
+                                <label><i class="fa fa-dollar-sign"></i> Descuento: </label>
+                                <input type="number" id="disccount"  pattern="[0-9]*" />
+                            </div>
+
+                            <div class="form-input">
                                 <label><i class="fa fa-percent"></i> Comisiones: </label>
                                 <div class="modal-commissions">
-                                    <label>Web</label> <input type="radio" name="commissions" />
-                                    <label>Airbnb</label> <input type="radio" name="commissions" />
-                                    <label>VRBO</label> <input type="radio" name="commissions" />
-                                    <label>Agentes</label> <input type="radio" name="commissions" />
+                                    <label>Web</label> <input type="checkbox" name="commissions" />
+                                    <label>Airbnb</label> <input type="checkbox" name="commissions" />
+                                    <label>VRBO</label> <input type="checkbox" name="commissions" />
+                                    <label>Agentes</label> <input type="checkbox" name="commissions" />
                                 </div>
                             </div>
 
@@ -213,6 +218,7 @@
                 finish_date: $("#finish_date").val(),
                 deposit_entry: $("#deposit_entry").val(),
                 deposit_exit: $("#deposit_exit").val(),
+                disccount: $("#disccount").val(),
                 commissions: "111"
             };
             $.ajax({
@@ -261,6 +267,7 @@
                 finish_date: $("#finish_date").val(),
                 deposit_entry: $("#deposit_entry").val(),
                 deposit_exit: $("#deposit_exit").val(),
+                disccount: $("#disccount").val(),
                 commissions: "111"
             };
             $.ajax({
@@ -294,6 +301,7 @@
             $("#finish_date").val("");
             $("#deposit_entry").val("");
             $("#deposit_exit").val("");
+            $("#disccount").val("");
             $("#property option[value='1']").prop("selected", true);
 
             $("#insert_reservation").show();
@@ -309,6 +317,7 @@
             $("#finish_date").val(data.finish_date);
             $("#deposit_entry").val(data.deposit_entry);
             $("#deposit_exit").val(data.deposit_exit);
+            $("#disccount").val(data.disccount);
             $("#property option[value='" + data.property + "']").prop("selected", true);
         }
 
@@ -384,73 +393,6 @@
             }
         })
     });
-    var x, i, j, selElmnt, a, b, c;
-    /*look for any elements with the class "custom-select":*/
-    x = document.getElementsByClassName("custom-select");
-    for (i = 0; i < x.length; i++) {
-        selElmnt = x[i].getElementsByTagName("select")[0];
-        /*for each element, create a new DIV that will act as the selected item:*/
-        a = document.createElement("DIV");
-        a.setAttribute("class", "select-selected");
-        a.innerHTML = selElmnt.options[selElmnt.selectedIndex].innerHTML;
-        x[i].appendChild(a);
-        /*for each element, create a new DIV that will contain the option list:*/
-        b = document.createElement("DIV");
-        b.setAttribute("class", "select-items select-hide");
-        for (j = 1; j < selElmnt.length; j++) {
-            /*for each option in the original select element,
-            create a new DIV that will act as an option item:*/
-            c = document.createElement("DIV");
-            c.innerHTML = selElmnt.options[j].innerHTML;
-            c.addEventListener("click", function(e) {
-                /*when an item is clicked, update the original select box,
-                and the selected item:*/
-                var i, s, h;
-                s = this.parentNode.parentNode.getElementsByTagName("select")[0];
-                h = this.parentNode.previousSibling;
-                for (i = 0; i < s.length; i++) {
-                    if (s.options[i].innerHTML == this.innerHTML) {
-                        s.selectedIndex = i;
-                        h.innerHTML = this.innerHTML;
-                        break;
-                    }
-                }
-                h.click();
-            });
-            b.appendChild(c);
-        }
-        x[i].appendChild(b);
-        a.addEventListener("click", function(e) {
-            /*when the select box is clicked, close any other select boxes,
-            and open/close the current select box:*/
-            e.stopPropagation();
-            closeAllSelect(this);
-            this.nextSibling.classList.toggle("select-hide");
-            this.classList.toggle("select-arrow-active");
-        });
-    }
-    function closeAllSelect(elmnt) {
-        /*a function that will close all select boxes in the document,
-        except the current select box:*/
-        var x, y, i, arrNo = [];
-        x = document.getElementsByClassName("select-items");
-        y = document.getElementsByClassName("select-selected");
-        for (i = 0; i < y.length; i++) {
-            if (elmnt == y[i]) {
-                arrNo.push(i)
-            } else {
-                y[i].classList.remove("select-arrow-active");
-            }
-        }
-        for (i = 0; i < x.length; i++) {
-            if (arrNo.indexOf(i)) {
-                x[i].classList.add("select-hide");
-            }
-        }
-    }
-    /*if the user clicks anywhere outside the select box,
-    then close all select boxes:*/
-    document.addEventListener("click", closeAllSelect);
 </script>
 </body>
 </html>

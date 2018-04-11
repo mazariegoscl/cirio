@@ -3,8 +3,8 @@ namespace Models\Panel;
 use DB;
 class ReservationsModel extends DB\Database {
 
-    public function save($property, $customer, $init_date, $finish_date, $deposit_entry, $deposit_exit, $commissions, $date) {
-        $query = self::$_db->query("INSERT INTO reservations (property, customer, init_date, finish_date, deposit_entry, deposit_exit, date) VALUES ('$property', '$customer', '$init_date', '$finish_date', '$deposit_entry', '$deposit_exit','$date')");
+    public function save($property, $customer, $init_date, $finish_date, $deposit_entry, $deposit_exit, $disccount, $commissions, $date) {
+        $query = self::$_db->query("INSERT INTO reservations (property, customer, init_date, finish_date, deposit_entry, deposit_exit, disccount, date) VALUES ('$property', '$customer', '$init_date', '$finish_date', '$deposit_entry', '$deposit_exit', '$disccount','$date')");
         $query2 = self::$_db->query("SELECT LAST_INSERT_ID() AS ID");
         if($query2) {
             $id = $query2->fetch_assoc();
@@ -14,8 +14,8 @@ class ReservationsModel extends DB\Database {
         }
     }
 
-    public function update($id, $property, $customer, $init_date, $finish_date, $deposit_entry, $deposit_exit, $commissions, $date) {
-        $query = self::$_db->query("UPDATE reservations SET property='$property', customer='$customer', init_date='$init_date', finish_date='$finish_date', deposit_entry='$deposit_entry', deposit_exit='$deposit_exit', date='$date' WHERE id='$id'");
+    public function update($id, $property, $customer, $init_date, $finish_date, $deposit_entry, $deposit_exit, $disccount, $commissions, $date) {
+        $query = self::$_db->query("UPDATE reservations SET property='$property', customer='$customer', init_date='$init_date', finish_date='$finish_date', deposit_entry='$deposit_entry', deposit_exit='$deposit_exit', disccount='$disccount', date='$date' WHERE id='$id'");
         if($query) {
             return true;
         }else{

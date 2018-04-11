@@ -17,6 +17,7 @@ require_once "Models/panel/ReservationsModel.php";
 require_once "Models/panel/TExpensesModel.php";
 require_once "Models/panel/InventoryModel.php";
 require_once "Models/panel/PropertyInventoryModel.php";
+require_once "Models/panel/CategoryExpensesPropertyModel.php";
 
 // CONTROLLERS
 // require_once "Controllers/page/PageController.php";
@@ -32,3 +33,4 @@ require_once "Controllers/panel/ReservationsController.php";
 require_once "Controllers/panel/TExpensesController.php";
 require_once "Controllers/panel/InventoryController.php";
 require_once "Controllers/panel/PropertyInventoryController.php";
+require_once "Controllers/panel/CategoryExpensesPropertyController.php";

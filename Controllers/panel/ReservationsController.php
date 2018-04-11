@@ -11,6 +11,7 @@ class ReservationsController {
         "finish_date" => "required",
         "deposit_entry" => "required",
         "deposit_exit" => "required",
+        "disccount" => "required",
         "commissions" => "required"
     );
 
@@ -22,6 +23,7 @@ class ReservationsController {
         "finish_date" => "required",
         "deposit_entry" => "required",
         "deposit_exit" => "required",
+        "disccount" => "required",
         "commissions" => "required"
     );
 
@@ -52,6 +54,7 @@ class ReservationsController {
             $reservation->finish_date,
             $reservation->deposit_entry,
             $reservation->deposit_exit,
+            $reservation->disccount,
             $reservation->commissions,
             $date);
             if($response) {
@@ -82,6 +85,7 @@ class ReservationsController {
             $reservation->finish_date,
             $reservation->deposit_entry,
             $reservation->deposit_exit,
+            $reservation->disccount,
             $reservation->commissions,
             $date);
             if($response) {
@@ -149,6 +153,7 @@ class ReservationsController {
         $reservation->finish_date = $request->finish_date;
         $reservation->deposit_entry = $request->deposit_entry;
         $reservation->deposit_exit = $request->deposit_exit;
+        $reservation->disccount = $request->disccount;
         $reservation->commissions = $request->commissions;
     }
 }
