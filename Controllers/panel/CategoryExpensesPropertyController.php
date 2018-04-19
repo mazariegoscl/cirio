@@ -37,11 +37,12 @@ class CategoryExpensesPropertyController {
             $response = $categoryM::save($category->expense,
             $category->property,
             $date);
-            if($response) {
-                $category->id = $response;
-                echo Response::response($category);
-            }else{
+
+            if(!$response) {
                 echo Response::error("No se pudo insertar el tipo de propiedad");
+            }else{
+                $category = $response;
+                echo Response::response($category);
             }
         }
     }
@@ -119,7 +120,11 @@ class CategoryExpensesPropertyController {
         if(!$response) {
             echo Response::error("EPO");
         }else{
-            echo Response::response($response);
+            if($response == 2) {
+                echo Response::error("No hay categorías disponibles");
+            } else {
+                echo Response::response($response);
+            }
         }
     }
 

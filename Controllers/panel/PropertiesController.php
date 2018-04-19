@@ -6,13 +6,17 @@ use Models\Panel\PropertiesModel;
 class PropertiesController {
     private static $rules = array(
         "name" => "required",
-        "rate" => "required"
+        "rate" => "required|number",
+        "rate_weekly" => 'required|number',
+        "rate_monthly" => 'required|number'
     );
 
     private static $rulesUpdate = array(
         "id" => "required",
         "name" => "required",
-        "rate" => "required"
+        "rate" => "required",
+        "rate_weekly" => 'required|number',
+        "rate_monthly" => 'required|number'
     );
 
     private static $rulesDelete = array(
@@ -32,6 +36,8 @@ class PropertiesController {
             $propertyM = new PropertiesModel;
             $response = $propertyM::save($property->name,
             $property->rate,
+            $property->rate_weekly,
+            $property->rate_monthly,
             $date);
             if($response) {
                 $property->id = $response;
@@ -58,6 +64,8 @@ class PropertiesController {
             $response = $propertyM::update($property->id,
             $property->name,
             $property->rate,
+            $property->rate_weekly,
+            $property->rate_monthly,
             $date);
             if($response) {
                 echo Response::response($property);
@@ -98,5 +106,7 @@ class PropertiesController {
     private function setData(&$property, $request) {
         $property->name = $request->name;
         $property->rate = $request->rate;
+        $property->rate_weekly = $request->rate_weekly;
+        $property->rate_monthly = $request->rate_monthly;
     }
 }

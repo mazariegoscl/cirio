@@ -466,13 +466,36 @@ main {
 	color: #8a8989;
 }
 
-.table-main-inventary {
+.table-main-inventory {
 	display: table;
 	width: 100%;
 	box-sizing: border-box;
 }
 
-.col-main-inventary-1, .col-main-inventary-2 {
+.divRow {
+	display:table-row;
+	width: 100%;
+}
+
+.divCell {
+	display: table-cell;
+	background-color: #762b8a;
+	border: 1px solid #762b8a;
+	padding: 5px;
+	font-size: 13px;
+	color: white;
+}
+
+.content-tbl {
+	display: table-row-group;
+}
+
+.content-tbl .divCell {
+	background-color: #f3c5ff8f;
+	color: #a92cc2;
+}
+
+.col-main-inventory-1, .col-main-inventory-2 {
 	display: inline-block;
 	padding: 10px 0;
 	box-sizing: border-box;
@@ -481,33 +504,33 @@ main {
 	color: #214388;
 }
 
-.col-main-inventary-1 {
+.col-main-inventory-1 {
 	width: calc(100% - 100px);
 	padding: 10px 15px 10px 0px !important;
 }
 
-.col-main-inventary-2 {
+.col-main-inventory-2 {
 	text-align: right;
 	width: 100px;
 }
 
-.col-main-inventary-2 span, .col-main-inventary-2 i {
+.col-main-inventory-2 span, .col-main-inventory-2 i {
 	padding: 0 5px;
 }
 
-.col-main-inventary-2 span {
+.col-main-inventory-2 span {
 	color: #8a8989;
 }
 
-.col-main-inventary-2 i {
+.col-main-inventory-2 i {
 	cursor: pointer;
 }
 
-.col-main-inventary-2 i.fa-trash {
+.col-main-inventory-2 i.fa-trash {
 	color: #ef4056;
 }
 
-.col-main-inventary-2 i.fa-edit {
+.col-main-inventory-2 i.fa-edit {
 	color: #1ce8bb;
 }
 
@@ -584,10 +607,10 @@ table.default > tbody > tr:last-child td {
 
 .select-default {
 	background-color: white;
-    border-radius: 0;
-    box-shadow: -3px 0px 0px #a6abae;
-    font-size: 15px;
-    width: auto;
+	border-radius: 0;
+	box-shadow: -3px 0px 0px #a6abae;
+	font-size: 15px;
+	width: auto;
 }
 
 
@@ -610,251 +633,251 @@ table.default > tbody > tr:last-child td {
 /*JM*/
 
 .filters {
-    width: 100%;
-    display: table;
+	width: 100%;
+	display: table;
 }
 
 .filters .form-control {
-    padding-left: 0;
+	padding-left: 0;
 }
 
 .form-control {
-    width: auto;
-    height: auto;
-    display: inline-block;
-    padding: 15px;
-    box-sizing: border-box;
+	width: auto;
+	height: auto;
+	display: inline-block;
+	padding: 15px;
+	box-sizing: border-box;
 
-    vertical-align: top;
+	vertical-align: top;
 }
 
 .form-control label {
-    display: block;
-    margin-bottom: 5px;
-    font-size: 13px;
-    font-weight: bold;
-    color: #767676;
+	display: block;
+	margin-bottom: 5px;
+	font-size: 13px;
+	font-weight: bold;
+	color: #767676;
 }
 
 .form-control  input {
-    height: 35px;
-    width: 150px;
-    padding: 5px;
-    box-sizing: border-box;
-    border: 1px solid #c3c3c3;
-    border-radius: 1px;
+	height: 35px;
+	width: 150px;
+	padding: 5px;
+	box-sizing: border-box;
+	border: 1px solid #c3c3c3;
+	border-radius: 1px;
 }
 
 .form-control button {
-    background-color: #214288;
-    color: white;
-    font-weight: bold;
-    font-size: 13px;
-    border-radius: 5px;
-    border: 0;
-    padding: 10px 15px;
+	background-color: #214288;
+	color: white;
+	font-weight: bold;
+	font-size: 13px;
+	border-radius: 5px;
+	border: 0;
+	padding: 10px 15px;
 }
 
 .buttons-top {
-    width: 100%;
-    display: block;
-    padding-bottom: 10px;
-    text-align: right;
+	width: 100%;
+	display: block;
+	padding-bottom: 10px;
+	text-align: right;
 }
 
 .button-normal {
-    background-color: #214288;
-    color: white;
-    font-weight: bold;
-    font-size: 13px;
-    border-radius: 5px;
-    border: 0;
-    padding: 10px 15px;
+	background-color: #214288;
+	color: white;
+	font-weight: bold;
+	font-size: 13px;
+	border-radius: 5px;
+	border: 0;
+	padding: 10px 15px;
 }
 
 .button-lblue {
-    background-color: #24bfa2;
-    color: white;
+	background-color: #24bfa2;
+	color: white;
 }
 
 .button-lred {
-    background-color: rgb(176, 59, 77);
-    color: white;
+	background-color: rgb(176, 59, 77);
+	color: white;
 }
 
 
 .wrapper-box-reservation {
-    padding: 30px 30px 30px 0;
-    display: inline-block;
-    text-align: left;
+	padding: 30px 30px 30px 0;
+	display: inline-block;
+	text-align: left;
 	vertical-align: top;
 }
 .box-reservation {
-    width: 250px;
-    height: 100px;
-    border-radius: 10px;
+	width: 250px;
+	height: 100px;
+	border-radius: 10px;
 
-    background-color: rgb(255, 255, 255);
+	background-color: rgb(255, 255, 255);
 
-    position: relative;
-    padding: 10px;
-    box-sizing: border-box;
-    box-shadow: 1px 1px 10px #c3c3c3;
+	position: relative;
+	padding: 10px;
+	box-sizing: border-box;
+	box-shadow: 1px 1px 10px #c3c3c3;
 }
 
 .res-clock {
-    /*position: absolute;
-    top: -5px;
-    right: -5px;*/
-    color: rgb(182, 45, 43);
+	/*position: absolute;
+	top: -5px;
+	right: -5px;*/
+	color: rgb(182, 45, 43);
 }
 
 .res-person {
-    font-size: 13px;
-    font-weight: bold;
-    color: rgb(93, 93, 93);
+	font-size: 13px;
+	font-weight: bold;
+	color: rgb(93, 93, 93);
 }
 
 .res-dates {
-    padding-top: 10px;
-    font-size: 11px;
-    font-style: italic;
+	padding-top: 10px;
+	font-size: 11px;
+	font-style: italic;
 }
 
 .initial-date {
-    color: #00a8f5;
+	color: #00a8f5;
 }
 
 .end-date {
-    color: rgb(222, 45, 88);
+	color: rgb(222, 45, 88);
 }
 
 .res-actions {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
+	position: absolute;
+	bottom: 10px;
+	right: 10px;
 }
 
 .res-actions i {
-    width: 10px;
-    height: 10px;
-    padding: 7px;
-    border-radius: 12px;
-    background-color: #cacaca;
-    font-size: 11px;
+	width: 10px;
+	height: 10px;
+	padding: 7px;
+	border-radius: 12px;
+	background-color: #cacaca;
+	font-size: 11px;
 
-    cursor: pointer;
+	cursor: pointer;
 }
 
 i.edit-reservation {
-    background-color: #23bfa2;
-    font-weight: bold;
-    color: white;
+	background-color: #23bfa2;
+	font-weight: bold;
+	color: white;
 }
 
 i.delete-reservation {
-    background-color: rgb(232, 98, 89);
-    font-weight: bold;
-    color: white;
+	background-color: rgb(232, 98, 89);
+	font-weight: bold;
+	color: white;
 }
 
 .modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
 
-    background-color: #000000e3;
-    z-index: 2000;
-    padding-top: 50px;
-    display: none;
+	background-color: #000000e3;
+	z-index: 2000;
+	padding-top: 50px;
+	display: none;
 }
 
 .close-button {
-    color: white;
-    font-weight: bold;
-    position: absolute;
+	color: white;
+	font-weight: bold;
+	position: absolute;
 
-    right: 10px;
-    top: 10px;
+	right: 10px;
+	top: 10px;
 
-    cursor: pointer;
+	cursor: pointer;
 }
 
 .wrapper-modal {
-    width: 100%;
-    height: auto;
-    margin: auto;
+	width: 100%;
+	height: auto;
+	margin: auto;
 }
 
 .content-modal {
-    max-width: 300px;
-    max-height: calc(100vh - 150px);
+	max-width: 300px;
+	max-height: calc(100vh - 150px);
 
-    padding: 10px;
-    box-sizing: border-box;
+	padding: 10px;
+	box-sizing: border-box;
 
-    background-color: white;
-    margin: auto;
+	background-color: white;
+	margin: auto;
 
-    border-radius: 5px;
-    overflow: auto;
+	border-radius: 5px;
+	overflow: auto;
 }
 
 .content-modal h3 {
-    text-align: center;
-    margin-top: 0;
-    font-weight: 400;
-    color: rgb(122, 122, 122);
+	text-align: center;
+	margin-top: 0;
+	font-weight: 400;
+	color: rgb(122, 122, 122);
 }
 
 .wrapper-content-modal {
-    overflow: auto;
-    /**/
+	overflow: auto;
+	/**/
 }
 
 .form-modal {
-    display: table;
-    width: 100%;
+	display: table;
+	width: 100%;
 
-    text-align: center;
+	text-align: center;
 }
 
 .form-input {
-    display: inline-block;
-    width: 100%;
-    vertical-align: top;
-    padding: 10px 2px;
+	display: inline-block;
+	width: 100%;
+	vertical-align: top;
+	padding: 10px 2px;
 
-    box-sizing: border-box;
-    text-align: left;
+	box-sizing: border-box;
+	text-align: left;
 }
 
 .form-modal label, .form-modal input {
-    display: inline-block;
-    width: 50%;
-    font-size: 11px;
-    vertical-align: middle;
-    /**/
+	display: inline-block;
+	width: 50%;
+	font-size: 11px;
+	vertical-align: middle;
+	/**/
 }
 
 .form-modal input {
-    width: auto;
+	width: auto;
 }
 
 .form-modal input[type='text'], .form-modal input[type='date'], .form-modal input[type='number'], select {
-    width: calc(50% - 5px);
-    border: 1px solid #c3c3c3;
-    border-radius: 5px;
-    padding: 5px 10px;
-    box-sizing: border-box;
+	width: calc(50% - 5px);
+	border: 1px solid #c3c3c3;
+	border-radius: 5px;
+	padding: 5px 10px;
+	box-sizing: border-box;
 }
 
 .form-modal .submit-modal {
-    margin: auto;
-    margin-top: 10px;
-    text-align: center;
+	margin: auto;
+	margin-top: 10px;
+	text-align: center;
 
 }
 
@@ -879,8 +902,15 @@ i.delete-reservation {
 	color: rgba(60, 60, 60, 1);
 }
 
+.btn-plus {
+	width: Auto;
+	padding: 5px 8px;
+	background-color: #24bfa2;
+	font-size: 13px;
+	color: white;
 
-
+	cursor: pointer;
+}
 
 
 
@@ -993,9 +1023,9 @@ i.delete-reservation {
 	font-family: Arial;
 	/*margin-bottom: 20px;*/
 	box-sizing: border-box;
-background-color: #ffffff;
-box-shadow: -3px 3px 0px #a6abae;
-font-size: 12px;
+	background-color: #ffffff;
+	box-shadow: -3px 3px 0px #a6abae;
+	font-size: 12px;
 }
 .custom-select select {
 	display: none; /*hide original SELECT element:*/

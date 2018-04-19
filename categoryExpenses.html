@@ -39,7 +39,8 @@
                     <ul>
                         <li><a href="properties.html">Lista de Propiedades</a></li>
                         <li><a href="tiposGastos.html">Tipos de Gastos</a></li>
-                        <li><a href="#">Modificar Gastos</a></li>
+                        <li><a href="categoryExpenses.html">Categorías de gastos</a></li>
+                        <li><a href="expenses.html">Gastos</a></li>
                     </ul>
                 </li>
             </ul>
@@ -65,7 +66,7 @@
                             <span style="float: right;"></span>
                         </h3>
                         <hr />
-                        <div class="table-main-inventary">
+                        <div class="table-main-inventory">
                             <!-- contenido inventario -->
                         </div>
                     </div>
@@ -129,7 +130,7 @@ $(document).ready(function() {
         if($(this).val() == "") {
             $("#add_reservation").prop("disabled", true);
             $("#add_reservation").css({"opacity": "0.5", "cursor": "not-allowed"});
-            $(".table-main-inventary").html("");
+            $(".table-main-inventory").html("");
         } else {
             $("#add_reservation").prop("disabled", false);
             $("#add_reservation").css({"opacity": "1", "cursor": "pointer"});
@@ -140,7 +141,7 @@ $(document).ready(function() {
                 url: "categoryExpensesProperty/getId&" + dataString,
                 data: dataString,
                 success: function(data) {
-                    $(".table-main-inventary").html("");
+                    $(".table-main-inventory").html("");
                     console.log(data);
                     var data = JSON.parse(data);
                     if(data.error) {
@@ -148,7 +149,7 @@ $(document).ready(function() {
                     } else {
                         for (var i in data) {
                             console.log(data[i]);
-                            $(".table-main-inventary").append(dataStructureReservation(data[i]));
+                            $(".table-main-inventory").append(dataStructureReservation(data[i]));
                             // console.log(getReservations(data[i]));
                         }
                         eventsActions();
@@ -158,7 +159,10 @@ $(document).ready(function() {
         }
     });
 
-    $("#insert_reservation").click(function() {
+    $("#insert_reservation").click(function(e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+
         var dataString = {
             property: id_property,
             expense: $("#categories-list").val()
@@ -167,12 +171,16 @@ $(document).ready(function() {
             type: "POST",
             url: "categoryExpensesProperty/save",
             data: dataString,
+            beforeSend: function() {
+                $("#insert_reservation").prop("disabled", true);
+            },
             success: function(data) {
                 var data = JSON.parse(data);
                 if(data.error) {
                     console.log(data);
                 }else{
-                    $(".table-main-inventary").append(dataStructureReservation(data));
+                    console.log(data);
+                    $(".table-main-inventory").append(dataStructureReservation(data[0]));
                     eventsActions();
                     $(".modal").hide();
                     $("body").css("overflow", "auto");
@@ -220,7 +228,7 @@ $(document).ready(function() {
 
                     $(".wrapper-content-2").eq(position_box).remove();
                     var who = dataStructureReservation(data);
-                    position_box == 0 ? ($(".table-main-inventary").prepend(dataStructureReservation(data))) : ($(who).insertAfter($(".wrapper-content-2").eq(position_box - 1)));
+                    position_box == 0 ? ($(".table-main-inventory").prepend(dataStructureReservation(data))) : ($(who).insertAfter($(".wrapper-content-2").eq(position_box - 1)));
                     //$(who).insertAfter($(".wrapper-box-reservation").eq(actual_position));
                     eventsActions();
                     $(".modal").hide();
@@ -234,10 +242,10 @@ $(document).ready(function() {
 
     function dataStructureReservation(data) {
         var dataStructureReservation = '<div class="wrapper-content-2">';
-        dataStructureReservation += '<div class="col-main-inventary-1">';
+        dataStructureReservation += '<div class="col-main-inventory-1">';
         dataStructureReservation +=  data.name
         dataStructureReservation += '</div>';
-        dataStructureReservation += '<div class="col-main-inventary-2">';
+        dataStructureReservation += '<div class="col-main-inventory-2">';
         dataStructureReservation += "<data reservation='" + JSON.stringify(data) + "'></data>";
         dataStructureReservation += '<i style="background: none !important;" class="data-modal delete-reservation fa fa-trash" data-target="modal-reservaciones"></i>';
         dataStructureReservation += '</div>';
@@ -273,6 +281,8 @@ $(document).ready(function() {
             $("#update_reservation").hide();
             $("#delete_reservation").show();
             $("#title-modal-reservation").text("Eliminar artículo");
+            $("#categories-list").html("");
+            $("#categories-list").append("<option value='" + parse.id + "'>" + parse.name + "</option>");
         });
     }
 
@@ -284,6 +294,7 @@ $(document).ready(function() {
 
 
     $("#add_reservation").click(function() {
+        $("#insert_reservation").prop("disabled", false);
         $("#name").val("");
         $("#quantity").val("");
 
@@ -298,8 +309,13 @@ $(document).ready(function() {
             success: function(data) {
                 $("#categories-list").html("");
                 data = JSON.parse(data);
-                for(var i in data) {
-                    $("#categories-list").append("<option value='" + data[i].id + "'>" + data[i].name + "</option>");
+                if(data.error) {
+                    console.log(data);
+                    $("#categories-list").append("<option value=''>No hay categórias disponiblesr</option>");
+                } else {
+                    for(var i in data) {
+                        $("#categories-list").append("<option value='" + data[i].id + "'>" + data[i].name + "</option>");
+                    }
                 }
             }
         })
