@@ -8,6 +8,10 @@ input[type="text"], input[type="date"], input[type="submit"], input[type="passwo
 	/**/
 }
 
+input[type="submit"], button, input[type="button"] {
+	cursor: pointer;
+}
+
 input {
 	outline: none;
 }
@@ -484,6 +488,12 @@ main {
 	padding: 5px;
 	font-size: 13px;
 	color: white;
+}
+
+.cellNotColor {
+	background-color: transparent !important;
+	color: black;
+	border: 0;
 }
 
 .content-tbl {

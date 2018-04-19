@@ -21,6 +21,7 @@ RewriteRule ^inventory/(.*)?$ index.php?mode=panel&controller=InventoryControlle
 RewriteRule ^categoryExpensesProperty/(.*)?$ index.php?mode=panel&controller=CategoryExpensesPropertyController&action=$1 [L,NC]
 RewriteRule ^propertyInventory/(.*)?$ index.php?mode=panel&controller=PropertyInventoryController&action=$1 [L,NC]
 RewriteRule ^rates/(.*)?$ index.php?mode=panel&controller=RatesController&action=$1 [L,NC]
+RewriteRule ^expensesProperty/(.*)?$ index.php?mode=panel&controller=ExpensesPropertiesController&action=$1 [L,NC]
 RewriteRule ^project/(.*)?$ index.php?mode=panel&controller=ProjectsController&action=$1 [L,NC]
 RewriteRule ^zone/(.*)?$ index.php?mode=panel&controller=ZonesController&action=$1 [L,NC]
 RewriteRule ^service/(.*)?$ index.php?mode=panel&controller=ServicesController&action=$1 [L,NC]

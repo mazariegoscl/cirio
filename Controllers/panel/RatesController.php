@@ -37,8 +37,8 @@ class RatesController {
             $date = date("Y-m-d");
             $rate = new \stdClass;
             self::setData($rate, $request);
-            $rate = new RatesModel;
-            $response = $rate::save($rate->property,
+            $rateM = new RatesModel;
+            $response = $rateM::save($rate->property,
             $rate->rate,
             $rate->rate_weekly,
             $rate->rate_monthly,
@@ -66,8 +66,8 @@ class RatesController {
             $rate = new \stdClass;
             self::setData($rate, $request);
             $rate->id = $request->id;
-            $rate = new RatesModel;
-            $response = $rate::update($rate->id,
+            $rateM = new RatesModel;
+            $response = $rateM::update($rate->id,
             $rate->property,
             $rate->rate,
             $rate->rate_weekly,
@@ -91,8 +91,8 @@ class RatesController {
         if(isset($response->error)) {
             echo $validator;
         }else{
-            $rate = new RatesModel;
-            $response = $rate::delete($request->id);
+            $rateM = new RatesModel;
+            $response = $rateM::delete($request->id);
             if($response) {
                 echo Response::success("Propiedad eliminado correctamente");
             }else{
@@ -102,8 +102,8 @@ class RatesController {
     }
 
     public function get() {
-        $rate = new RatesModel;
-        $response = $rate::get();
+        $rateM = new RatesModel;
+        $response = $rateM::get();
         if(!$response) {
             echo Response::error("No se pudieron cargar los tipos de propiedades");
         }else{
@@ -112,10 +112,9 @@ class RatesController {
     }
 
     public function getProperty() {
-        parse_str(file_get_contents("php://input"),$post_vars);
-        $request = (object)$post_vars;
-        $rate = new RatesModel;
-        $response = $rate::getProperty($request->property);
+        $request = (object)$_REQUEST;
+        $rateM = new RatesModel;
+        $response = $rateM::getProperty($request->property);
         if(!$response) {
             echo Response::error("No se pudieron cargar los tipos de propiedades");
         }else{
