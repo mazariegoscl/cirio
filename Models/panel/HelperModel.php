@@ -3,7 +3,7 @@ namespace Models\Panel;
 use DB;
 class HelperModel extends DB\Database {
 
-	public function calcRatesReservation($fecha_inicial, $fecha_final, $tarifa) {
+	/*public function calcRatesReservation($fecha_inicial, $fecha_final, $tarifa) {
 		$nombreTarifa = "rate";
 		$propiedad = 1;
 
@@ -16,36 +16,157 @@ class HelperModel extends DB\Database {
 			break;
 		}
 
-		$query = self::$_db->query("SELECT id, property, (SELECT $nombreTarifa FROM cirio_panel.properties WHERE id = '$propiedad') 'normal', rate, rate_weekly, rate_monthly, init_date, finish_date FROM cirio_panel.rates WHERE DATE(init_date) >= '$fecha_inicial' AND DATE(finish_date) <= '$fecha_final'");
+		$query = self::$_db->query("SELECT $nombreTarifa FROM cirio_panel.properties WHERE id = '$propiedad'");
 
-		$dia = date('Y-m-d', strtotime($fecha_inicial. ' - 1 days'));
-		$totalTarifas = 0;
-		$totalNormal = 0;
+		$tarifaNormal = $query->fetch_assoc()["rate"];
 
-		while($tarifas = $query->fetch_array()) {
+		$query = self::$_db->query("SELECT id, property, rate, rate_weekly, rate_monthly, init_date, finish_date FROM cirio_panel.rates WHERE DATE(init_date) >= '$fecha_inicial' AND DATE(finish_date) <= '$fecha_final'");
+
+		$dia = date('Y-m-d', strtotime($fecha_inicial . ' - 1 days'));
+		$diasRestantes = intval(date_diff(date_create($fecha_inicial), date_create($fecha_final))->format("%a"));
+		$diasRestantes = $diasRestantes > 0 ? $diasRestantes : 1;
+		$total = 0;
+
+		while ($tarifas = $query->fetch_array()) {
+			$dia = date('Y-m-d', strtotime($dia . ' + 1 days'));
+
 			$inicioTarifa = date_create($tarifas["init_date"]);
 			$finTarifa = date_create($tarifas["finish_date"]);
 			$diasTarifa = intval(date_diff($inicioTarifa, $finTarifa)->format("%a"));
 
-			if ($inicioTarifa >= $inicioTarifa && $finTarifa <= $finTarifa) {
+			if ($dia >= $inicioTarifa->format('Y-m-d') && $dia <= $finTarifa->format('Y-m-d')) {
 				switch ($tarifa) {
 					case 1:
-					$totalTarifas += ($diasTarifa * $tarifas["rate"]);
+					$total += ($diasTarifa * $tarifas["rate"]);
 					break;
 					case 2:
-					$totalTarifas += ($diasTarifa * $tarifas["rate_weekly"]);
+					$total += ($diasTarifa * $tarifas["rate_weekly"]);
 					break;
 					case 3:
-					$totalTarifas += ($diasTarifa * $tarifas["rate_monthly"]);
+					$total += ($diasTarifa * $tarifas["rate_monthly"]);
 					break;
 				}
-			}
-			else {
-				$totalNormal += $tarifas["normal"];
+
+				$dia = date('Y-m-d', strtotime($dia . ' + ' . $diasTarifa . ' days'));
+				$diasRestantes -= $diasTarifa;
 			}
 		}
 
-		echo "Total: " . ($totalTarifas + $totalNormal);
+		$total += ($diasRestantes * $tarifaNormal);
+
+		echo "Total: " . $total;
+	}*/
+
+	public function calcRatesReservation($fecha_inicial, $fecha_final, $tarifa) {
+		$propiedad = 1;
+		switch($tarifa) {
+			case 1:
+			$nombre_tarifa = "rate";
+			break;
+			case 2:
+			$nombre_tarifa = "rate_weekly";
+			break;
+			case 3:
+			$nombre_tarifa = "rate_monthly";
+			break;
+		}
+
+		$tarifa_propiedad = self::$_db->query("SELECT $nombre_tarifa FROM properties WHERE id = '$propiedad'");
+		$tarifa_normal = $tarifa_propiedad->fetch_assoc()[$nombre_tarifa];
+
+		$tarifa_temporada = self::$_db->query("SELECT * FROM rates WHERE property = '$propiedad' AND DATE(init_date) >= '$fecha_inicial' AND DATE(finish_date) <= '$fecha_final'");
+
+		$total_tarifas = 0;
+		$dias_tarifas = 0;
+		$array_dias_restantes = array();
+		while($tarifas = $tarifa_temporada->fetch_assoc()) {
+			$fecha_inicial_tarifa = $tarifas["init_date"];
+			$crear_fecha_inicial_tarifa = date_create($fecha_inicial_tarifa);
+			$fecha_final_tarifa = $tarifas["finish_date"];
+			$crear_fecha_final_tarifa = date_create($fecha_final_tarifa);
+
+			$intervalo = date_diff($crear_fecha_inicial_tarifa, $crear_fecha_final_tarifa);
+			$intervalo = intval($intervalo->format('%R%a'));
+			$dias_tarifas = $dias_tarifas += $intervalo;
+			for($i = $fecha_inicial_tarifa; $i <= $fecha_final_tarifa; $i = date("Y-m-d", strtotime($i . "+ 1 days"))) {
+				array_push($array_dias_restantes, $i);
+			}
+
+
+			echo "Tarifa: " . $nombre_tarifa . "<br />";
+			echo "Precio: " . $tarifas[$nombre_tarifa] . "<br />";
+			echo "Fecha de Entrada en Tarifa: " . $fecha_inicial_tarifa . "<br />";
+			echo "Fecha de Salida en Tarifa: " . $fecha_final_tarifa . "<br />";
+			echo "Intervalo: " . $intervalo . "<br />";
+			echo "Total de Tarifa: " . ($tarifas[$nombre_tarifa] * $intervalo) . "<br /><br />";
+
+			$total_tarifas += intval($tarifas[$nombre_tarifa]) * $intervalo;
+		}
+
+		echo "Total Tarifas: " . $total_tarifas . "<br />";
+		echo "Días Tarifas: " . $dias_tarifas . "<br />";
+		echo "<br />";
+		echo "Precio Normal: " . $tarifa_normal . "<br />";
+
+		$fecha_inicial = date('Y-m-d', strtotime($fecha_inicial));
+		$fecha_final= date('Y-m-d', strtotime($fecha_final));
+		$crear_fecha_inicial = date_create($fecha_inicial);
+		$crear_fecha_final = date_create($fecha_final);
+
+		$intervalo = date_diff($crear_fecha_inicial, $crear_fecha_final);
+		$intervalo = intval($intervalo->format('%R%a'));
+
+		$dias_restantes = ($intervalo - $dias_tarifas);
+		$tarifa_normal_calculada = ($tarifa_normal * ($intervalo - $dias_tarifas));
+		$total = $tarifa_normal_calculada + $total_tarifas;
+
+		echo "<br /><br />";
+		sort($array_dias_restantes);
+		//foreach($array_dias_restantes as $dias) {
+			//echo "Fecha: " . $dias . "<br />";
+			for($i = $fecha_inicial; $i <= $fecha_final; $i = date("Y-m-d", strtotime($i . "+ 1 days"))) {
+				if(!in_array($i, $array_dias_restantes)) {
+					echo "Fecha sin Tarifa: " . $i . "<br />";
+				} else {
+					echo "Fecha con Tarifa: " . $i  . "<br />";
+				}
+
+			}
+		//}
+		echo "<br /><br />";
+		echo "Fecha de Entrada: " . $fecha_inicial . "<br />";
+		echo "Fecha de Salida: " . $fecha_final . "<br />";
+		echo "<br />";
+		echo "Dias Totales: " . $intervalo . "<br />";
+		echo "Días Calculados con Tarifa Normal: " . $dias_restantes . "<br />";
+		echo "Días Calculados con Tarifa de Temporada: " . $dias_tarifas . "<br />";
+		echo "<br />";
+		echo "Tarifa Normal: " . $tarifa_normal_calculada . "<br />";
+		echo "Total: " . $total;
+
+		//echo $intervalo;
+		/*try {
+			if($intervalo > 0) {
+				$intervalo = $intervalo;
+			} elseif($intervalo == 0) {
+				$intervalo = 1;
+			} elseif($intervalo < 0) {
+				throw new \Exception("Fecha no válida", 1);
+			} else {
+				throw new \Exception("Error Processing Request", 1);
+			}
+			//echo $intervalo;
+
+
+
+		} catch (\Exception $e) {
+			echo 'Excepción capturada: ',  $e->getMessage();
+		}*/
+	}
+
+
+	private function pinta($var, $texto) {
+		echo "$" . $var . " = " . $texto . "<br>-----------<br>";
 	}
 
 	public function save($property, $rate, $rate_weekly, $rate_monthly, $init_date, $finish_date, $date) {
