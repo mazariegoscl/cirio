@@ -320,6 +320,7 @@
                             type: "GET",
                             url: "helper/calcDisccount&rate="+rate+"&disccount="+disccount,
                             success: function(data2) {
+                                data = JSON.parse(data2);
                                 $("#disccount_calculated").text(formatNumber(data2));
                                 $("#disccount_calculated").attr("data-info", data2);
                             }
@@ -340,6 +341,7 @@
                 type: "GET",
                 url: "helper/calcDisccount&rate="+rate+"&disccount="+disccount,
                 success: function(data) {
+                    data = JSON.parse(data);
                     $("#disccount_calculated").text(formatNumber(data));
                     $("#disccount_calculated").attr("data-info", data);
                 }
@@ -493,7 +495,7 @@
             type: "GET",
             url: "reservations/get",
             success: function(data) {
-
+                data = JSON.parse(data);
                 if(data.error) {
                     console.log(data);
                 }else {
