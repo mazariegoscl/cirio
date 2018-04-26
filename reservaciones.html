@@ -499,7 +499,6 @@
                 if(data.error) {
                     console.log(data);
                 }else {
-                    var data = JSON.parse(data);
                     for (var i in data) {
                         console.log(data[i]);
                         $("#exam").append(dataStructureReservation(data[i]));
