@@ -85,9 +85,13 @@ $(document).ready(function(){ desplegarInformacion(); });
                                     }
                                     listaHTML += '<div class="col-main-2">Utilidad</div>' +
                                     '<div class="col-main-2">' + formatNumber(e.Utilidad) + '</div>' +
-                                    '<div class="col-main-2">Ocupación</div>' +
-                                    '<div class="col-main-2">' + e.DiasOcupacion + ' Días' + '</div>' +
-                              '</div>' +
+                                    '<div class="col-main-2">Ocupación</div>';
+                                    if(e.DiasOcupacion > 1 || e.DiasOcupacion <= 0) {
+                                        listaHTML += '<div class="col-main-2">' + e.DiasOcupacion  + ' Noches' + '</div>';
+                                    } else {
+                                        listaHTML += '<div class="col-main-2">' + e.DiasOcupacion  + ' Días' + '</div>';
+                                    }
+                              listaHTML += '</div>' +
                               '</div>' +
                         '</div>';
                               });
