@@ -77,9 +77,13 @@ $(document).ready(function(){ desplegarInformacion(); });
                                     '<div class="col-main-2">' + formatNumber(e.Descuentos) + '</div>' +
                                     '<div class="col-main-2">Gastos</div>' +
                                     '<div class="col-main-2">' + formatNumber(e.Gastos) + '</div>' +
-                                    '<div class="col-main-2">Depositos</div>' +
-                                    '<div class="col-main-2">' + formatNumber(e.Depositos) + '</div>' +
-                                    '<div class="col-main-2">Utilidad</div>' +
+                                    '<div class="col-main-2">Depositos</div>';
+                                    if(e.Depositos > 0) {
+                                        listaHTML +='<div class="col-main-2"><span style="color: green;">' + e.Depositos + '</span></div>';
+                                    } else {
+                                        listaHTML +='<div class="col-main-2"><span style="color: red;">' + e.Depositos + '</span></div>';
+                                    }
+                                    listaHTML +='<div class="col-main-2">Utilidad</div>' +
                                     '<div class="col-main-2">' + formatNumber(e.Utilidad) + '</div>' +
                                     '<div class="col-main-2">Ocupación</div>' +
                                     '<div class="col-main-2">' + e.DiasOcupacion + ' Días' + '</div>' +
