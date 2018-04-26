@@ -39,6 +39,15 @@ class HelperController {
         }
     }
 
+    public function calcDisccount() {
+        $request = (object)$_REQUEST;
+        if($request->rate != "" && $request->disccount != "") {
+            if($request->rate > 0 && $request->rate > 0) {
+                echo ($request->rate - $request->disccount);
+            }
+        }
+    }
+
     public function calcReports() {
         $rateM = new HelperModel;
         $response = $rateM::calcReports();

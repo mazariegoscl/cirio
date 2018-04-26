@@ -165,7 +165,18 @@ class HelperModel extends DB\Database {
 	}
 
 	public function listaVentas() {
-		$query = self::$_db->query("SELECT 0 'IdPropiedad', 'Resumen' as 'NombrePropiedad', Ventas, Gastos, Descuentos, Utilidad, DiasOcupacion FROM ( SELECT IFNULL(SUM(Ventas), 0) 'Ventas', IFNULL(SUM(Gastos), 0) 'Gastos', IFNULL(SUM(Descuentos), 0) 'Descuentos', IFNULL(SUM((Ventas - Gastos - Descuentos)), 0) 'Utilidad', IFNULL(SUM(DiasOcupacion), 0) 'DiasOcupacion' FROM ( SELECT p.id, p.name, (SELECT SUM(total) FROM reservations WHERE property = p.id) 'Ventas' , (SELECT SUM(ep.quantity) FROM expenses_properties ep INNER JOIN expenses_type_properties etp ON etp.id = ep.expense_property WHERE etp.property = p.id) 'Gastos' , (SELECT SUM(disccount) FROM reservations WHERE property = p.id) 'Descuentos' , (SELECT SUM(DATEDIFF(finish_date, init_date)) FROM reservations WHERE property = p.id) 'DiasOcupacion' FROM properties p ) X) X2 UNION SELECT id 'IdPropiedad', name 'Nombre', IFNULL(Ventas, 0), IFNULL(Gastos, 0), IFNULL(Descuentos, 0), IFNULL((Ventas - Gastos - Descuentos), 0) 'Utilidad', IFNULL(DiasOcupacion, 0) FROM ( SELECT p.id, p.name, (SELECT SUM(total) FROM reservations WHERE property = p.id) 'Ventas' , (SELECT SUM(ep.quantity) FROM expenses_properties ep INNER JOIN expenses_type_properties etp ON etp.id = ep.expense_property WHERE etp.property = p.id) 'Gastos' , (SELECT SUM(disccount) FROM reservations WHERE property = p.id) 'Descuentos' , (SELECT SUM(DATEDIFF(finish_date, init_date)) FROM reservations WHERE property = p.id) 'DiasOcupacion' FROM properties p ) X");
+		$query = self::$_db->query("SELECT 0 'IdPropiedad', 'Resumen' as 'NombrePropiedad', Ventas, Gastos, Descuentos, Utilidad, DiasOcupacion FROM
+( SELECT IFNULL(SUM(Ventas), 0) 'Ventas', IFNULL(SUM(Gastos), 0) 'Gastos', IFNULL(SUM(Descuentos), 0) 'Descuentos', IFNULL(SUM((Ventas - Gastos - Descuentos)), 0) 'Utilidad', IFNULL(SUM(DiasOcupacion), 0) 'DiasOcupacion' FROM
+( SELECT p.id, p.name,
+(SELECT IFNULL(SUM(total),0) FROM reservations WHERE property = p.id) 'Ventas' ,
+(SELECT IFNULL(SUM(ep.quantity),0) FROM expenses_properties ep INNER JOIN expenses_type_properties etp ON etp.id = ep.expense_property WHERE etp.property = p.id) 'Gastos' ,
+(SELECT IFNULL(SUM(disccount),0) FROM reservations WHERE property = p.id) 'Descuentos' ,
+(SELECT IFNULL(SUM(DATEDIFF(finish_date, init_date)),0) FROM reservations WHERE property = p.id) 'DiasOcupacion' FROM properties p ) X) X2
+UNION SELECT id 'IdPropiedad', name 'Nombre', IFNULL(Ventas, 0), IFNULL(Gastos, 0), IFNULL(Descuentos, 0), IFNULL((Ventas - Gastos - Descuentos), 0) 'Utilidad', IFNULL(DiasOcupacion, 0) FROM
+( SELECT p.id, p.name, (SELECT IFNULL(SUM(total),0) FROM reservations WHERE property = p.id) 'Ventas' ,
+ (SELECT IFNULL(SUM(ep.quantity),0) FROM expenses_properties ep INNER JOIN expenses_type_properties etp ON etp.id = ep.expense_property WHERE etp.property = p.id) 'Gastos' ,
+(SELECT IFNULL(SUM(disccount),0) FROM reservations WHERE property = p.id) 'Descuentos' ,
+(SELECT IFNULL(SUM(DATEDIFF(finish_date, init_date)),0) FROM reservations WHERE property = p.id) 'DiasOcupacion' FROM properties p ) X");
 		$rows = array();
 		while($row = $query->fetch_array()) {
 			$rows[] = $row;

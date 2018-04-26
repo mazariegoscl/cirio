@@ -624,6 +624,13 @@ table.default > tbody > tr:last-child td {
 	width: auto;
 }
 
+.amount {
+    font-size: 12px;
+    color: #57a210;
+    font-weight: bold;
+}
+
+
 
 
 

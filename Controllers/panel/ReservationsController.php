@@ -9,10 +9,12 @@ class ReservationsController {
         "customer" => "required",
         "init_date" => "required",
         "finish_date" => "required",
+        "rate" => "required|number",
         "deposit_entry" => "required",
         "deposit_exit" => "required",
-        "disccount" => "required",
-        "commissions" => "required"
+        "commissions" => "required",
+        "rate_amount" => "required",
+        "total" => "total"
     );
 
     private static $rulesUpdate = array(
@@ -21,10 +23,12 @@ class ReservationsController {
         "customer" => "required",
         "init_date" => "required",
         "finish_date" => "required",
+        "rate" => "required|number",
         "deposit_entry" => "required",
         "deposit_exit" => "required",
-        "disccount" => "required",
-        "commissions" => "required"
+        "commissions" => "required",
+        "rate_amount" => "required",
+        "total" => "total"
     );
 
     private static $rulesDelete = array(
@@ -52,10 +56,13 @@ class ReservationsController {
             $reservation->customer,
             $reservation->init_date,
             $reservation->finish_date,
+            $reservation->rate,
+            $reservation->rate_amount,
             $reservation->deposit_entry,
             $reservation->deposit_exit,
             $reservation->disccount,
             $reservation->commissions,
+            $reservation->total,
             $date);
             if($response) {
                 $reservation->id = $response;
@@ -83,10 +90,13 @@ class ReservationsController {
             $reservation->customer,
             $reservation->init_date,
             $reservation->finish_date,
+            $reservation->rate,
+            $reservation->rate_amount,
             $reservation->deposit_entry,
             $reservation->deposit_exit,
             $reservation->disccount,
             $reservation->commissions,
+            $reservation->total,
             $date);
             if($response) {
                 echo Response::response($reservation);
@@ -151,9 +161,12 @@ class ReservationsController {
         $reservation->customer = $request->customer;
         $reservation->init_date = $request->init_date;
         $reservation->finish_date = $request->finish_date;
+        $reservation->rate = $request->rate;
+        $reservation->rate_amount = $request->rate_amount;
         $reservation->deposit_entry = $request->deposit_entry;
         $reservation->deposit_exit = $request->deposit_exit;
         $reservation->disccount = $request->disccount;
+        $reservation->total = $request->total;
         $reservation->commissions = $request->commissions;
     }
 }

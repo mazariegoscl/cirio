@@ -614,6 +614,12 @@ i.delete-reservation {
 
 }
 
+.amount {
+    font-size: 12px;
+    color: #57a210;
+    font-weight: bold;
+}
+
 
 
 

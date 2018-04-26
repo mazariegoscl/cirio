@@ -123,8 +123,8 @@
                             </div>
 
                             <div class="form-input">
-                                <label><i class="fa fa-home"></i> Tipo de tarifa: </label>
-                                <select id="property">
+                                <label><i class="fa fa-home"></i> Tipo de Tarifa: </label>
+                                <select id="rate">
                                     <option value="1" selected>Base</option>
                                     <option value="2">Semanal</option>
                                     <option value="3">Mensual</option>
@@ -132,7 +132,12 @@
                             </div>
 
                             <div class="form-input">
-                                <label><i class="fa fa-money-bill-alt"></i> Deposito en garantía: </label>
+                                <label><i class="fa fa-home"></i> Tarifa Calculada: </label>
+                                <span class="amount" id="rate_calculated" data-info="0">$0.00</span>
+                            </div>
+
+                            <div class="form-input">
+                                <label><i class="fa fa-money-bill-alt"></i> Deposito en Garantía: </label>
                                 <div class="form-input">
                                     <label>Entrada: </label>
                                     <input id="deposit_entry" type="number" pattern="[0-9]*" />
@@ -151,12 +156,17 @@
                             </div>
 
                             <div class="form-input">
+                                <label><i class="fa fa-home"></i> Total con Descuento: </label>
+                                <span class="amount" id="disccount_calculated" data-info="0">$0.00</span>
+                            </div>
+
+                            <div class="form-input">
                                 <label><i class="fa fa-percent"></i> Comisiones: </label>
                                 <div class="modal-commissions">
-                                    <label>Web</label> <input type="checkbox" name="commissions" />
-                                    <label>Airbnb</label> <input type="checkbox" name="commissions" />
-                                    <label>VRBO</label> <input type="checkbox" name="commissions" />
-                                    <label>Agentes</label> <input type="checkbox" name="commissions" />
+                                    <label>Web</label> <input data-id="1" type="checkbox" name="commissions[]" />
+                                    <label>Airbnb</label> <input data-id="2" type="checkbox" name="commissions[]" />
+                                    <label>VRBO</label> <input data-id="3" type="checkbox" name="commissions[]" />
+                                    <label>Agentes</label> <input data-id="4" type="checkbox" name="commissions[]" />
                                 </div>
                             </div>
 
@@ -172,6 +182,93 @@
         </div>
     </main>
     <script>
+    function formatNumber(valor) {
+
+        var decimales =  2; //{{$decimales}};
+        //console.log(Number(valor).toFixed(decimales));
+        return "$" + Number(valor).toFixed(decimales).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+    }
+
+    function eventsActions() {
+        data_modal();
+
+        $(".edit-reservation").click(function() {
+            var data = $(this).siblings('data');
+            var reservation = data.attr("reservation");
+            var parse = JSON.parse(reservation);
+            setData(parse);
+
+            position_box = $(this).parent('div').parent('div').parent('.wrapper-box-reservation').index();
+            $("#rate").change();
+            $("#insert_reservation").hide();
+            $("#update_reservation").show();
+            $("#delete_reservation").hide();
+            $("#title-modal-reservation").text("Actualizar reservación");
+        });
+
+        $(".delete-reservation").click(function() {
+            var data = $(this).siblings('data');
+            var reservation = data.attr("reservation");
+            var parse = JSON.parse(reservation);
+            setData(parse);
+
+            position_box = $(this).parent('div').parent('div').parent('.wrapper-box-reservation').index();
+            $("#rate").change();
+            $("#insert_reservation").hide();
+            $("#update_reservation").hide();
+            $("#delete_reservation").show();
+            $("#title-modal-reservation").text("Eliminar reservación");
+        });
+    }
+
+    function setData(data) {
+        id_reservation = Number(data.id);
+        $("#customer").val(data.customer);
+        $("#init_date").val(data.init_date);
+        $("#finish_date").val(data.finish_date);
+        $("#deposit_entry").val(data.deposit_entry);
+        $("#deposit_exit").val(data.deposit_exit);
+        $("#disccount").val(data.disccount);
+        $("#rate option[value='" + data.rate + "']").prop("selected", true);
+        $("#property option[value='" + data.property + "']").prop("selected", true);
+    }
+
+    function dataStructureReservation(data) {
+        var dataStructureReservation = '<div class="wrapper-box-reservation"><div class="box-reservation">';
+        dataStructureReservation += '<span class="res-person"><i class="fa fa-male"></i> ' + data.customer + '</span>';
+        dataStructureReservation += '<div class="res-dates">';
+        dataStructureReservation += '<span>';
+        dataStructureReservation += '<i class="initial-date fa fa-calendar-alt"></i> ' + data.init_date;
+        dataStructureReservation += '</span>';
+        dataStructureReservation += ' ';
+        dataStructureReservation += '<span>';
+        dataStructureReservation += '<i class="end-date fa fa-calendar-alt"></i> ' + data.finish_date;
+        dataStructureReservation += '</span>';
+        dataStructureReservation += '</div>';
+        dataStructureReservation += '<div class="res-actions">';
+        dataStructureReservation += "<data reservation='" + JSON.stringify(data) + "'></data>";
+        dataStructureReservation += '<i class="data-modal edit-reservation fa fa-edit" data-target="modal-reservaciones"></i>';
+        dataStructureReservation += ' ';
+        dataStructureReservation += '<i class="data-modal delete-reservation fa fa-trash" data-target="modal-reservaciones"></i>';
+        dataStructureReservation += '</div>';
+        dataStructureReservation += '</div>';
+        dataStructureReservation += '</div>';
+        return  dataStructureReservation;
+    }
+
+    function addCommissions() {
+        var commissions = [];
+       $(':checkbox').each(function(){
+         var id_com = $(this).attr("data-id");
+         var status = $(this).is(":checked");
+         commissions.push({
+            id: id_com,
+            status: status
+         });
+       });
+       return commissions;
+    }
+
     $(document).ready(function() {
 
         $.ajax({
@@ -192,6 +289,63 @@
                 }
             }
         });
+
+        $("#init_date, #finish_date, #property, #rate").change(function() {
+            var property = $("#property").val();
+            var init_date = $("#init_date").val();
+            var finish_date = $("#finish_date").val();
+            var rate = $("#rate").val();
+            if(init_date != "" && finish_date != ""&& property != "" && rate != "") {
+                $.ajax({
+                    type: "GET",
+                    url: "helper/calcRatesReservation&property="+property+"&init_date="+init_date+"&finish_date="+finish_date+"&rate="+rate,
+                    success: function(data) {
+                        data = JSON.parse(data);
+                        if(data.error) {
+
+                        } else {
+                            //$("#rate_info").val(data);
+                            $("#rate_calculated").text(formatNumber(data));
+                            $("#rate_calculated").attr("data-info", data);
+                        }
+
+                        var rate = $("#rate_calculated").attr("data-info");
+                        var disccount = $("#disccount").val();
+
+                        if(disccount == "") {
+                            disccount = 0;
+                        }
+
+                        $.ajax({
+                            type: "GET",
+                            url: "helper/calcDisccount&rate="+rate+"&disccount="+disccount,
+                            success: function(data2) {
+                                $("#disccount_calculated").text(formatNumber(data2));
+                                $("#disccount_calculated").attr("data-info", data2);
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
+        $("#disccount").on('input', function() {
+            var rate = $("#rate_calculated").attr("data-info");
+            var disccount = $(this).val();
+
+            if(disccount == '') {
+                disccount = 0;
+            }
+            $.ajax({
+                type: "GET",
+                url: "helper/calcDisccount&rate="+rate+"&disccount="+disccount,
+                success: function(data) {
+                    $("#disccount_calculated").text(formatNumber(data));
+                    $("#disccount_calculated").attr("data-info", data);
+                }
+            });
+        });
+
 
         $("#find_reservations").click(function() {
             var first_date = $("#first_date_find").val();
@@ -227,10 +381,13 @@
                 customer: $("#customer").val(),
                 init_date: $("#init_date").val(),
                 finish_date: $("#finish_date").val(),
+                rate: $("#rate").val(),
+                rate_amount: $("#rate_calculated").attr("data-info"),
                 deposit_entry: $("#deposit_entry").val(),
                 deposit_exit: $("#deposit_exit").val(),
                 disccount: $("#disccount").val(),
-                commissions: "111"
+                total: $("#disccount_calculated").attr("data-info"),
+                commissions: addCommissions()
             };
             $.ajax({
                 type: "POST",
@@ -276,10 +433,13 @@
                 customer: $("#customer").val(),
                 init_date: $("#init_date").val(),
                 finish_date: $("#finish_date").val(),
+                rate: $("#rate").val(),
+                rate_amount: $("#rate_calculated").attr("data-info"),
                 deposit_entry: $("#deposit_entry").val(),
                 deposit_exit: $("#deposit_exit").val(),
                 disccount: $("#disccount").val(),
-                commissions: "111"
+                total: $("#disccount_calculated").attr("data-info"),
+                commissions: addCommissions()
             };
             $.ajax({
                 type: "PUT",
@@ -313,7 +473,14 @@
             $("#deposit_entry").val("");
             $("#deposit_exit").val("");
             $("#disccount").val("");
-            $("#property option[value='1']").prop("selected", true);
+            //$("#property option[value='1']").prop("selected", true);
+            $("#property").prop("selectedIndex", 0);
+            $("#rate").prop("selectedIndex", 0);
+
+            $("#rate_calculated").text(formatNumber(0));
+            $("#rate_calculated").attr("data-info", "");
+            $("#disccount_calculated").text(formatNumber(0));
+            $("#disccount_calculated").attr("data-info", "");
 
             $("#insert_reservation").show();
             $("#update_reservation").hide();
@@ -321,70 +488,7 @@
             $("#title-modal-reservation").text("Nueva reservación");
         });
 
-        function setData(data) {
-            id_reservation = Number(data.id);
-            $("#customer").val(data.customer);
-            $("#init_date").val(data.init_date);
-            $("#finish_date").val(data.finish_date);
-            $("#deposit_entry").val(data.deposit_entry);
-            $("#deposit_exit").val(data.deposit_exit);
-            $("#disccount").val(data.disccount);
-            $("#property option[value='" + data.property + "']").prop("selected", true);
-        }
 
-        function eventsActions() {
-            data_modal();
-            $(".edit-reservation").click(function() {
-                var data = $(this).siblings('data');
-                var reservation = data.attr("reservation");
-                var parse = JSON.parse(reservation);
-                setData(parse);
-
-                position_box = $(this).parent('div').parent('div').parent('.wrapper-box-reservation').index();
-
-                $("#insert_reservation").hide();
-                $("#update_reservation").show();
-                $("#delete_reservation").hide();
-                $("#title-modal-reservation").text("Actualizar reservación");
-            });
-
-            $(".delete-reservation").click(function() {
-                var data = $(this).siblings('data');
-                var reservation = data.attr("reservation");
-                var parse = JSON.parse(reservation);
-                setData(parse);
-
-                position_box = $(this).parent('div').parent('div').parent('.wrapper-box-reservation').index();
-
-                $("#insert_reservation").hide();
-                $("#update_reservation").hide();
-                $("#delete_reservation").show();
-                $("#title-modal-reservation").text("Eliminar reservación");
-            });
-        }
-
-        function dataStructureReservation(data) {
-            var dataStructureReservation = '<div class="wrapper-box-reservation"><div class="box-reservation">';
-            dataStructureReservation += '<span class="res-person"><i class="fa fa-male"></i> ' + data.customer + '</span>';
-            dataStructureReservation += '<div class="res-dates">';
-            dataStructureReservation += '<span>';
-            dataStructureReservation += '<i class="initial-date fa fa-calendar-alt"></i> ' + data.init_date;
-            dataStructureReservation += '</span>';
-            dataStructureReservation += ' ';
-            dataStructureReservation += '<span>';
-            dataStructureReservation += '<i class="end-date fa fa-calendar-alt"></i> ' + data.finish_date;
-            dataStructureReservation += '</span>';
-            dataStructureReservation += '</div>';
-            dataStructureReservation += '<div class="res-actions">';
-            dataStructureReservation += "<data reservation='" + JSON.stringify(data) + "'></data>";
-            dataStructureReservation += '<i class="data-modal edit-reservation fa fa-edit" data-target="modal-reservaciones"></i>';
-            dataStructureReservation += ' ';
-            dataStructureReservation += '<i class="data-modal delete-reservation fa fa-trash" data-target="modal-reservaciones"></i>';
-            dataStructureReservation += '</div>';
-            dataStructureReservation += '</div>';
-            dataStructureReservation += '</div>';
-            return  dataStructureReservation;
-        }
         $.ajax({
             type: "GET",
             url: "reservations/get",
