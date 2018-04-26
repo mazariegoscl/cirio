@@ -79,9 +79,9 @@ $(document).ready(function(){ desplegarInformacion(); });
                                     '<div class="col-main-2">' + formatNumber(e.Gastos) + '</div>' +
                                     '<div class="col-main-2">Depositos</div>';
                                     if(e.Depositos >= 0) {
-                                        listaHTML += '<div class="col-main-2"><span style="color: green;">' + e.Depositos + '</span></div>';
+                                        listaHTML += '<div class="col-main-2"><span style="color: green;">' + formatNumber(e.Depositos) + '</span></div>';
                                     } else {
-                                        listaHTML += '<div class="col-main-2"><span style="color: red;">' + e.Depositos + '</span></div>';
+                                        listaHTML += '<div class="col-main-2"><span style="color: red;">' + formatNumber(e.Depositos) + '</span></div>';
                                     }
                                     listaHTML += '<div class="col-main-2">Utilidad</div>' +
                                     '<div class="col-main-2">' + formatNumber(e.Utilidad) + '</div>' +
