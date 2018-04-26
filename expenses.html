@@ -425,7 +425,7 @@
             var dataStructureReservation = '';
             for (var i in data) {
                 console.log(data[i]);
-                dataStructureReservation = '<div style="vertical-align: middle;" class="wrapper-box-reservation"><div class="box-reservation" style="display: table; height: auto; vertical-align: top;">';
+                dataStructureReservation = '<div style="vertical-align: top;" class="wrapper-box-reservation"><div class="box-reservation" style="display: table; height: auto; vertical-align: top;">';
                 dataStructureReservation += '<div class="top-title"><i class="fa fa-home"></i> <span>' + data[i].property.name + '</span></div>';
                 if(data[i].expenses) {
                     dataStructureReservation += '<div style="display: table; width: 100%;"><div id="content_expenses" class="content-tbl" style="display: table-row-group;">';
@@ -461,7 +461,7 @@
         function dataStructureReservation2(data) {
             //id_rate = data.property.id;
             var dataStructureReservation = '';
-                dataStructureReservation = '<div style="vertical-align: middle;" class="wrapper-box-reservation"><div class="box-reservation" style="display: table; height: auto; vertical-align: top;">';
+                dataStructureReservation = '<div style="vertical-align: top;" class="wrapper-box-reservation"><div class="box-reservation" style="display: table; height: auto; vertical-align: top;">';
                 dataStructureReservation += '<div class="top-title"><i class="fa fa-home"></i> <span>' + data.property.name + '</span></div>';
                 if(data.expenses) {
                     dataStructureReservation += '<div style="display: table; width: 100%;"><div id="content_expenses" class="content-tbl" style="display: table-row-group;">';

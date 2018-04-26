@@ -30,19 +30,23 @@ class HelperController {
     public function calcRatesReservation() {
         $request = (object)$_REQUEST;
         $rateM = new HelperModel;
-        $response = $rateM::calcRatesReservation($request->init_date,
+        $response = $rateM::calcRatesReservation($request->property,
+        $request->init_date,
         $request->finish_date,
         $request->rate);
-        /*if(!$response) {
-            echo Response::error("No se pudo insertar el tipo de propiedad");
-        }else{
+        if($response){
             echo Response::response($response);
-        }*/
+        }
     }
 
     public function calcReports() {
         $rateM = new HelperModel;
         $response = $rateM::calcReports();
+    }
+
+    public function listaVentas() {
+        $rateM = new HelperModel;
+        $response = $rateM::listaVentas();
     }
 
     public function save() {

@@ -48,139 +48,56 @@
       <main>
             <div class="wrapper-charts">
                   <h1 class="title-app">Ventas</h1>
-                  <div class="box-3 box-3-style2">
-                        <div class="wrapper-box-content">
-                              <h3 class="title-box h3-style2" style="color: red;">Resúmen</h3>
-                              <hr />
-                              <div class="table-main-3">
-                                    <div class="col-main-2">
-                                          Ventas
-                                    </div>
-                                    <div class="col-main-2">
-                                          $5,200.00
-                                    </div>
-                                    <div class="col-main-2">
-                                          Gastos
-                                    </div>
-                                    <div class="col-main-2">
-                                          $2,000.00
-                                    </div>
-                                    <div class="col-main-2">
-                                          Descuentos
-                                    </div>
-                                    <div class="col-main-2">
-                                          $300.00
-                                    </div>
-                                    <div class="col-main-2">
-                                          Utilidad
-                                    </div>
-                                    <div class="col-main-2">
-                                          $2,000.00
-                                    </div>
-                                    <div class="col-main-2">
-                                          Ocupación
-                                    </div>
-                                    <div class="col-main-2">
-                                          40 Días
-                                    </div>
-                                    <div class="col-main-2">
-                                          Tarifa promedio
-                                    </div>
-                                    <div class="col-main-2">
-                                          $130.00
-                                    </div>
-                              </div>
-                        </div>
-                  </div>
-                  <div class="box-3 box-3-style2">
-                        <div class="wrapper-box-content">
-                              <h3 class="title-box h3-style2">Casa 1</h3>
-                              <hr />
-                              <div class="table-main-3">
-                                    <div class="col-main-2">
-                                          Ventas
-                                    </div>
-                                    <div class="col-main-2">
-                                          $5,200.00
-                                    </div>
-                                    <div class="col-main-2">
-                                          Gastos
-                                    </div>
-                                    <div class="col-main-2">
-                                          $2,000.00
-                                    </div>
-                                    <div class="col-main-2">
-                                          Descuentos
-                                    </div>
-                                    <div class="col-main-2">
-                                          $300.00
-                                    </div>
-                                    <div class="col-main-2">
-                                          Utilidad
-                                    </div>
-                                    <div class="col-main-2">
-                                          $2,000.00
-                                    </div>
-                                    <div class="col-main-2">
-                                          Ocupación
-                                    </div>
-                                    <div class="col-main-2">
-                                          40 Días
-                                    </div>
-                                    <div class="col-main-2">
-                                          Tarifa promedio
-                                    </div>
-                                    <div class="col-main-2">
-                                          $130.00
-                                    </div>
-                              </div>
-                        </div>
-                  </div>
-                  <div class="box-3 box-3-style2">
-                        <div class="wrapper-box-content">
-                              <h3 class="title-box h3-style2">Casa 2</h3>
-                              <hr />
-                              <div class="table-main-3">
-                                    <div class="col-main-2">
-                                          Ventas
-                                    </div>
-                                    <div class="col-main-2">
-                                          $5,200.00
-                                    </div>
-                                    <div class="col-main-2">
-                                          Gastos
-                                    </div>
-                                    <div class="col-main-2">
-                                          $2,000.00
-                                    </div>
-                                    <div class="col-main-2">
-                                          Descuentos
-                                    </div>
-                                    <div class="col-main-2">
-                                          $300.00
-                                    </div>
-                                    <div class="col-main-2">
-                                          Utilidad
-                                    </div>
-                                    <div class="col-main-2">
-                                          $2,000.00
-                                    </div>
-                                    <div class="col-main-2">
-                                          Ocupación
-                                    </div>
-                                    <div class="col-main-2">
-                                          40 Días
-                                    </div>
-                                    <div class="col-main-2">
-                                          Tarifa promedio
-                                    </div>
-                                    <div class="col-main-2">
-                                          $130.00
-                                    </div>
-                              </div>
-                        </div>
+                  <div id="listaVentas">
                   </div>
             </div>
       </main>
+      <script>
+$(document).ready(function(){ desplegarInformacion(); });
+
+            function desplegarInformacion() {
+                  $.get({
+                        url: "/cirio/helper/listaVentas",
+                        success: function (datos) {
+                              var resultado = JSON.parse(datos);
+
+                              var listaHTML = "";
+
+                              $.each(resultado, function (i, e) {
+                                    listaHTML += '<div class="box-3 box-3-style2">' +
+                        '<div class="wrapper-box-content">' +
+                              '<h3 class="title-box h3-style2">' + e.NombrePropiedad +'</h3>' +
+                              '<hr />' +
+                              '<div class="table-main-3">' +
+                                    '<div class="col-main-2">Ventas</div>' +
+                                    '<div class="col-main-2">' + formatNumber(e.Ventas) + '</div>' +
+                                    '<div class="col-main-2">Gastos</div>' +
+                                    '<div class="col-main-2">' + formatNumber(e.Gastos) + '</div>' +
+                                    '<div class="col-main-2">Descuentos</div>' +
+                                    '<div class="col-main-2">' + formatNumber(e.Descuentos) + '</div>' +
+                                    '<div class="col-main-2">Utilidad</div>' +
+                                    '<div class="col-main-2">' + formatNumber(e.Utilidad) + '</div>' +
+                                    '<div class="col-main-2">Ocupación</div>' +
+                                    '<div class="col-main-2">' + e.DiasOcupacion + ' Días' + '</div>' +
+                              '</div>' +
+                              '</div>' +
+                        '</div>';
+                              });
+
+                              $("#listaVentas").append(listaHTML);
+                              $(".wrapper-box-content > h3").first().css("color", "red");
+                        }
+                  });
+            }
+      </script>
 </body>
 </html>
+
+<script>
+function formatNumber(valor) {
+
+    var decimales =  2; //{{$decimales}};
+    //console.log(Number(valor).toFixed(decimales));
+    return "$" + Number(valor).toFixed(decimales).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+}
+</script>
