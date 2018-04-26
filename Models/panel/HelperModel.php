@@ -165,18 +165,20 @@ class HelperModel extends DB\Database {
 	}
 
 	public function listaVentas() {
-		$query = self::$_db->query("SELECT 0 'IdPropiedad', 'Resumen' as 'NombrePropiedad', Ventas, Tarifas, Gastos, Descuentos, Utilidad, DiasOcupacion FROM
-( SELECT IFNULL(SUM(Ventas), 0) 'Ventas', IFNULL(SUM(Tarifas), 0) 'Tarifas', IFNULL(SUM(Gastos), 0) 'Gastos', IFNULL(SUM(Descuentos), 0) 'Descuentos', IFNULL(SUM((Ventas - Gastos)), 0) 'Utilidad', IFNULL(SUM(DiasOcupacion), 0) 'DiasOcupacion' FROM
+		$query = self::$_db->query("SELECT 0 'IdPropiedad', 'Resumen' as 'NombrePropiedad', Ventas, Tarifas, Depositos, Gastos, Descuentos, Utilidad, DiasOcupacion FROM
+( SELECT IFNULL(SUM(Ventas), 0) 'Ventas', IFNULL(SUM(Tarifas), 0) 'Tarifas', IFNULL(SUM(Depositos), 0) 'Depositos', IFNULL(SUM(Gastos), 0) 'Gastos', IFNULL(SUM(Descuentos), 0) 'Descuentos', IFNULL(SUM((Ventas - Gastos + Depositos)), 0) 'Utilidad', IFNULL(SUM(DiasOcupacion), 0) 'DiasOcupacion' FROM
 ( SELECT p.id, p.name,
 (SELECT IFNULL(SUM(total),0) FROM reservations WHERE property = p.id) 'Ventas' ,
 (SELECT IFNULL(SUM(rate_amount),0) FROM reservations WHERE property = p.id) 'Tarifas' ,
+(SELECT IFNULL(SUM(deposit_entry),0) - IFNULL(SUM(deposit_exit),0) FROM reservations WHERE property = p.id) 'Depositos' ,
 (SELECT IFNULL(SUM(ep.quantity),0) FROM expenses_properties ep INNER JOIN expenses_type_properties etp ON etp.id = ep.expense_property WHERE etp.property = p.id) 'Gastos' ,
 (SELECT IFNULL(SUM(disccount),0) FROM reservations WHERE property = p.id) 'Descuentos' ,
 (SELECT IFNULL(SUM(DATEDIFF(finish_date, init_date)),0) FROM reservations WHERE property = p.id) 'DiasOcupacion' FROM properties p ) X) X2
-UNION SELECT id 'IdPropiedad', name 'Nombre', IFNULL(Ventas, 0),  IFNULL(Tarifas,0), IFNULL(Gastos, 0), IFNULL(Descuentos, 0), IFNULL((Ventas - Gastos), 0) 'Utilidad', IFNULL(DiasOcupacion, 0) FROM
+UNION SELECT id 'IdPropiedad', name 'Nombre', IFNULL(Ventas, 0),  IFNULL(Tarifas,0), IFNULL(Depositos,0), IFNULL(Gastos, 0), IFNULL(Descuentos, 0), IFNULL((Ventas - Gastos + Depositos), 0) 'Utilidad', IFNULL(DiasOcupacion, 0) FROM
 ( SELECT p.id, p.name, (SELECT IFNULL(SUM(total),0) FROM reservations WHERE property = p.id) 'Ventas' ,
 (SELECT IFNULL(SUM(rate_amount),0) FROM reservations WHERE property = p.id) 'Tarifas' ,
- (SELECT IFNULL(SUM(ep.quantity),0) FROM expenses_properties ep INNER JOIN expenses_type_properties etp ON etp.id = ep.expense_property WHERE etp.property = p.id) 'Gastos' ,
+(SELECT IFNULL(SUM(deposit_entry),0) - IFNULL(SUM(deposit_exit),0) FROM reservations WHERE property = p.id) 'Depositos' ,
+(SELECT IFNULL(SUM(ep.quantity),0) FROM expenses_properties ep INNER JOIN expenses_type_properties etp ON etp.id = ep.expense_property WHERE etp.property = p.id) 'Gastos' ,
 (SELECT IFNULL(SUM(disccount),0) FROM reservations WHERE property = p.id) 'Descuentos' ,
 (SELECT IFNULL(SUM(DATEDIFF(finish_date, init_date)),0) FROM reservations WHERE property = p.id) 'DiasOcupacion' FROM properties p ) X");
 		$rows = array();
