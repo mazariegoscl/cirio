@@ -57,7 +57,7 @@ $(document).ready(function(){ desplegarInformacion(); });
 
             function desplegarInformacion() {
                   $.get({
-                        url: "/cirio/helper/listaVentas",
+                        url: "helper/listaVentas",
                         success: function (datos) {
                               var resultado = JSON.parse(datos);
 
