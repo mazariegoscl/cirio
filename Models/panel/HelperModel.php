@@ -188,6 +188,33 @@ UNION SELECT id 'IdPropiedad', name 'Nombre', IFNULL(Ventas, 0),  IFNULL(Tarifas
 		echo json_encode($rows);
 	}
 
+	public function dashBoard() {
+		$query = self::$_db->query("SELECT Ventas, Gastos, TarifaPromedioDiaria
+FROM (
+	SELECT
+	(SELECT IFNULL(SUM(total), 0) FROM reservations) 'Ventas',
+    (SELECT IFNULL(SUM(quantity), 0) FROM expenses_properties) 'Gastos',
+	(SELECT CAST(IFNULL(AVG(rate_amount), 0) AS DECIMAL(9, 2)) FROM reservations) 'TarifaPromedioDiaria') X");
+		echo json_encode($query->fetch_assoc());
+	}
+
+		public function porcentajeOcupacion() {
+		$query = self::$_db->query("SELECT id 'Propidad', name 'NombrePropiedad', CAST(IFNULL(((Ocupacion / Total) * 100), 0) AS DECIMAL(9, 2)) 'Porcentaje'
+FROM (
+	SELECT p.id, p.name, SUM(DATEDIFF(finish_date, init_date)) 'Ocupacion', (SELECT SUM(DATEDIFF(finish_date, init_date)) FROM reservations) 'Total'
+	FROM reservations r
+	INNER JOIN properties p ON
+		p.id = r.property
+	GROUP BY p.id
+	ORDER BY p.id
+) X");
+		$rows = array();
+		while($row = $query->fetch_assoc()) {
+			$rows[] = $row;
+		}
+		echo json_encode($rows);
+	}
+
 	public function update($id, $property, $rate, $rate_weekly, $rate_monthly, $init_date, $finish_date, $date) {
 		$query = self::$_db->query("UPDATE rates SET property='$property', rate='$rate', rate_weekly='$rate_weekly', rate_monthly='$rate_monthly', init_date='$init_date', finish_date='$finish_date', date='$date' WHERE id='$id'");
 		if($query) {

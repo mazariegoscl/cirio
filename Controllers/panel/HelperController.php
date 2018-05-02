@@ -58,6 +58,16 @@ class HelperController {
         $response = $rateM::listaVentas();
     }
 
+    public function dashBoard() {
+        $rateM = new HelperModel;
+        $response = $rateM::dashBoard();
+    }
+
+    public function porcentajeOcupacion() {
+        $rateM = new HelperModel;
+        $response = $rateM::porcentajeOcupacion();
+    }
+
     public function save() {
         $request = (object)$_REQUEST;
         $validator = Validator::make(self::$rules, $request);

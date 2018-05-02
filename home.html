@@ -1,175 +1,196 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <meta http-equiv="X-UA-Compatible" content="ie=edge">
-      <link rel="stylesheet" href="src/css/fontawesome-all.css">
-      <link rel="stylesheet" href="src/css/jquery-ui.css">
-      <link rel="stylesheet" href="src/css/jquery-ui.theme.css">
-      <link rel="stylesheet" href="src/css/jquery-ui.structure.css">
-      <link rel="stylesheet" href="src/style.css">
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-      <script src="src/js/jquery-ui.js"></script>
-      <script src="src/js/nav.js"></script>
-      <title>Document</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link rel="stylesheet" href="src/css/fontawesome-all.css">
+	<link rel="stylesheet" href="src/css/jquery-ui.css">
+	<link rel="stylesheet" href="src/css/jquery-ui.theme.css">
+	<link rel="stylesheet" href="src/css/jquery-ui.structure.css">
+	<link rel="stylesheet" href="src/style.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="src/js/jquery-ui.js"></script>
+	<script src="src/js/nav.js"></script>
+	<title>Document</title>
+	<script>
+		function formatNumber(valor) {
+			var decimales = 2;
+			return "$" + Number(valor).toFixed(decimales).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+		}
+
+		$.get({
+			url: "/cirio/helper/dashBoard",
+			success: function(datos) {
+				var resultado = JSON.parse(datos);
+
+				$("#ventas").text(formatNumber(resultado.Ventas) + " USD");
+				$("#gastos").text(formatNumber(resultado.Gastos) + " USD");
+				$("#tarifaPromedioDiaria").text(formatNumber(resultado.TarifaPromedioDiaria) + " USD");
+			}
+		});
+
+		$.get({
+			url: "/cirio/helper/porcentajeOcupacion",
+			success: function(datos) {
+				var resultado = JSON.parse(datos);
+				var html = "";
+				var sum = 0;
+				var porcentajePromedio = 0;
+
+				$.each(resultado, function(i, e) {
+					sum += Number(e.Porcentaje);
+					html += '<div class="col-main-2">' + e.NombrePropiedad + '</div>' +
+					'<div class="col-main-2">' + e.Porcentaje + '%</div>';
+				});
+
+				porcentajePromedio = (sum / resultado.length).toFixed(2);
+
+				$("#porcentajes").empty();
+				$("#porcentajes").append(html);
+				$("#porcentajePromedio").text(porcentajePromedio + "%");
+			}
+		});
+	</script>
 </head>
 <body>
-      <header>
-            <div class="title-header">EL CIRIO - Administración</div>
-            <a class="logout-header" href="">Cerrar sesión</a>
-      </header>
-      <div class="burger-button"><i class="fa fa-bars"></i></div>
-      <nav>
-            <div class="nav-wrapper">
-                  <ul>
-                        <li><a href="home.html">Dashboard</a></li>
-                        <li><a href="reservaciones.html">Reservaciones</a></li>
-                        <li class="sub"><a class="inactive" href="#">Reportes</a>
-                              <ul>
-                                    <li><a href="ventas.html">Ventas</a></li>
-                                    <!--<li><a href="#">Gastos</a></li>-->
-                                    <!--<li><a href="comisiones.html">Comisiones</a></li>-->
-                              </ul>
-                        </li>
-                        <li class="sub"><a class="inactive" href="#">Inventario</a>
-                              <ul>
-                                    <li><a href="propertyInventory.html">Propiedad</a></li>
-                                    <li><a href="inventory.html">Operativo</a></li>
-                              </ul>
-                        </li>
-                        <li class="sub"><a class="inactive" href="#">Administrar Propiedades</a>
-                              <ul>
-                                    <li><a href="properties.html">Lista de Propiedades</a></li>
-                                    <li><a href="tiposGastos.html">Tipos de Gastos</a></li>
-                                    <li><a href="categoryExpenses.html">Categorías de gastos</a></li>
-                                    <li><a href="expenses.html">Gastos</a></li>
-                              </ul>
-                        </li>
-                  </ul>
-            </div>
-      </nav>
-      <main>
-            <!--<input type="text" id="datepicker" />-->
+	<header>
+		<div class="title-header">EL CIRIO - Administración</div>
+		<a class="logout-header" href="">Cerrar sesión</a>
+	</header>
+	<div class="burger-button"><i class="fa fa-bars"></i></div>
+	<nav>
+		<div class="nav-wrapper">
+			<ul>
+				<li><a href="home.html">Dashboard</a></li>
+				<li><a href="reservaciones.html">Reservaciones</a></li>
+				<li class="sub"><a class="inactive" href="#">Reportes</a>
+					<ul>
+						<li><a href="ventas.html">Ventas</a></li>
+						<!--<li><a href="#">Gastos</a></li>-->
+						<!--<li><a href="comisiones.html">Comisiones</a></li>-->
+					</ul>
+				</li>
+				<li class="sub"><a class="inactive" href="#">Inventario</a>
+					<ul>
+						<li><a href="propertyInventory.html">Propiedad</a></li>
+						<li><a href="inventory.html">Operativo</a></li>
+					</ul>
+				</li>
+				<li class="sub"><a class="inactive" href="#">Administrar Propiedades</a>
+					<ul>
+						<li><a href="properties.html">Lista de Propiedades</a></li>
+						<li><a href="tiposGastos.html">Tipos de Gastos</a></li>
+						<li><a href="categoryExpenses.html">Categorías de gastos</a></li>
+						<li><a href="expenses.html">Gastos</a></li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</nav>
+	<main>
+		<!--<input type="text" id="datepicker" />-->
 
-            <div class="wrapper-charts">
-                  <div class="box-3">
-                        <div class="wrapper-box-content">
-                              <h3 class="title-box">Ventas</h3>
-                              <h1 class="text-box green-text">$600 USD</h1>
-                              <small class="date-box">01/01/2018 - 28/02/2018</small>
-                        </div>
-                  </div>
-                  <div class="box-3">
-                        <div class="wrapper-box-content">
-                              <h3 class="title-box">Gastos</h3>
-                              <h1 class="text-box blue-text">$200 USD</h1>
-                              <small class="date-box">01/01/2018 - 28/02/2018</small>
-                        </div>
-                  </div>
-                  <div class="box-3">
-                        <div class="wrapper-box-content">
-                              <h3 class="title-box">Tarifa Promedio Diaria</h3>
-                              <h1 class="text-box blue-text">$70 USD</h1>
-                              <small class="date-box">01/01/2018 - 28/02/2018</small>
-                        </div>
-                  </div>
+		<div class="wrapper-charts">
+			<div class="box-3">
+				<div class="wrapper-box-content">
+					<h3 class="title-box">Ventas</h3>
+					<h1 id="ventas" class="text-box green-text"><img src="/cirio/assets/img/spinner.gif" width="25" height="25"></h1>
+					<small class="date-box">01/01/2018 - 28/02/2018</small>
+				</div>
+			</div>
+			<div class="box-3">
+				<div class="wrapper-box-content">
+					<h3 class="title-box">Gastos</h3>
+					<h1 id="gastos" class="text-box blue-text"><img src="/cirio/assets/img/spinner.gif" width="25" height="25"></h1>
+					<small class="date-box">01/01/2018 - 28/02/2018</small>
+				</div>
+			</div>
+			<div class="box-3">
+				<div class="wrapper-box-content">
+					<h3 class="title-box">Tarifa Promedio Diaria</h3>
+					<h1 id="tarifaPromedioDiaria" class="text-box blue-text"><img src="/cirio/assets/img/spinner.gif" width="25" height="25"></h1>
+					<small class="date-box">01/01/2018 - 28/02/2018</small>
+				</div>
+			</div>
 
-                  <div class="box-3">
-                        <div class="wrapper-box-content">
-                              <h3 class="title-box">Porcentaje de Ocupación</h3>
-                              <div class="table-main-2">
-                                    <div class="col-main-2" style="margin-bottom: 20px;">
-                                          Propiedad
-                                    </div>
-                                    <div class="col-main-2" style="margin-bottom: 20px; color: red;">
-                                          Porcentaje
-                                    </div>
-                                    <div class="col-main-2">
-                                          Casa 1
-                                    </div>
-                                    <div class="col-main-2">
-                                          20%
-                                    </div>
-                                    <div class="col-main-2">
-                                          Casa 2
-                                    </div>
-                                    <div class="col-main-2">
-                                          30%
-                                    </div>
-                                    <div class="col-main-2">
-                                          Casa 3
-                                    </div>
-                                    <div class="col-main-2">
-                                          50%
-                                    </div>
+			<div class="box-3">
+				<div class="wrapper-box-content">
+					<h3 class="title-box">Porcentaje de Ocupación</h3>
+					<div class="table-main-2">
+						<div class="col-main-2" style="margin-bottom: 20px;">
+							Propiedad
+						</div>
+						<div class="col-main-2" style="margin-bottom: 20px; color: red;">
+							Porcentaje
+						</div>
+						<div id="porcentajes"><img src="/cirio/assets/img/spinner.gif" width="25" height="25"></div>
+						<div class="wrapper-total-percent">
+							<div class="col-main-2">
+								<span>Porcentaje Promedio:</span>
+							</div>
+							<div class="col-main-2">
+								<h2 id="porcentajePromedio"><img src="/cirio/assets/img/spinner.gif" width="25" height="25"></h2>
+							</div>
 
-                                    <div class="wrapper-total-percent">
-                                          <div class="col-main-2">
-                                                <span>Porcentaje Promedio:</span>
-                                          </div>
-                                          <div class="col-main-2">
-                                                <h2>28.5%</h2>
-                                          </div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="box-2">
+				<div class="wrapper-box-content">
+					<h3 class="title-box">Plataforma</h3>
+					<div class="wrapper-chart-index">
+						<div class="title-chart">
+							Sitio web
+						</div>
+						<!-- EMPIEZA CHART -->
+						<div class="wrapper-chart-content">
+							<div class="medition-chart">
+								<div class="line-chart" style="width: 63.63%"></div>
+								<span class="text-percent" style="left: calc(63.63% - 7px);">70</span>
+							</div>
+						</div>
+						<div class="title-chart">
+							Air BnB
+						</div>
+						<div class="wrapper-chart-content">
+							<div class="medition-chart">
+								<div class="line-chart" style="width: 18.18%"></div>
+								<span class="text-percent" style="left: calc(18.18% - 7px);">20</span>
+							</div>
+						</div>
 
-                                    </div>
-                              </div>
-                        </div>
-                  </div>
-                  <div class="box-2">
-                        <div class="wrapper-box-content">
-                              <h3 class="title-box">Plataforma</h3>
-                              <div class="wrapper-chart-index">
-                                    <div class="title-chart">
-                                          Sitio web
-                                    </div>
-                                    <!-- EMPIEZA CHART -->
-                                    <div class="wrapper-chart-content">
-                                          <div class="medition-chart">
-                                                <div class="line-chart" style="width: 63.63%"></div>
-                                                <span class="text-percent" style="left: calc(63.63% - 7px);">70</span>
-                                          </div>
-                                    </div>
-                                    <div class="title-chart">
-                                          Air BnB
-                                    </div>
-                                    <div class="wrapper-chart-content">
-                                          <div class="medition-chart">
-                                                <div class="line-chart" style="width: 18.18%"></div>
-                                                <span class="text-percent" style="left: calc(18.18% - 7px);">20</span>
-                                          </div>
-                                    </div>
-
-                                    <div class="title-chart">
-                                          VRBO
-                                    </div>
-                                    <div class="wrapper-chart-content">
-                                          <div class="medition-chart">
-                                                <div class="line-chart" style="width: 9.09%"></div>
-                                                <span class="text-percent" style="left: calc(9.09% - 7px);">10</span>
-                                          </div>
-                                    </div>
-                                    <div class="title-chart"></div>
-                                    <div class="wrapper-chart-content">
-                                          <div class="medition-chart-main">
-                                                <div class="number-chart">0</div>
-                                                <div class="number-chart">10</div>
-                                                <div class="number-chart">20</div>
-                                                <div class="number-chart">30</div>
-                                                <div class="number-chart">40</div>
-                                                <div class="number-chart">50</div>
-                                                <div class="number-chart">60</div>
-                                                <div class="number-chart">70</div>
-                                                <div class="number-chart">80</div>
-                                                <div class="number-chart">90</div>
-                                                <div class="number-chart">100</div>
-                                          </div>
-                                    </div>
-                              </div>
-                              <!-- TERMINA CHART -->
-                        </div>
-                  </div>
-            </div>
-      </main>
+						<div class="title-chart">
+							VRBO
+						</div>
+						<div class="wrapper-chart-content">
+							<div class="medition-chart">
+								<div class="line-chart" style="width: 9.09%"></div>
+								<span class="text-percent" style="left: calc(9.09% - 7px);">10</span>
+							</div>
+						</div>
+						<div class="title-chart"></div>
+						<div class="wrapper-chart-content">
+							<div class="medition-chart-main">
+								<div class="number-chart">0</div>
+								<div class="number-chart">10</div>
+								<div class="number-chart">20</div>
+								<div class="number-chart">30</div>
+								<div class="number-chart">40</div>
+								<div class="number-chart">50</div>
+								<div class="number-chart">60</div>
+								<div class="number-chart">70</div>
+								<div class="number-chart">80</div>
+								<div class="number-chart">90</div>
+								<div class="number-chart">100</div>
+							</div>
+						</div>
+					</div>
+					<!-- TERMINA CHART -->
+				</div>
+			</div>
+		</div>
+	</main>
 </body>
 </html>
