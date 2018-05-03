@@ -192,6 +192,20 @@ class HelperModel extends DB\Database {
 				$query = self::$_db->query("SELECT * FROM properties");
 				$rows = array();
 				$u = 0;
+				$i = 0;
+
+					$query0 = self::$_db->query("SELECT IFNULL(SUM(r.total * c.percent / 100),0) AS cantidad_porcentaje, IFNULL(r.id,0) as reservacion, IFNULL(c.name,0) AS comision, IFNULL(c.id,0) AS comision_id, IFNULL(p.name,0) as propiedad, IFNULL(p.id,0) AS propiedad_id FROM commissions_reservations cr INNER JOIN commissions c ON c.id = cr.commission INNER JOIN reservations r ON r.id = cr.reservation RIGHT JOIN properties p ON p.id = r.property WHERE cr.status='true' GROUP BY c.id;");
+
+					$rows[$u]["name_property"] = "Resumen";
+					$rows[$u]["id_propiedad"] = "NONE";
+					while($row0 = $query0->fetch_array()) {
+						$rows[$u]["commissions"][$i]["id"] = $row0["comision_id"];
+						$rows[$u]["commissions"][$i]["name"] = $row0["comision"];
+						$rows[$u]["commissions"][$i]["quantity"] = $row0["cantidad_porcentaje"];
+						$i++;
+					}
+
+				$u = $u + 1;
 				while($row = $query->fetch_array()) {
 					//$rows[] = $row;
 					$query2 = self::$_db->query("SELECT * FROM commissions");
