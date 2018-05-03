@@ -20,7 +20,7 @@
 		}
 
 		$.get({
-			url: "/cirio/helper/dashBoard",
+			url: "helper/dashBoard",
 			success: function(datos) {
 				var resultado = JSON.parse(datos);
 
@@ -31,7 +31,7 @@
 		});
 
 		$.get({
-			url: "/cirio/helper/porcentajeOcupacion",
+			url: "helper/porcentajeOcupacion",
 			success: function(datos) {
 				var resultado = JSON.parse(datos);
 				var html = "";
