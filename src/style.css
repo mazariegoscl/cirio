@@ -460,11 +460,12 @@ main {
 .col-main-2 {
 	display: inline-block;
 	width: 50%;
-	padding: 10px 0;
+	padding: 10px 2px;
 	box-sizing: border-box;
 
 	font-size: 15px;
 	color: #214388;
+	vertical-align: middle;
 }
 .col-main-2:nth-child(2n+0) {
 	color: #8a8989;

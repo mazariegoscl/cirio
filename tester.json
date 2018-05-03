@@ -1,0 +1,81 @@
+[{
+  "name_property": "Casa Abuelita",
+  "id_propiedad": "1",
+  "commissions": [{
+    "id": "1",
+    "name": "Web",
+    "quantity": 0
+  }, {
+    "id": "2",
+    "name": "Airbnb",
+    "quantity": 0
+  }, {
+    "id": "3",
+    "name": "VRBO",
+    "quantity": 0
+  }, {
+    "id": "4",
+    "name": "Agentes",
+    "quantity": 0
+  }]
+}, {
+  "name_property": "Casa Hidalgo",
+  "id_propiedad": "2",
+  "commissions": [{
+    "id": "1",
+    "name": "Web",
+    "quantity": 0
+  }, {
+    "id": "2",
+    "name": "Airbnb",
+    "quantity": 0
+  }, {
+    "id": "3",
+    "name": "VRBO",
+    "quantity": 0
+  }, {
+    "id": "4",
+    "name": "Agentes",
+    "quantity": "98.6"
+  }]
+}, {
+  "name_property": "Casa Antig\u00c3\u00bca",
+  "id_propiedad": "3",
+  "commissions": [{
+    "id": "1",
+    "name": "Web",
+    "quantity": "1.975"
+  }, {
+    "id": "2",
+    "name": "Airbnb",
+    "quantity": "1.975"
+  }, {
+    "id": "3",
+    "name": "VRBO",
+    "quantity": "1.975"
+  }, {
+    "id": "4",
+    "name": "Agentes",
+    "quantity": 0
+  }]
+}, {
+  "name_property": "Casa de los Geckos",
+  "id_propiedad": "4",
+  "commissions": [{
+    "id": "1",
+    "name": "Web",
+    "quantity": 0
+  }, {
+    "id": "2",
+    "name": "Airbnb",
+    "quantity": 0
+  }, {
+    "id": "3",
+    "name": "VRBO",
+    "quantity": 0
+  }, {
+    "id": "4",
+    "name": "Agentes",
+    "quantity": 0
+  }]
+}]

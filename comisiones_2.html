@@ -38,7 +38,6 @@
                         <li class="sub"><a class="inactive" href="#">Administrar Propiedades</a>
                               <ul>
                                     <li><a href="properties.html">Lista de Propiedades</a></li>
-                                    <li><a href="tiposGastos.html">Tipos de Gastos</a></li>
                                     <li><a href="categoryExpenses.html">Categorías de gastos</a></li>
                               </ul>
                         </li>
@@ -48,51 +47,54 @@
       <main>
             <div class="wrapper-charts">
                   <h1 class="title-app">Comisiones</h1>
-                  <div id="listaVentas">
+                  <div class="box-style0">
+                        <div class="wrapper-box-content">
+                              <h3 class="title-box h3-style2">
+                                    <span>Nombre</span>
+                              </h3>
+                              <hr />
+                              <div class="table-main-inventory">
+                                    <div class="col-main-inventory-1">
+                                          Web
+                                    </div>
+                                    <div class="col-main-inventory-2">
+                                          <i class="fa fa-edit"></i>
+                                          <i class="fa fa-trash"></i>
+                                    </div>
+                                    <div class="col-main-inventory-1">
+                                          Airbnb
+                                    </div>
+                                    <div class="col-main-inventory-2">
+                                          <i class="fa fa-edit"></i>
+                                          <i class="fa fa-trash"></i>
+                                    </div>
+                                    <div class="col-main-inventory-1">
+                                          VRBO
+                                    </div>
+                                    <div class="col-main-inventory-2">
+                                          <i class="fa fa-edit"></i>
+                                          <i class="fa fa-trash"></i>
+                                    </div>
+                                    <div class="col-main-inventory-1">
+                                          Agentes
+                                    </div>
+                                    <div class="col-main-inventory-2">
+                                          <i class="fa fa-edit"></i>
+                                          <i class="fa fa-trash"></i>
+                                    </div>
+                              </div>
+                        </div>
                   </div>
             </div>
       </main>
-      <script>
-$(document).ready(function(){ desplegarInformacion(); });
-
-            function desplegarInformacion() {
-                  $.get({
-                        url: "helper/listaComisiones",
-                        success: function (datos) {
-                              var resultado = JSON.parse(datos);
-
-                              var listaHTML = "";
-
-                              $.each(resultado, function (i, e) {
-                      listaHTML += '<div class="box-3 box-3-style2">' +
-                        '<div class="wrapper-box-content">' +
-                              '<h3 class="title-box h3-style2">' + e.name_property +'</h3>' +
-                              '<hr />' +
-                              '<div class="table-main-3">';
-                              $.each(e.commissions, function(u, o) {
-                                listaHTML +='<div class="col-main-2">' + o.name + '</div>' +
-                                '<div class="col-main-2">' + o.quantity + '</div>';
-                              });
-
-                              listaHTML += '</div>' +
-                        '</div>' +
-                      '</div>';
-                              });
-
-                              $("#listaVentas").append(listaHTML);
-                              $(".wrapper-box-content > h3").first().css("color", "red");
-                        }
-                  });
-            }
-      </script>
 </body>
 </html>
-
 <script>
-function formatNumber(valor) {
-
-    var decimales =  2; //{{$decimales}};
-    //console.log(Number(valor).toFixed(decimales));
-    return "$" + Number(valor).toFixed(decimales).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
-}
+  $.ajax({
+    type: "GET",
+    url: "helper/listaComisiones",
+    success: function(data) {
+      console.log(data);
+    }
+  })
 </script>

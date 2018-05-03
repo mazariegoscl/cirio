@@ -68,6 +68,11 @@ class HelperController {
         $response = $rateM::porcentajeOcupacion();
     }
 
+    public function listaComisiones() {
+      $rateM = new HelperModel;
+      $response = $rateM::listaComisiones();
+    }
+
     public function save() {
         $request = (object)$_REQUEST;
         $validator = Validator::make(self::$rules, $request);
