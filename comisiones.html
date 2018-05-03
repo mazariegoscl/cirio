@@ -71,7 +71,7 @@ $(document).ready(function(){ desplegarInformacion(); });
                               '<div class="table-main-3">';
                               $.each(e.commissions, function(u, o) {
                                 listaHTML +='<div class="col-main-2">' + o.name + '</div>' +
-                                '<div class="col-main-2">' + o.quantity + '</div>';
+                                '<div class="col-main-2">' + formatNumber(o.quantity) + '</div>';
                               });
 
                               listaHTML += '</div>' +
