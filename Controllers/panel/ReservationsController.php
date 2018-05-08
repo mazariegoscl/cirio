@@ -63,7 +63,9 @@ class ReservationsController {
             $reservation->disccount,
             $reservation->commissions,
             $reservation->total,
-            $date);
+            $date,
+            $request->dates,
+            $request->nights);
             if($response) {
                 $reservation->id = $response;
                 echo Response::response($reservation);
@@ -97,11 +99,15 @@ class ReservationsController {
             $reservation->disccount,
             $reservation->commissions,
             $reservation->total,
-            $date);
-            if($response) {
-                echo Response::response($reservation);
+            $date,
+            $request->dates,
+            $request->nights);
+            if(!$response) {
+              echo Response::error("No se pudo actualizar la reservación");
+
             }else{
-                echo Response::error("No se pudo actualizar la reservación");
+                $reservation->commissions = $response;
+                echo Response::response($reservation);
             }
         }
     }

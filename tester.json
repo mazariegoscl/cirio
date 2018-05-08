@@ -1,22 +1,42 @@
 [{
+  "name_property": "Resumen",
+  "id_propiedad": "NONE",
+  "commissions": [{
+    "id": "1",
+    "name": "Web",
+    "quantity": "29.925"
+  }, {
+    "id": "2",
+    "name": "Airbnb",
+    "quantity": "54.525000000000006"
+  }, {
+    "id": "3",
+    "name": "VRBO",
+    "quantity": "39.6"
+  }, {
+    "id": "4",
+    "name": "Agentes",
+    "quantity": "29.925"
+  }]
+}, {
   "name_property": "Casa Abuelita",
   "id_propiedad": "1",
   "commissions": [{
     "id": "1",
     "name": "Web",
-    "quantity": 0
+    "quantity": "15"
   }, {
     "id": "2",
     "name": "Airbnb",
-    "quantity": 0
+    "quantity": "39.6"
   }, {
     "id": "3",
     "name": "VRBO",
-    "quantity": 0
+    "quantity": "39.6"
   }, {
     "id": "4",
     "name": "Agentes",
-    "quantity": 0
+    "quantity": "15"
   }]
 }, {
   "name_property": "Casa Hidalgo",
@@ -36,7 +56,7 @@
   }, {
     "id": "4",
     "name": "Agentes",
-    "quantity": "98.6"
+    "quantity": 0
   }]
 }, {
   "name_property": "Casa Antig\u00c3\u00bca",
@@ -44,15 +64,15 @@
   "commissions": [{
     "id": "1",
     "name": "Web",
-    "quantity": "1.975"
+    "quantity": 0
   }, {
     "id": "2",
     "name": "Airbnb",
-    "quantity": "1.975"
+    "quantity": 0
   }, {
     "id": "3",
     "name": "VRBO",
-    "quantity": "1.975"
+    "quantity": 0
   }, {
     "id": "4",
     "name": "Agentes",
@@ -64,11 +84,11 @@
   "commissions": [{
     "id": "1",
     "name": "Web",
-    "quantity": 0
+    "quantity": "14.925"
   }, {
     "id": "2",
     "name": "Airbnb",
-    "quantity": 0
+    "quantity": "14.925"
   }, {
     "id": "3",
     "name": "VRBO",
@@ -76,6 +96,6 @@
   }, {
     "id": "4",
     "name": "Agentes",
-    "quantity": 0
+    "quantity": "14.925"
   }]
 }]

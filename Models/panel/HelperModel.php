@@ -29,7 +29,8 @@ class HelperModel extends DB\Database {
 			if($intervalo0 > 0) {
 				$intervalo = $intervalo;
 			} elseif($intervalo0 == 0) {
-				$intervalo0 = 1;
+				//$intervalo0 = 1;
+				throw new \Exception("Fecha no válida", 1);
 			} elseif($intervalo0 < 0) {
 				throw new \Exception("Fecha no válida", 1);
 			} else {
@@ -61,12 +62,16 @@ class HelperModel extends DB\Database {
 
 			$tarifa_normal = $tarifa_propiedad->fetch_assoc()[$nombre_tarifa];
 
-			$tarifa_temporada = self::$_db->query("SELECT * FROM rates WHERE property = '$propiedad' AND DATE(init_date) >= '$fecha_inicial' AND DATE(finish_date) <= '$fecha_final' || property = '$propiedad' AND DATE(init_date) BETWEEN '$fecha_inicial' AND '$fecha_final' ");
+			$tarifa_temporada = self::$_db->query("SELECT * FROM rates WHERE property = '$propiedad' AND DATE(finish_date) >= '$fecha_inicial'");
 
 			if(!$tarifa_temporada) {
 				throw new \Exception("Imposible obtener la tarifa de temporada", 1);
 			}
 
+			/* $fechas_con_tarifa = array();
+			$info_tarifa = array(); */
+			$fechas_reservacion = array();
+			$fechas_con_tarifa = array();
 			while($tarifas = $tarifa_temporada->fetch_assoc()) {
 				$fecha_inicial_tarifa = $tarifas["init_date"];
 				$fecha_final_tarifa = date('Y-m-d', strtotime($tarifas["finish_date"] . "-1 days"));
@@ -81,14 +86,22 @@ class HelperModel extends DB\Database {
 				for($i = $fecha_inicial_tarifa; $i <= $tarifas["finish_date"]; $i = date("Y-m-d", strtotime($i . "+ 1 days"))) {
 					array_push($array_dias_restantes, $i);
 
-					if($i <= $fecha_final) {
-						/*echo "Tarifa con fecha <span style='color: rgb(129, 109, 195); font-weight: bold;'>" . $i . "</span> <span style='color: green; font-weight: bold;'>SI ENTRA</span>" . "<br />";*/
+					if($i >= $fecha_inicial && $i <= $fecha_final) {
+						/* $info_tarifa["fecha"] = $i;
+						$info_tarifa["precio"] = $tarifas[$nombre_tarifa];
+						echo "ESTO ES: " . $mas;
+						array_push($fechas_con_tarifa, $info_tarifa);
+						*///echo "Tarifa con fecha <span style='color: rgb(129, 109, 195); font-weight: bold;'>" . $i . "</span> <span style='color: green; font-weight: bold;'>SI ENTRA</span>" . "<br />";
+						array_push($fechas_con_tarifa, $i);
+						array_push($fechas_reservacion, array("fecha" => $i, "tarifa" => $tarifas[$nombre_tarifa]));
 						$intervalo += count($i);
 
 					} else {
-						/*echo "Tarifa con fecha <span style='color: rgb(129, 109, 195); font-weight: bold;'>" . $i . "</span> <span style='color: red; font-weight: bold;'>NO ENTRA</span>" . "<br />";*/
+						 //echo "Tarifa con fecha <span style='color: rgb(129, 109, 195); font-weight: bold;'>" . $i . "</span> <span style='color: red; font-weight: bold;'>NO ENTRA</span>" . "<br />";
 					}
 				}
+
+				//echo json_encode($fechas_con_tarifa);
 
 				$total_tarifas += intval($tarifas[$nombre_tarifa]) * $intervalo;
 
@@ -115,6 +128,7 @@ class HelperModel extends DB\Database {
 				echo "<br />";
 				echo "<br />";
 				echo "<br />";*/
+				$mas++;
 			}
 
 			/*echo "Precio Normal: " . $tarifa_normal;
@@ -128,9 +142,29 @@ class HelperModel extends DB\Database {
 			echo "Días Normales: " . ($intervalo0 - $dias_tarifas);
 			echo "<br />";
 			echo "Total: " . ($tarifa_normal * ($intervalo0 - $dias_tarifas) + $total_tarifas);*/
+			$resultado = array();
+			$total = ($tarifa_normal * ($intervalo0 - $dias_tarifas) + $total_tarifas);
 
-			return ($tarifa_normal * ($intervalo0 - $dias_tarifas) + $total_tarifas);
+			$resultado["total"] = $total;
+			for($i = $fecha_inicial; $i <= $fecha_final; $i = date("Y-m-d", strtotime($i . "+ 1 days"))) {
 
+
+				if(!in_array($i, $fechas_con_tarifa)) {
+					array_push($fechas_reservacion, array("fecha" => $i, "tarifa" => $tarifa_normal));
+				}
+				//array_push($fechas_reservacion, $i);
+				//array_push($fechas_reservacion, array("fecha" => $i));
+			}
+
+
+			$resultado["fechas"] = $fechas_reservacion;
+			$resultado["noches"] = $intervalo0;
+
+
+
+			return $resultado;
+
+			//return ($tarifa_normal * ($intervalo0 - $dias_tarifas) + $total_tarifas);
 
 		} catch (\Exception $e) {
 			echo 'Excepción capturada: ',  $e->getMessage();
