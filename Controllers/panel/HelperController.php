@@ -63,6 +63,13 @@ class HelperController {
         $response = $rateM::dashBoard();
     }
 
+    public function dashBoardDates() {
+      $request = (object)$_REQUEST;
+
+        $rateM = new HelperModel;
+        $response = $rateM::dashBoardDates($request->init_date, $request->finish_date);
+    }
+
     public function porcentajeOcupacion() {
         $rateM = new HelperModel;
         $response = $rateM::porcentajeOcupacion();

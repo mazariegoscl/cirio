@@ -113,6 +113,17 @@ class ExpensesPropertiesController {
         }
     }
 
+    public function getPropertyDates() {
+        $request = (object)$_REQUEST;
+        $expenseM = new ExpensesPropertiesModel;
+        $response = $expenseM::getPropertyDates($request->property, $request->init_date, $request->finish_date);
+        if(!$response) {
+            echo Response::error("No se pudieron cargar los tipos de propiedades");
+        }else{
+            echo Response::response($response);
+        }
+    }
+
     public function getId() {
         $request = (object)$_REQUEST;
         $expenseM = new ExpensesPropertiesModel;

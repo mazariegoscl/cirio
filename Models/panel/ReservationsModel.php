@@ -14,6 +14,32 @@ class ReservationsModel extends DB\Database {
       echo "<br /><br />";
       echo "CUANTAS NOCHES: " . $howmuch_dates;
       echo "DESCUENTO POR TARIFA: " . $disccount_peer_rate;*/
+
+      if($count_commissions > 0) {
+        $query3 = self::$_db->query("DELETE FROM commissions_reservations WHERE reservation='$id'");
+        foreach($commissions as $commission) {
+          $id_commission = $commission["id"];
+          $status_commission = $commission["status"];
+
+
+          $query4 = self::$_db->query("INSERT INTO commissions_reservations (commission, reservation, status, date) VALUES ('$id_commission','$id','$status_commission','$date') ");
+
+          /*echo $id_commission;
+          echo $status_commission;
+          echo $id;*/
+          if(!$query4) {
+            return false;
+          }
+        }
+
+      /*  $rows = array();
+        $query5 = self::$_db->query("SELECT * FROM commissions_reservations WHERE reservation = '$id'");
+        while($fetchr = $query5->fetch_assoc()) {
+          $rows[] = $fetchr;
+        } */
+      }
+
+
       if($howmuch_dates > 0 || $howmuch_dates != "") {
         foreach($dates as $reservation_dates) {
           $date_reservation = $reservation_dates["fecha"];
@@ -40,6 +66,30 @@ class ReservationsModel extends DB\Database {
     $count_commissions = count($commissions);
     $query = self::$_db->query("UPDATE reservations SET property='$property', customer='$customer', init_date='$init_date', finish_date='$finish_date', rate='$rate', rate_amount='$rate_amount', deposit_entry='$deposit_entry', deposit_exit='$deposit_exit', disccount='$disccount', total='$total', date='$date' WHERE id='$id'");
     if($query) {
+
+      if($count_commissions > 0) {
+        $query3 = self::$_db->query("DELETE FROM commissions_reservations WHERE reservation='$id'");
+        foreach($commissions as $commission) {
+          $id_commission = $commission["id"];
+          $status_commission = $commission["status"];
+
+
+          $query4 = self::$_db->query("INSERT INTO commissions_reservations (commission, reservation, status, date) VALUES ('$id_commission','$id','$status_commission','$date') ");
+
+          /*echo $id_commission;
+          echo $status_commission;
+          echo $id;*/
+          if(!$query4) {
+            return false;
+          }
+        }
+
+        $rows = array();
+        $query5 = self::$_db->query("SELECT * FROM commissions_reservations WHERE reservation = '$id'");
+        while($fetchr = $query5->fetch_assoc()) {
+          $rows[] = $fetchr;
+        }
+      }
       /*return $id["ID"];
       return true;*/
 

@@ -14,13 +14,53 @@
 	<script src="src/js/nav.js"></script>
 	<title>Document</title>
 	<script>
-		function formatNumber(valor) {
-			var decimales = 2;
-			return "$" + Number(valor).toFixed(decimales).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
-		}
+	function formatNumber(valor) {
+		var decimales = 2;
+		return "$" + Number(valor).toFixed(decimales).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+	}
 
-		$.get({
-			url: "helper/dashBoard",
+	$.get({
+		url: "helper/dashBoard",
+		success: function(datos) {
+			var resultado = JSON.parse(datos);
+
+			$("#ventas").text(formatNumber(resultado.Ventas) + " USD");
+			$("#gastos").text(formatNumber(resultado.Gastos) + " USD");
+			$("#tarifaPromedioDiaria").text(formatNumber(resultado.TarifaPromedioDiaria) + " USD");
+		}
+	});
+
+	$.get({
+		url: "helper/porcentajeOcupacion",
+		success: function(datos) {
+			var resultado = JSON.parse(datos);
+			var html = "";
+			var sum = 0;
+			var porcentajePromedio = 0;
+
+			$.each(resultado, function(i, e) {
+				sum += Number(e.Porcentaje);
+				html += '<div class="col-main-2">' + e.NombrePropiedad + '</div>' +
+				'<div class="col-main-2">' + e.Porcentaje + '%</div>';
+			});
+
+			porcentajePromedio = (sum / resultado.length).toFixed(2);
+
+			$("#porcentajes").empty();
+			$("#porcentajes").append(html);
+			$("#porcentajePromedio").text(porcentajePromedio + "%");
+		}
+	});
+$(document).ready(function() {
+	$("#find_stats").click(function() {
+		var init_date = $("#first_date_find").val();
+		var finish_date = $("#second_date_find").val();
+		var dataString = 'init_date=' + init_date + '&finish_date=' + finish_date
+
+		$.ajax({
+			type: "GET",
+			url: "helper/dashBoardDates&" + dataString,
+			data: dataString,
 			success: function(datos) {
 				var resultado = JSON.parse(datos);
 
@@ -30,8 +70,10 @@
 			}
 		});
 
-		$.get({
-			url: "helper/porcentajeOcupacion",
+	/*	$.ajax({
+			type: "GET",
+			url: "helper/dashBoardDates&" + dataString,
+			data: dataString,
 			success: function(datos) {
 				var resultado = JSON.parse(datos);
 				var html = "";
@@ -50,7 +92,9 @@
 				$("#porcentajes").append(html);
 				$("#porcentajePromedio").text(porcentajePromedio + "%");
 			}
-		});
+		}); */
+	});
+});
 	</script>
 </head>
 <body>
@@ -93,25 +137,25 @@
 
 		<div class="wrapper-charts">
 			<div class="filters">
-					<div class="form-control">
-							<label>
-									Fecha de inicio
-							</label>
-							<input id="first_date_find" type="date" value="2018-03-01" />
-					</div>
+				<div class="form-control">
+					<label>
+						Fecha de inicio
+					</label>
+					<input id="first_date_find" type="date" value="2018-03-01" />
+				</div>
 
-					<div class="form-control">
-							<label>
-									Fecha final
-							</label>
-							<input id="second_date_find" type="date" value="2018-03-02" />
-					</div>
+				<div class="form-control">
+					<label>
+						Fecha final
+					</label>
+					<input id="second_date_find" type="date" value="2018-03-02" />
+				</div>
 
-					<div class="form-control" style="vertical-align: bottom;">
-							<button id="find_reservations">Buscar</button>
-					</div>
+				<div class="form-control" style="vertical-align: bottom;">
+					<button id="find_stats">Buscar</button>
+				</div>
 			</div>
-			
+
 			<div class="box-3">
 				<div class="wrapper-box-content">
 					<h3 class="title-box">Ventas</h3>

@@ -97,7 +97,7 @@ class HelperModel extends DB\Database {
 						$intervalo += count($i);
 
 					} else {
-						 //echo "Tarifa con fecha <span style='color: rgb(129, 109, 195); font-weight: bold;'>" . $i . "</span> <span style='color: red; font-weight: bold;'>NO ENTRA</span>" . "<br />";
+						//echo "Tarifa con fecha <span style='color: rgb(129, 109, 195); font-weight: bold;'>" . $i . "</span> <span style='color: red; font-weight: bold;'>NO ENTRA</span>" . "<br />";
 					}
 				}
 
@@ -228,16 +228,16 @@ class HelperModel extends DB\Database {
 				$u = 0;
 				$i = 0;
 
-					$query0 = self::$_db->query("SELECT IFNULL(SUM(r.total * c.percent / 100),0) AS cantidad_porcentaje, IFNULL(r.id,0) as reservacion, IFNULL(c.name,0) AS comision, IFNULL(c.id,0) AS comision_id, IFNULL(p.name,0) as propiedad, IFNULL(p.id,0) AS propiedad_id FROM commissions_reservations cr INNER JOIN commissions c ON c.id = cr.commission INNER JOIN reservations r ON r.id = cr.reservation RIGHT JOIN properties p ON p.id = r.property WHERE cr.status='true' GROUP BY c.id;");
+				$query0 = self::$_db->query("SELECT IFNULL(SUM(r.total * c.percent / 100),0) AS cantidad_porcentaje, IFNULL(r.id,0) as reservacion, IFNULL(c.name,0) AS comision, IFNULL(c.id,0) AS comision_id, IFNULL(p.name,0) as propiedad, IFNULL(p.id,0) AS propiedad_id FROM commissions_reservations cr INNER JOIN commissions c ON c.id = cr.commission INNER JOIN reservations r ON r.id = cr.reservation RIGHT JOIN properties p ON p.id = r.property WHERE cr.status='true' GROUP BY c.id;");
 
-					$rows[$u]["name_property"] = "Resumen";
-					$rows[$u]["id_propiedad"] = "NONE";
-					while($row0 = $query0->fetch_array()) {
-						$rows[$u]["commissions"][$i]["id"] = $row0["comision_id"];
-						$rows[$u]["commissions"][$i]["name"] = $row0["comision"];
-						$rows[$u]["commissions"][$i]["quantity"] = $row0["cantidad_porcentaje"];
-						$i++;
-					}
+				$rows[$u]["name_property"] = "Resumen";
+				$rows[$u]["id_propiedad"] = "NONE";
+				while($row0 = $query0->fetch_array()) {
+					$rows[$u]["commissions"][$i]["id"] = $row0["comision_id"];
+					$rows[$u]["commissions"][$i]["name"] = $row0["comision"];
+					$rows[$u]["commissions"][$i]["quantity"] = $row0["cantidad_porcentaje"];
+					$i++;
+				}
 
 				$u = $u + 1;
 				while($row = $query->fetch_array()) {
@@ -276,72 +276,81 @@ class HelperModel extends DB\Database {
 
 			public function dashBoard() {
 				$query = self::$_db->query("SELECT Ventas, Gastos, TarifaPromedioDiaria
-					FROM (
-						SELECT
+					FROM (SELECT
 						(SELECT IFNULL(SUM(total), 0) FROM reservations) 'Ventas',
 						(SELECT IFNULL(SUM(quantity), 0) FROM expenses_properties) 'Gastos',
 						(SELECT CAST(IFNULL(AVG(rate_amount), 0) AS DECIMAL(9, 2)) FROM reservations) 'TarifaPromedioDiaria') X");
 						echo json_encode($query->fetch_assoc());
 					}
 
-					public function porcentajeOcupacion() {
-						$query = self::$_db->query("SELECT id 'Propidad', name 'NombrePropiedad', CAST(IFNULL(((Ocupacion / Total) * 100), 0) AS DECIMAL(9, 2)) 'Porcentaje'
-						FROM (
-							SELECT p.id, p.name, SUM(DATEDIFF(finish_date, init_date)) 'Ocupacion', (SELECT SUM(DATEDIFF(finish_date, init_date)) FROM reservations) 'Total'
-							FROM reservations r
-							INNER JOIN properties p ON
-							p.id = r.property
-							GROUP BY p.id
-							ORDER BY p.id
-						) X");
-						$rows = array();
-						while($row = $query->fetch_assoc()) {
-							$rows[] = $row;
+					public function dashBoardDates($init_date, $finish_date) {
+						$query = self::$_db->query("SELECT Ventas, Gastos, TarifaPromedioDiaria FROM (SELECT
+							(SELECT IFNULL(SUM(total), 0) FROM reservation_days WHERE DATE(date_reservation) BETWEEN '$init_date' AND '$finish_date') 'Ventas',
+							(SELECT IFNULL(SUM(quantity), 0) FROM expenses_properties WHERE DATE(date) BETWEEN '$init_date' AND '$finish_date') 'Gastos',
+							(SELECT CAST(IFNULL(AVG(rate), 0) AS DECIMAL(9, 2)) FROM reservation_days WHERE DATE(date_reservation) BETWEEN '$init_date' AND '$finish_date') 'TarifaPromedioDiaria') X;");
+							echo json_encode($query->fetch_assoc());
 						}
-						echo json_encode($rows);
-					}
 
-					public function update($id, $property, $rate, $rate_weekly, $rate_monthly, $init_date, $finish_date, $date) {
-						$query = self::$_db->query("UPDATE rates SET property='$property', rate='$rate', rate_weekly='$rate_weekly', rate_monthly='$rate_monthly', init_date='$init_date', finish_date='$finish_date', date='$date' WHERE id='$id'");
-						if($query) {
-							return true;
-						}else{
-							return false;
-						}
-					}
 
-					public function delete($id) {
-						$query = self::$_db->query("DELETE FROM rates WHERE id='$id'");
-						if($query) {
-							return true;
-						}else{
-							return false;
-						}
-					}
 
-					public function get() {
-						$query = self::$_db->query("SELECT * FROM rates");
-						if($query) {
+						public function porcentajeOcupacion() {
+							$query = self::$_db->query("SELECT id 'Propidad', name 'NombrePropiedad', CAST(IFNULL(((Ocupacion / Total) * 100), 0) AS DECIMAL(9, 2)) 'Porcentaje'
+							FROM (
+								SELECT p.id, p.name, SUM(DATEDIFF(finish_date, init_date)) 'Ocupacion', (SELECT SUM(DATEDIFF(finish_date, init_date)) FROM reservations) 'Total'
+								FROM reservations r
+								INNER JOIN properties p ON
+								p.id = r.property
+								GROUP BY p.id
+								ORDER BY p.id
+							) X");
 							$rows = array();
 							while($row = $query->fetch_assoc()) {
 								$rows[] = $row;
 							}
-							return $rows;
-						}else{
-							return false;
+							echo json_encode($rows);
 						}
-					}
 
-					public function getProperty($property) {
-						$query = self::$_db->query("SELECT * FROM rates WHERE property='$property'");
-						if($query) {
-							$rows = array();
-							while($row = $query->fetch_assoc()) {
-								$rows[] = $row;
+						public function update($id, $property, $rate, $rate_weekly, $rate_monthly, $init_date, $finish_date, $date) {
+							$query = self::$_db->query("UPDATE rates SET property='$property', rate='$rate', rate_weekly='$rate_weekly', rate_monthly='$rate_monthly', init_date='$init_date', finish_date='$finish_date', date='$date' WHERE id='$id'");
+							if($query) {
+								return true;
+							}else{
+								return false;
 							}
-							return $rows;
-						}else{
-							return false;
+						}
+
+						public function delete($id) {
+							$query = self::$_db->query("DELETE FROM rates WHERE id='$id'");
+							if($query) {
+								return true;
+							}else{
+								return false;
+							}
+						}
+
+						public function get() {
+							$query = self::$_db->query("SELECT * FROM rates");
+							if($query) {
+								$rows = array();
+								while($row = $query->fetch_assoc()) {
+									$rows[] = $row;
+								}
+								return $rows;
+							}else{
+								return false;
+							}
+						}
+
+						public function getProperty($property) {
+							$query = self::$_db->query("SELECT * FROM rates WHERE property='$property'");
+							if($query) {
+								$rows = array();
+								while($row = $query->fetch_assoc()) {
+									$rows[] = $row;
+								}
+								return $rows;
+							}else{
+								return false;
+							}
 						}
 					}
-				}

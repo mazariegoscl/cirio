@@ -136,6 +136,19 @@ class ExpensesPropertiesModel extends DB\Database {
         }
     }
 
+    public function getExpenseDates($property, $init_date, $finish_date) {
+        $query = self::$_db->query("SELECT * FROM expenses_properties WHERE expense_property = '$property' AND DATE(date) BETWEEN '$init_date' AND '$finish_date'");
+        if($query) {
+            $rows = array();
+            while($row = $query->fetch_assoc()) {
+                $rows[] = $row;
+            }
+            return $rows;
+        }else{
+            return false;
+        }
+    }
+
     public function getProperty($property) {
         $rows = array();
         $query0 = self::$_db->query("SELECT * FROM properties");
@@ -155,6 +168,36 @@ class ExpensesPropertiesModel extends DB\Database {
             INNER JOIN expenses_type et ON et.id = etp.expense
             INNER JOIN properties p ON p.id = etp.property
             WHERE etp.property = '$property'
+            GROUP BY et.id");
+            while($row = $query->fetch_assoc()) {
+                $rows[$i]["expenses"][$u] = $row;
+                $u++;
+            }
+            $i++;
+
+        }
+        return $rows;
+    }
+
+    public function getPropertyDates($property, $init_date, $finish_date) {
+        $rows = array();
+        $query0 = self::$_db->query("SELECT * FROM properties");
+        $i = 0;
+        while($fetch = $query0->fetch_assoc()) {
+            $u = 0;
+            $property = $fetch["id"];
+            $rows[$i]["property"]["name"] = $fetch["name"];
+            $rows[$i]["property"]["id"] = $fetch["id"];
+            $query = self::$_db->query("SELECT SUM(IFNULL(ep.quantity, 0)) AS quantity,
+            etp.id,
+            et.name as name_expense,
+            p.name,
+            p.id AS id_property
+            FROM expenses_type_properties etp
+            LEFT JOIN expenses_properties ep ON ep.expense_property = etp.id
+            INNER JOIN expenses_type et ON et.id = etp.expense
+            INNER JOIN properties p ON p.id = etp.property
+            WHERE etp.property = '$property' AND DATE(etp.date) BETWEEN '$init_date' AND '$finish_date' OR DATE(etp.date) BETWEEN '$finish_date' AND '$finish_date'
             GROUP BY et.id");
             while($row = $query->fetch_assoc()) {
                 $rows[$i]["expenses"][$u] = $row;

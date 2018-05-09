@@ -65,10 +65,10 @@
                 </div>
 
                 <div class="form-control" style="vertical-align: bottom;">
-                    <button id="find_reservations">Buscar</button>
+                    <button id="find_rates">Buscar</button>
                 </div>
             </div>
-            
+
             <div class="wrapper-box-content" style="margin-top: 50px;">
                 <div id="exam"></div>
             </div>
@@ -544,6 +544,27 @@
                     eventsActions();
                 }
             }
+        });
+
+        $("#find_rates").click(function() {
+          var init_date = $("#first_date_find").val();
+          var finish_date = $("#second_date_find").val();
+          var dataString = 'init_date=' + init_date + '&finish_date=' + finish_date
+          $.ajax({
+              type: "GET",
+              url: "expensesProperty/getPropertyDates&" + dataString,
+              success: function(data) {
+                  // console.log(data);
+                  var data = JSON.parse(data);
+                  if(data.error) {
+                      // console.log(data);
+                  }else{
+                    $("#exam").html("");
+                      dataStructureReservation(data);
+                      eventsActions();
+                  }
+              }
+          })
         })
     });
 </script>
