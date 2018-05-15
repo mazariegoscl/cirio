@@ -197,7 +197,7 @@ class ExpensesPropertiesModel extends DB\Database {
             LEFT JOIN expenses_properties ep ON ep.expense_property = etp.id
             INNER JOIN expenses_type et ON et.id = etp.expense
             INNER JOIN properties p ON p.id = etp.property
-            WHERE etp.property = '$property' AND DATE(etp.date) BETWEEN '$init_date' AND '$finish_date' OR DATE(etp.date) BETWEEN '$finish_date' AND '$finish_date'
+            WHERE etp.property = '$property' AND DATE(ep.date) BETWEEN '$init_date' AND '$finish_date'
             GROUP BY et.id");
             while($row = $query->fetch_assoc()) {
                 $rows[$i]["expenses"][$u] = $row;
