@@ -14,53 +14,13 @@
 	<script src="src/js/nav.js"></script>
 	<title>Document</title>
 	<script>
-	function formatNumber(valor) {
-		var decimales = 2;
-		return "$" + Number(valor).toFixed(decimales).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
-	}
-
-	$.get({
-		url: "helper/dashBoard",
-		success: function(datos) {
-			var resultado = JSON.parse(datos);
-
-			$("#ventas").text(formatNumber(resultado.Ventas) + " USD");
-			$("#gastos").text(formatNumber(resultado.Gastos) + " USD");
-			$("#tarifaPromedioDiaria").text(formatNumber(resultado.TarifaPromedioDiaria) + " USD");
+		function formatNumber(valor) {
+			var decimales = 2;
+			return "$" + Number(valor).toFixed(decimales).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
 		}
-	});
 
-	$.get({
-		url: "helper/porcentajeOcupacion",
-		success: function(datos) {
-			var resultado = JSON.parse(datos);
-			var html = "";
-			var sum = 0;
-			var porcentajePromedio = 0;
-
-			$.each(resultado, function(i, e) {
-				sum += Number(e.Porcentaje);
-				html += '<div class="col-main-2">' + e.NombrePropiedad + '</div>' +
-				'<div class="col-main-2">' + e.Porcentaje + '%</div>';
-			});
-
-			porcentajePromedio = (sum / resultado.length).toFixed(2);
-
-			$("#porcentajes").empty();
-			$("#porcentajes").append(html);
-			$("#porcentajePromedio").text(porcentajePromedio + "%");
-		}
-	});
-$(document).ready(function() {
-	$("#find_stats").click(function() {
-		var init_date = $("#first_date_find").val();
-		var finish_date = $("#second_date_find").val();
-		var dataString = 'init_date=' + init_date + '&finish_date=' + finish_date
-
-		$.ajax({
-			type: "GET",
-			url: "helper/dashBoardDates&" + dataString,
-			data: dataString,
+		$.get({
+			url: "helper/dashBoard",
 			success: function(datos) {
 				var resultado = JSON.parse(datos);
 
@@ -69,7 +29,49 @@ $(document).ready(function() {
 				$("#tarifaPromedioDiaria").text(formatNumber(resultado.TarifaPromedioDiaria) + " USD");
 			}
 		});
-		//
+
+		$.get({
+			url: "helper/porcentajeOcupacion",
+			success: function(datos) {
+				var resultado = JSON.parse(datos);
+				var html = "";
+				var sum = 0;
+				var porcentajePromedio = 0;
+
+				$.each(resultado, function(i, e) {
+					sum += Number(e.Porcentaje);
+					html += '<div class="col-main-2">' + e.NombrePropiedad + '</div>' +
+					'<div class="col-main-2">' + e.Porcentaje + '%</div>';
+				});
+
+				porcentajePromedio = (sum / resultado.length).toFixed(2);
+
+				$("#porcentajes").empty();
+				$("#porcentajes").append(html);
+				$("#porcentajePromedio").text(porcentajePromedio + "%");
+			}
+		});
+
+		$(document).ready(function() {
+			$("#find_stats").click(function() {
+				var init_date = $("#first_date_find").val();
+				var finish_date = $("#second_date_find").val();
+				var dataString = 'fechaInicial=' + init_date + '&fechaFinal=' + finish_date
+
+				$.ajax({
+					type: "GET",
+					url: "helper/dashBoardFechas&" + dataString,
+					data: dataString,
+					success: function(datos) {
+						var resultado = JSON.parse(datos);
+
+						$("#ventas").text(formatNumber(resultado.Ventas) + " USD");
+						$("#gastos").text(formatNumber(resultado.Gastos) + " USD");
+						$("#tarifaPromedioDiaria").text(formatNumber(resultado.TarifaPromedioDiaria) + " USD");
+
+						$(".date-box").text(init_date + " - " + finish_date);
+					}
+				});
 
 	/*	$.ajax({
 			type: "GET",
@@ -95,7 +97,7 @@ $(document).ready(function() {
 			}
 		}); */
 	});
-});
+		});
 	</script>
 </head>
 <body>

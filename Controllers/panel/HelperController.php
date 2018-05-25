@@ -48,9 +48,6 @@ class HelperController {
         }
     }
 
-//
-
-
     public function calcReports() {
         $rateM = new HelperModel;
         $response = $rateM::calcReports();
@@ -61,9 +58,21 @@ class HelperController {
         $response = $rateM::listaVentas();
     }
 
+    public function listaVentasFechas() {
+    	$request = (object)$_REQUEST;
+        $rateM = new HelperModel;
+        $response = $rateM::listaVentasFechas($request->fechaInicial, $request->fechaFinal);
+    }
+
     public function dashBoard() {
         $rateM = new HelperModel;
         $response = $rateM::dashBoard();
+    }
+
+    public function dashBoardFechas() {
+    	$request = (object)$_REQUEST;
+        $rateM = new HelperModel;
+        $response = $rateM::dashBoardFechas($request->fechaInicial, $request->fechaFinal);
     }
 
     public function dashBoardDates() {
@@ -81,6 +90,13 @@ class HelperController {
     public function listaComisiones() {
       $rateM = new HelperModel;
       $response = $rateM::listaComisiones();
+    }
+
+    public function listaComisionesFechas() {
+      $request = (object)$_REQUEST;
+
+        $rateM = new HelperModel;
+        $response = $rateM::listaComisionesFechas($request->fechaInicial, $request->fechaFinal);
     }
 
     public function save() {

@@ -1,118 +1,162 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <meta http-equiv="X-UA-Compatible" content="ie=edge">
-      <link rel="stylesheet" href="src/css/fontawesome-all.css">
-      <link rel="stylesheet" href="src/style.css">
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-      <script src="src/js/nav.js"></script>
-      <title>Document</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link rel="stylesheet" href="src/css/fontawesome-all.css">
+	<link rel="stylesheet" href="src/style.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="src/js/nav.js"></script>
+	<title>Document</title>
 </head>
 <body>
-      <header>
-            <div class="title-header">EL CIRIO - Administración</div>
-            <a class="logout-header" href="">Cerrar sesión</a>
-      </header>
-      <div class="burger-button"><i class="fa fa-bars"></i></div>
-      <nav>
-            <div class="nav-wrapper">
-                  <ul>
-                        <li><a href="home.html">Dashboard</a></li>
-                        <li><a href="reservaciones.html">Reservaciones</a></li>
-                        <li class="sub"><a class="inactive" href="#">Reportes</a>
-                              <ul>
-                                    <li><a href="ventas.html">Ventas</a></li>
-                                    <li><a href="expenses.html">Gastos</a></li>
-                                    <!--<li><a href="#">Gastos</a></li>-->
-                                    <li><a href="comisiones.html">Comisiones</a></li>
-                              </ul>
-                        </li>
-                        <li class="sub"><a class="inactive" href="#">Inventario</a>
-                              <ul>
-                                    <li><a href="propertyInventory.html">Propiedad</a></li>
-                                    <li><a href="inventory.html">Operativo</a></li>
-                              </ul>
-                        </li>
-                        <li class="sub"><a class="inactive" href="#">Administrar Propiedades</a>
-                              <ul>
-                                    <li><a href="properties.html">Lista de Propiedades</a></li>
-                                    <li><a href="tiposGastos.html">Tipos de Gastos</a></li>
-                                    <li><a href="categoryExpenses.html">Categorías de gastos</a></li>
-                              </ul>
-                        </li>
-                  </ul>
-            </div>
-      </nav>
-      <main>
-            <div class="wrapper-charts">
-                  <h1 class="title-app">Comisiones</h1>
-                  <div class="filters">
-                      <div class="form-control">
-                          <label>
-                              Fecha de inicio
-                          </label>
-                          <input id="first_date_find" type="date" value="2018-03-01" />
-                      </div>
+	<header>
+		<div class="title-header">EL CIRIO - Administración</div>
+		<a class="logout-header" href="">Cerrar sesión</a>
+	</header>
+	<div class="burger-button"><i class="fa fa-bars"></i></div>
+	<nav>
+		<div class="nav-wrapper">
+			<ul>
+				<li><a href="home.html">Dashboard</a></li>
+				<li><a href="reservaciones.html">Reservaciones</a></li>
+				<li class="sub"><a class="inactive" href="#">Reportes</a>
+					<ul>
+						<li><a href="ventas.html">Ventas</a></li>
+						<li><a href="expenses.html">Gastos</a></li>
+						<!--<li><a href="#">Gastos</a></li>-->
+						<li><a href="comisiones.html">Comisiones</a></li>
+					</ul>
+				</li>
+				<li class="sub"><a class="inactive" href="#">Inventario</a>
+					<ul>
+						<li><a href="propertyInventory.html">Propiedad</a></li>
+						<li><a href="inventory.html">Operativo</a></li>
+					</ul>
+				</li>
+				<li class="sub"><a class="inactive" href="#">Administrar Propiedades</a>
+					<ul>
+						<li><a href="properties.html">Lista de Propiedades</a></li>
+						<li><a href="tiposGastos.html">Tipos de Gastos</a></li>
+						<li><a href="categoryExpenses.html">Categorías de gastos</a></li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</nav>
+	<main>
+		<div class="wrapper-charts">
+			<h1 class="title-app">Comisiones</h1>
+			<div class="filters">
+				<div class="form-control">
+					<label>
+						Fecha de inicio
+					</label>
+					<input id="first_date_find" type="date" value="2018-03-01" />
+				</div>
 
-                      <div class="form-control">
-                          <label>
-                              Fecha final
-                          </label>
-                          <input id="second_date_find" type="date" value="2018-03-02" />
-                      </div>
+				<div class="form-control">
+					<label>
+						Fecha final
+					</label>
+					<input id="second_date_find" type="date" value="2018-03-02" />
+				</div>
 
-                      <div class="form-control" style="vertical-align: bottom;">
-                          <button id="find_reservations">Buscar</button>
-                      </div>
-                  </div>
-                  <div id="listaVentas">
-                  </div>
-            </div>
-      </main>
-      <script>
-$(document).ready(function(){ desplegarInformacion(); });
+				<div class="form-control" style="vertical-align: bottom;">
+					<button id="find_reservations">Buscar</button>
+				</div>
+			</div>
+			<div id="listaVentas">
+			</div>
+		</div>
+	</main>
+	<script>
+		$(document).ready(function() {
+	desplegarInformacionInicial();
 
-            function desplegarInformacion() {
-                  $.get({
-                        url: "helper/listaComisiones",
-                        success: function (datos) {
-                              var resultado = JSON.parse(datos);
+	$("#find_reservations").click(function() {
+		desplegarInformacion();
+	});
+});
 
-                              var listaHTML = "";
+		function desplegarInformacion() {
+			var init_date = $("#first_date_find").val();
+			var finish_date = $("#second_date_find").val();
+			var dataString = 'fechaInicial=' + init_date + '&fechaFinal=' + finish_date;
 
-                              $.each(resultado, function (i, e) {
-                      listaHTML += '<div class="box-3 box-3-style2">' +
-                        '<div class="wrapper-box-content">' +
-                              '<h3 class="title-box h3-style2">' + e.name_property +'</h3>' +
-                              '<hr />' +
-                              '<div class="table-main-3">';
-                              $.each(e.commissions, function(u, o) {
-                                listaHTML +='<div class="col-main-2">' + o.name + '</div>' +
-                                '<div class="col-main-2">' + formatNumber(o.quantity) + '</div>';
-                              });
+			$.ajax({
+				type: "GET",
+				url: "helper/listaComisionesFechas&" + dataString,
+				data: dataString,
+				success: function (datos) {
+					var resultado = JSON.parse(datos);
 
-                              listaHTML += '</div>' +
-                        '</div>' +
-                      '</div>';
-                              });
+					var listaHTML = "";
 
-                              $("#listaVentas").append(listaHTML);
-                              $(".wrapper-box-content > h3").first().css("color", "red");
-                        }
-                  });
-            }
-      </script>
+					$.each(resultado, function (i, e) {
+						listaHTML += '<div class="box-3 box-3-style2">' +
+						'<div class="wrapper-box-content">' +
+						'<h3 class="title-box h3-style2">' + e.name_property +'</h3>' +
+						'<hr />' +
+						'<div class="table-main-3">';
+						$.each(e.commissions, function(u, o) {
+							listaHTML +='<div class="col-main-2">' + o.name + '</div>' +
+							'<div class="col-main-2">' + formatNumber(o.quantity) + '</div>';
+						});
+
+						listaHTML += '</div>' +
+						'</div>' +
+						'</div>';
+					});
+
+					$("#listaVentas").empty();
+					$("#listaVentas").append(listaHTML);
+					$(".wrapper-box-content > h3").first().css("color", "red");
+				}
+			});
+		}
+
+		function desplegarInformacionInicial() {
+			$.ajax({
+				type: "GET",
+				url: "helper/listaComisiones",
+				success: function (datos) {
+					var resultado = JSON.parse(datos);
+
+					var listaHTML = "";
+
+					$.each(resultado, function (i, e) {
+						listaHTML += '<div class="box-3 box-3-style2">' +
+						'<div class="wrapper-box-content">' +
+						'<h3 class="title-box h3-style2">' + e.name_property +'</h3>' +
+						'<hr />' +
+						'<div class="table-main-3">';
+						$.each(e.commissions, function(u, o) {
+							listaHTML +='<div class="col-main-2">' + o.name + '</div>' +
+							'<div class="col-main-2">' + formatNumber(o.quantity) + '</div>';
+						});
+
+						listaHTML += '</div>' +
+						'</div>' +
+						'</div>';
+					});
+
+					$("#listaVentas").empty();
+					$("#listaVentas").append(listaHTML);
+					$(".wrapper-box-content > h3").first().css("color", "red");
+				}
+			});
+		}
+	</script>
 </body>
 </html>
 
 <script>
-function formatNumber(valor) {
+	function formatNumber(valor) {
 
-    var decimales =  2; //{{$decimales}};
-    //console.log(Number(valor).toFixed(decimales));
-    return "$" + Number(valor).toFixed(decimales).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
-    //
-}
+		var decimales =  2; //{{$decimales}};
+		//console.log(Number(valor).toFixed(decimales));
+		return "$" + Number(valor).toFixed(decimales).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+	}
 </script>
