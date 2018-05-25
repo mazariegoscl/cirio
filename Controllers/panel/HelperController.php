@@ -48,6 +48,9 @@ class HelperController {
         }
     }
 
+//
+
+
     public function calcReports() {
         $rateM = new HelperModel;
         $response = $rateM::calcReports();

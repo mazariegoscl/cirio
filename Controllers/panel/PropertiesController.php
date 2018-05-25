@@ -109,4 +109,5 @@ class PropertiesController {
         $property->rate_weekly = $request->rate_weekly;
         $property->rate_monthly = $request->rate_monthly;
     }
+    //
 }

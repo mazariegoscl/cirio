@@ -113,5 +113,6 @@ function formatNumber(valor) {
     var decimales =  2; //{{$decimales}};
     //console.log(Number(valor).toFixed(decimales));
     return "$" + Number(valor).toFixed(decimales).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+    //
 }
 </script>

@@ -13,6 +13,7 @@ class PropertiesModel extends DB\Database {
             return false;
         }
     }
+    //
 
     public function update($id, $name, $rate, $rate_weekly, $rate_monthly, $date) {
         $query = self::$_db->query("UPDATE properties SET name='$name', rate='$rate', rate_weekly='$rate_weekly', rate_monthly='$rate_monthly', date='$date' WHERE id='$id'");
