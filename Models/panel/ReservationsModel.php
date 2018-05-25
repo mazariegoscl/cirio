@@ -14,7 +14,9 @@ class ReservationsModel extends DB\Database {
       echo "<br /><br />";
       echo "CUANTAS NOCHES: " . $howmuch_dates;
       echo "DESCUENTO POR TARIFA: " . $disccount_peer_rate;*/
-
+      $count_commissions = count($commissions);
+      $rows = array();
+      $return = array();
       if($count_commissions > 0) {
         $query3 = self::$_db->query("DELETE FROM commissions_reservations WHERE reservation='$id'");
         foreach($commissions as $commission) {
@@ -37,6 +39,14 @@ class ReservationsModel extends DB\Database {
         while($fetchr = $query5->fetch_assoc()) {
           $rows[] = $fetchr;
         } */
+
+
+        $query5 = self::$_db->query("SELECT * FROM commissions_reservations WHERE reservation = '$id'");
+        while($fetchr = $query5->fetch_assoc()) {
+          $rows[] = $fetchr;
+        }
+
+        $return["commissions"] = $rows;
       }
 
 
@@ -56,7 +66,8 @@ class ReservationsModel extends DB\Database {
           }
         }
       }
-      return $id;
+      $return["id"] = $id;
+      return $return;
     }else{
       return false;
     }
@@ -164,18 +175,21 @@ class ReservationsModel extends DB\Database {
       $rows = array();
       $i = 0;
       while($row = $query->fetch_assoc()) {
-        $rows[$i] = $row;
+        $rows["reservaciones"][$i] = $row;
         $id_res = $row["id"];
         $query2 = self::$_db->query("SELECT * FROM commissions_reservations WHERE reservation = '$id_res'");
         $u = 0;
         while($fetch = $query2->fetch_assoc()) {
-          $rows[$i]["commissions"][$u]["id"] = $fetch["id"];
-          $rows[$i]["commissions"][$u]["status"] = $fetch["status"];
-          $rows[$i]["commissions"][$u]["commission"] = $fetch["commission"];
+          $rows["reservaciones"][$i]["commissions"][$u]["id"] = $fetch["id"];
+          $rows["reservaciones"][$i]["commissions"][$u]["status"] = $fetch["status"];
+          $rows["reservaciones"][$i]["commissions"][$u]["commission"] = $fetch["commission"];
           $u++;
         }
         $i++;
       }
+
+      $query_date = self::$_db->query("SELECT * FROM reservations ORDER BY DATE(init_date) ASC LIMIT 1;");
+      $rows["date"] = $query_date->fetch_array()["init_date"];
       return $rows;
     }else{
       return false;

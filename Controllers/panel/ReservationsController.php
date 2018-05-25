@@ -67,7 +67,8 @@ class ReservationsController {
             $request->dates,
             $request->nights);
             if($response) {
-                $reservation->id = $response;
+                $reservation->id = $response["id"];
+                $reservation->commissions = $response["commissions"];
                 echo Response::response($reservation);
             }else{
                 echo Response::error("No se pudo insertar el tipo de propiedad");

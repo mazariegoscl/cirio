@@ -140,12 +140,12 @@
                 <label><i class="fa fa-money-bill-alt"></i> Deposito en Garantía: </label>
                 <div class="form-input">
                   <label>Entrada: </label>
-                  <input id="deposit_entry" type="number" pattern="[0-9]*" />
+                  <input id="deposit_entry" type="number" pattern="[0-9]*" value="0" />
                 </div>
 
                 <div class="form-input">
                   <label>Salida: </label>
-                  <input type="number" id="deposit_exit"  pattern="[0-9]*" />
+                  <input type="number" id="deposit_exit"  pattern="[0-9]*" value="0" />
                 </div>
               </div>
 
@@ -501,9 +501,9 @@ $(document).ready(function() {
     $("#customer").val("");
     $("#init_date").val("");
     $("#finish_date").val("");
-    $("#deposit_entry").val("");
-    $("#deposit_exit").val("");
-    $("#disccount").val("");
+    $("#deposit_entry").val(0);
+    $("#deposit_exit").val(0);
+    $("#disccount").val(0);
     //$("#property option[value='1']").prop("selected", true);
     $("#property").prop("selectedIndex", 0);
     $("#rate").prop("selectedIndex", 0);
@@ -525,19 +525,30 @@ $(document).ready(function() {
     type: "GET",
     url: "reservations/get",
     success: function(data) {
+
       data = JSON.parse(data);
       if(data.error) {
         console.log(data);
       }else {
-        for (var i in data) {
-          console.log(data[i]);
-          $("#exam").append(dataStructureReservation(data[i]));
+        $("#first_date_find").val(data.date);
+        /*if(data.length > 0) {
+          //
+        }*/
+        console.log(data.date);
+        console.log(data);
+        for (var i in data.reservaciones) {
+          //console.log(data[i]);
+          //
+          $("#exam").append(dataStructureReservation(data.reservaciones[i]));
           // console.log(getReservations(data[i]));
         }
         eventsActions();
       }
     }
-  })
+  });
+
+  //$("#first_date_find").val("2018-05-01");
+
 });
 </script>
 </body>
