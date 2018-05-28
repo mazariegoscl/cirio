@@ -73,6 +73,29 @@
 					}
 				});
 
+				$.get({
+			url: "helper/porcentajeOcupacionFechas&" + dataString,
+			data: dataString,
+			success: function(datos) {
+				var resultado = JSON.parse(datos);
+				var html = "";
+				var sum = 0;
+				var porcentajePromedio = 0;
+
+				$.each(resultado, function(i, e) {
+					sum += Number(e.Porcentaje);
+					html += '<div class="col-main-2">' + e.NombrePropiedad + '</div>' +
+					'<div class="col-main-2">' + e.Porcentaje + '%</div>';
+				});
+
+				porcentajePromedio = (sum / resultado.length).toFixed(2);
+
+				$("#porcentajes").empty();
+				$("#porcentajes").append(html);
+				$("#porcentajePromedio").text(porcentajePromedio + "%");
+			}
+		});
+
 	/*	$.ajax({
 			type: "GET",
 			url: "helper/dashBoardDates&" + dataString,

@@ -158,17 +158,18 @@ class ExpensesPropertiesModel extends DB\Database {
             $property = $fetch["id"];
             $rows[$i]["property"]["name"] = $fetch["name"];
             $rows[$i]["property"]["id"] = $fetch["id"];
-            $query = self::$_db->query("SELECT SUM(IFNULL(ep.quantity, 0)) AS quantity,
-            etp.id,
-            et.name as name_expense,
-            p.name,
-            p.id AS id_property
-            FROM expenses_type_properties etp
-            LEFT JOIN expenses_properties ep ON ep.expense_property = etp.id
-            INNER JOIN expenses_type et ON et.id = etp.expense
-            INNER JOIN properties p ON p.id = etp.property
-            WHERE etp.property = '$property'
-            GROUP BY et.id");
+            $query = self::$_db->query("SELECT p.id 'id_property', p.name, et.name 'name_expense', IFNULL(SUM(ep.quantity), 0) 'quantity'
+FROM properties p
+LEFT JOIN expenses_type et ON
+    1 = 1
+LEFT JOIN expenses_type_properties etp ON
+    etp.property = p.id
+    AND etp.expense = et.id
+LEFT JOIN expenses_properties ep ON
+    ep.expense_property = etp.id
+WHERE p.id = '$property'
+GROUP BY p.id, et.id
+ORDER BY p.id, et.id");
             while($row = $query->fetch_assoc()) {
                 $rows[$i]["expenses"][$u] = $row;
                 $u++;
@@ -188,17 +189,19 @@ class ExpensesPropertiesModel extends DB\Database {
             $property = $fetch["id"];
             $rows[$i]["property"]["name"] = $fetch["name"];
             $rows[$i]["property"]["id"] = $fetch["id"];
-            $query = self::$_db->query("SELECT SUM(IFNULL(ep.quantity, 0)) AS quantity,
-            etp.id,
-            et.name as name_expense,
-            p.name,
-            p.id AS id_property
-            FROM expenses_type_properties etp
-            LEFT JOIN expenses_properties ep ON ep.expense_property = etp.id
-            INNER JOIN expenses_type et ON et.id = etp.expense
-            INNER JOIN properties p ON p.id = etp.property
-            WHERE etp.property = '$property' AND DATE(ep.date) BETWEEN '$init_date' AND '$finish_date'
-            GROUP BY et.id");
+            $query = self::$_db->query("SELECT p.id 'id_property', p.name, et.name 'name_expense', IFNULL(SUM(ep.quantity), 0) 'quantity'
+FROM properties p
+LEFT JOIN expenses_type et ON
+    1 = 1
+LEFT JOIN expenses_type_properties etp ON
+    etp.property = p.id
+    AND etp.expense = et.id
+LEFT JOIN expenses_properties ep ON
+    ep.expense_property = etp.id
+    AND DATE(ep.date) BETWEEN '$init_date' AND '$finish_date'
+WHERE p.id = '$property'
+GROUP BY p.id, et.id
+ORDER BY p.id, et.id");
             while($row = $query->fetch_assoc()) {
                 $rows[$i]["expenses"][$u] = $row;
                 $u++;

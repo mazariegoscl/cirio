@@ -87,6 +87,13 @@ class HelperController {
         $response = $rateM::porcentajeOcupacion();
     }
 
+    public function porcentajeOcupacionFechas() {
+      $request = (object)$_REQUEST;
+
+        $rateM = new HelperModel;
+        $response = $rateM::porcentajeOcupacionFechas($request->fechaInicial, $request->fechaFinal);
+    }
+
     public function listaComisiones() {
       $rateM = new HelperModel;
       $response = $rateM::listaComisiones();

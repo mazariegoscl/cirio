@@ -116,7 +116,7 @@
 							listaHTML += '<div class="col-main-2"><span style="color: red;">' + formatNumber(e.Depositos) + '</span></div>';
 						}
 						listaHTML += '<div class="col-main-2">Utilidad</div>' +
-						'<div class="col-main-2">' + formatNumber(e.Utilidad) + '</div>' +
+						'<div class="col-main-2">' + formatNumber(e.Utilidad - e.Comisiones) + '</div>' +
 						'<div class="col-main-2">Ocupación</div>';
 						if(e.DiasOcupacion > 1 || e.DiasOcupacion <= 0) {
 							listaHTML += '<div class="col-main-2">' + e.DiasOcupacion  + ' Noches' + '</div>';
@@ -124,6 +124,8 @@
 							listaHTML += '<div class="col-main-2">' + e.DiasOcupacion  + ' Noche' + '</div>';
 						}
 						listaHTML += '</div>' +
+						'<div class="col-main-2">Comisiones</div>' +
+						'<div class="col-main-2">' + formatNumber(e.Comisiones) + '</div>' +
 						'</div>' +
 						'</div>';
 					});
@@ -165,7 +167,7 @@
 							listaHTML += '<div class="col-main-2"><span style="color: red;">' + formatNumber(e.Depositos) + '</span></div>';
 						}
 						listaHTML += '<div class="col-main-2">Utilidad</div>' +
-						'<div class="col-main-2">' + formatNumber(e.Utilidad) + '</div>' +
+						'<div class="col-main-2">' + formatNumber(e.Utilidad - e.Comisiones) + '</div>' +
 						'<div class="col-main-2">Ocupación</div>';
 						if(e.DiasOcupacion > 1 || e.DiasOcupacion <= 0) {
 							listaHTML += '<div class="col-main-2">' + e.DiasOcupacion  + ' Noches' + '</div>';
@@ -173,6 +175,8 @@
 							listaHTML += '<div class="col-main-2">' + e.DiasOcupacion  + ' Noche' + '</div>';
 						}
 						listaHTML += '</div>' +
+						'<div class="col-main-2">Comisiones</div>' +
+						'<div class="col-main-2">' + formatNumber(e.Comisiones) + '</div>' +
 						'</div>' +
 						'</div>';
 					});
