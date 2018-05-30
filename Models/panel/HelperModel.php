@@ -393,7 +393,17 @@ GROUP BY c.id");
 
 
 	public function porcentajeOcupacion() {
-		$query = self::$_db->query("SELECT id 'Propidad', name 'NombrePropiedad', CAST(IFNULL(((100 / Total) * Ocupacion), 0) AS DECIMAL(9, 2)) 'Porcentaje' FROM (SELECT p.id, p.name, SUM(DATEDIFF(finish_date, init_date)) 'Ocupacion', (SELECT SUM(DATEDIFF(finish_date, init_date)) FROM reservations) 'Total' FROM reservations r INNER JOIN properties p ON p.id = r.property GROUP BY p.id ORDER BY p.id) X;");
+		$query = self::$_db->query("SELECT id 'Propidad', name 'NombrePropiedad', CAST(IFNULL(((Ocupacion / Total) * 100), 0) AS DECIMAL(9, 2)) 'Porcentaje'
+FROM (
+	SELECT p.id, p.name, COUNT(*) 'Ocupacion', (SELECT SUM(DATEDIFF(finish_date, init_date)) FROM reservations) 'Total'
+    FROM reservation_days rd
+    INNER JOIN reservations r ON
+		r.id = rd.reservation
+    INNER JOIN properties p ON
+		p.id = r.property
+	GROUP BY p.id
+    ORDER BY p.id
+) X");
 		$rows = array();
 		while($row = $query->fetch_assoc()) {
 			$rows[] = $row;
@@ -402,15 +412,15 @@ GROUP BY c.id");
 	}
 
 	public function porcentajeOcupacionFechas($fechaInicial, $fechaFinal) {
-		$query = self::$_db->query("SELECT id 'Propidad', name 'NombrePropiedad', CAST(IFNULL(((100 / Total) * Ocupacion), 0) AS DECIMAL(9, 2)) 'Porcentaje'
+		$query = self::$_db->query("SELECT id 'Propidad', name 'NombrePropiedad', CAST(IFNULL(((Ocupacion / Total) * 100), 0) AS DECIMAL(9, 2)) 'Porcentaje'
 FROM (
-	SELECT p.id, p.name, COUNT(*) 'Ocupacion', (SELECT COUNT(*) FROM reservation_days rd INNER JOIN reservations r ON r.id = rd.reservation WHERE r.property = p.id AND DATE(rd.date_reservation) BETWEEN (SELECT init_date FROM reservations ORDER BY DATE(init_date) ASC LIMIT 1) AND (SELECT finish_date FROM reservations ORDER BY DATE(finish_date) DESC LIMIT 1)) 'Total'
-    FROM properties p
-    LEFT JOIN reservations r ON
-		r.property = p.id
-    LEFT JOIN reservation_days rd ON
-		rd.reservation = r.id
-        AND DATE(rd.date_reservation) BETWEEN '$fechaInicial' AND '$fechaFinal'
+	SELECT p.id, p.name, COUNT(*) 'Ocupacion', (SELECT COUNT(*) FROM reservation_days WHERE DATE(rd.date_reservation) BETWEEN '$fechaInicial' AND '$fechaFinal') 'Total'
+    FROM reservation_days rd
+    INNER JOIN reservations r ON
+		r.id = rd.reservation
+    INNER JOIN properties p ON
+		p.id = r.property
+	WHERE DATE(rd.date_reservation) BETWEEN '$fechaInicial' AND '$fechaFinal'
 	GROUP BY p.id
     ORDER BY p.id
 ) X");

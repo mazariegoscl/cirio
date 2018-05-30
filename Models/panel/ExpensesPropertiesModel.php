@@ -162,7 +162,7 @@ class ExpensesPropertiesModel extends DB\Database {
 FROM properties p
 LEFT JOIN expenses_type et ON
     1 = 1
-INNER JOIN expenses_type_properties etp ON
+LEFT JOIN expenses_type_properties etp ON
     etp.property = p.id
     AND etp.expense = et.id
 LEFT JOIN expenses_properties ep ON
@@ -193,7 +193,7 @@ ORDER BY p.id, et.id");
 FROM properties p
 LEFT JOIN expenses_type et ON
     1 = 1
-INNER JOIN expenses_type_properties etp ON
+LEFT JOIN expenses_type_properties etp ON
     etp.property = p.id
     AND etp.expense = et.id
 LEFT JOIN expenses_properties ep ON
