@@ -376,10 +376,12 @@ public function dashBoard() {
 
 public function dashBoardFechas($fechaInicial, $fechaFinal) {
 	$query = self::$_db->query("SELECT Ventas, Gastos, TarifaPromedioDiaria
-		FROM (SELECT
-		(SELECT IFNULL(SUM(total), 0) FROM reservation_days WHERE date_reservation BETWEEN '" . $fechaInicial . "' AND '" . $fechaFinal . "') 'Ventas',
-		(SELECT IFNULL(SUM(quantity), 0) FROM expenses_properties WHERE date BETWEEN '" . $fechaInicial . "' AND '" . $fechaFinal . "') 'Gastos',
-		(SELECT CAST(IFNULL(AVG(rate_amount), 0) AS DECIMAL(9, 2)) FROM reservations WHERE date BETWEEN '" . $fechaInicial . "' AND '" . $fechaFinal . "') 'TarifaPromedioDiaria') X");
+FROM (
+	SELECT
+	(SELECT IFNULL(SUM(total), 0) FROM reservation_days WHERE date_reservation BETWEEN '$fechaInicial' AND '$fechaFinal') 'Ventas',
+    (SELECT IFNULL(SUM(quantity), 0) FROM expenses_properties WHERE date BETWEEN '$fechaInicial' AND '$fechaFinal') 'Gastos',
+    (SELECT CAST(IFNULL(AVG(rate), 0) AS DECIMAL(9, 2)) FROM reservation_days WHERE DATE(date_reservation) BETWEEN '$fechaInicial' AND '$fechaFinal') 'TarifaPromedioDiaria'
+) X");
 	echo json_encode($query->fetch_assoc());
 }
 
