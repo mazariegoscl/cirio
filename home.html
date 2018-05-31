@@ -45,6 +45,7 @@
 				});
 
 				porcentajePromedio = (sum / resultado.length).toFixed(2);
+				porcentajePromedio = isNaN(porcentajePromedio) ? Number(0).toFixed(2) : porcentajePromedio;
 
 				$("#porcentajes").empty();
 				$("#porcentajes").append(html);
@@ -89,6 +90,7 @@
 				});
 
 				porcentajePromedio = (sum / resultado.length).toFixed(2);
+				porcentajePromedio = isNaN(porcentajePromedio) ? Number(0).toFixed(2) : porcentajePromedio;
 
 				$("#porcentajes").empty();
 				$("#porcentajes").append(html);
