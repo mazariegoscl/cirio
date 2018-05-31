@@ -35,17 +35,13 @@
 			success: function(datos) {
 				var resultado = JSON.parse(datos);
 				var html = "";
-				var sum = 0;
-				var porcentajePromedio = 0;
 
-				$.each(resultado, function(i, e) {
-					sum += Number(e.Porcentaje);
+				$.each(resultado.porcentajes, function(i, e) {
 					html += '<div class="col-main-2">' + e.NombrePropiedad + '</div>' +
 					'<div class="col-main-2">' + e.Porcentaje + '%</div>';
 				});
 
-				porcentajePromedio = (sum / resultado.length).toFixed(2);
-				porcentajePromedio = isNaN(porcentajePromedio) ? Number(0).toFixed(2) : porcentajePromedio;
+				porcentajePromedio = isNaN(resultado.promedio) ? Number(0).toFixed(2) : resultado.promedio;
 
 				$("#porcentajes").empty();
 				$("#porcentajes").append(html);
@@ -80,17 +76,13 @@
 			success: function(datos) {
 				var resultado = JSON.parse(datos);
 				var html = "";
-				var sum = 0;
-				var porcentajePromedio = 0;
 
-				$.each(resultado, function(i, e) {
-					sum += Number(e.Porcentaje);
+				$.each(resultado.porcentajes, function(i, e) {
 					html += '<div class="col-main-2">' + e.NombrePropiedad + '</div>' +
 					'<div class="col-main-2">' + e.Porcentaje + '%</div>';
 				});
 
-				porcentajePromedio = (sum / resultado.length).toFixed(2);
-				porcentajePromedio = isNaN(porcentajePromedio) ? Number(0).toFixed(2) : porcentajePromedio;
+				porcentajePromedio = isNaN(resultado.promedio) ? Number(0).toFixed(2) : resultado.promedio;
 
 				$("#porcentajes").empty();
 				$("#porcentajes").append(html);
