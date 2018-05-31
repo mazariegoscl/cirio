@@ -393,12 +393,11 @@ GROUP BY c.id");
 
 
 	public function porcentajeOcupacion() {
-		$query = self::$_db->query("SELECT id 'Propidad', name 'NombrePropiedad', CAST(IFNULL(((Ocupacion / Total) * 100), 0) AS DECIMAL(9, 2)) 'Porcentaje'
+		$query = self::$_db->query("SELECT id 'Propidad', name 'NombrePropiedad', CAST(IFNULL(((100 / Total) * Ocupacion), 0) AS DECIMAL(9, 2)) 'Porcentaje'
 FROM (
-	SELECT p.id, p.name, COUNT(*) 'Ocupacion', (SELECT SUM(DATEDIFF(finish_date, init_date)) FROM reservations) 'Total'
-    FROM reservation_days rd
-    INNER JOIN reservations r ON
-		r.id = rd.reservation
+	SELECT p.id, p.name, SUM(DATEDIFF(finish_date, init_date)) 'Ocupacion',
+    (SELECT DATEDIFF((SELECT finish_date FROM reservations ORDER BY DATE(finish_date) DESC LIMIT 1), (SELECT init_date FROM reservations ORDER BY DATE(init_date) ASC LIMIT 1)) FROM reservations r LIMIT 1) 'Total'
+    FROM reservations r
     INNER JOIN properties p ON
 		p.id = r.property
 	GROUP BY p.id
@@ -412,7 +411,7 @@ FROM (
 	}
 
 	public function porcentajeOcupacionFechas($fechaInicial, $fechaFinal) {
-		$query = self::$_db->query("SELECT id 'Propidad', name 'NombrePropiedad', CAST(IFNULL(((Ocupacion / Total) * 100), 0) AS DECIMAL(9, 2)) 'Porcentaje'
+		$query = self::$_db->query("SELECT id 'Propidad', name 'NombrePropiedad', CAST(IFNULL(((100 / Total) * Ocupacion), 0) AS DECIMAL(9, 2)) 'Porcentaje'
 FROM (
 	SELECT p.id, p.name, COUNT(*) 'Ocupacion', (SELECT COUNT(*) FROM reservation_days WHERE DATE(rd.date_reservation) BETWEEN '$fechaInicial' AND '$fechaFinal') 'Total'
     FROM reservation_days rd
