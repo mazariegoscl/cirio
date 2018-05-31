@@ -393,7 +393,6 @@ GROUP BY c.id");
 
 
 	public function porcentajeOcupacion() {
-<<<<<<< HEAD
 		$query = self::$_db->query("SELECT id 'Propidad', name 'NombrePropiedad', CAST(IFNULL(((100 / Total) * Ocupacion), 0) AS DECIMAL(9, 2)) 'Porcentaje'
 FROM (
 	SELECT p.id, p.name, SUM(DATEDIFF(finish_date, init_date)) 'Ocupacion',
@@ -404,9 +403,6 @@ FROM (
 	GROUP BY p.id
     ORDER BY p.id
 ) X");
-=======
-		$query = self::$_db->query("SELECT id 'Propidad', name 'NombrePropiedad', CAST(IFNULL(((100 / Total) * Ocupacion), 0) AS DECIMAL(9, 2)) 'Porcentaje' FROM (SELECT p.id, p.name, SUM(DATEDIFF(finish_date, init_date)) 'Ocupacion', (SELECT SUM(DATEDIFF(finish_date, init_date)) FROM reservations) 'Total' FROM reservations r INNER JOIN properties p ON p.id = r.property GROUP BY p.id ORDER BY p.id) X;");
->>>>>>> b77978d386f73eef89663953d8de1547c6074a51
 		$rows = array();
 		while($row = $query->fetch_assoc()) {
 			$rows[] = $row;

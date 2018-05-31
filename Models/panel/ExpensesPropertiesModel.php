@@ -158,7 +158,7 @@ class ExpensesPropertiesModel extends DB\Database {
             $property = $fetch["id"];
             $rows[$i]["property"]["name"] = $fetch["name"];
             $rows[$i]["property"]["id"] = $fetch["id"];
-            $query = self::$_db->query("SELECT p.id 'id_property', p.name, et.name 'name_expense', IFNULL(SUM(ep.quantity), 0) 'quantity'
+            $query = self::$_db->query("SELECT etp.id as id, p.id 'id_property', p.name, et.name 'name_expense', IFNULL(SUM(ep.quantity), 0) 'quantity'
 FROM properties p
 LEFT JOIN expenses_type et ON
     1 = 1
@@ -189,7 +189,7 @@ ORDER BY p.id, et.id");
             $property = $fetch["id"];
             $rows[$i]["property"]["name"] = $fetch["name"];
             $rows[$i]["property"]["id"] = $fetch["id"];
-            $query = self::$_db->query("SELECT p.id 'id_property', p.name, et.name 'name_expense', IFNULL(SUM(ep.quantity), 0) 'quantity'
+            $query = self::$_db->query("SELECT etp.id as id, p.id 'id_property', p.name, et.name 'name_expense', IFNULL(SUM(ep.quantity), 0) 'quantity'
 FROM properties p
 LEFT JOIN expenses_type et ON
     1 = 1
