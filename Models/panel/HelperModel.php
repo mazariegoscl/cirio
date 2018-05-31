@@ -276,13 +276,14 @@ public function listaComisiones() {
 	$u = 0;
 	$i = 0;
 
-	$query0 = self::$_db->query("SELECT c.id 'comision_id', c.name 'comision', IFNULL(SUM(((IFNULL(r.total, 0) * IFNULL(c.percent, 0)) / 100)), 0) 'cantidad_porcentaje'
-		FROM commissions c
-		LEFT JOIN commissions_reservations cr ON
-		cr.commission = c.id
-		LEFT JOIN reservations r ON
+	$query0 = self::$_db->query("SELECT c.id 'comision_id', c.name 'comision',
+		(SELECT IFNULL(SUM(((IFNULL(r.total, 0) * IFNULL(c.percent, 0)) / 100)), 0) 'cantidad_porcentaje'
+		FROM commissions_reservations cr
+		INNER JOIN reservations r ON
 		r.id = cr.reservation
 		WHERE cr.status = 'true'
+			AND cr.commission = c.id) 'cantidad_porcentaje'
+        FROM commissions c
 		GROUP BY c.id");
 
 	$rows[$u]["name_property"] = "Resumen";
