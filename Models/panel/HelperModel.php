@@ -407,16 +407,17 @@ public function porcentajeOcupacion() {
 		ORDER BY p.id
 	) X");
 
-	$query = self::$_db->query("SELECT id 'Propidad', name 'NombrePropiedad', CAST(IFNULL(((100 / Total) * Ocupacion), 0) AS DECIMAL(9, 2)) 'Porcentaje'
-		FROM (
-		SELECT p.id, p.name, SUM(DATEDIFF(finish_date, init_date)) 'Ocupacion',
-		(SELECT DATEDIFF((SELECT finish_date FROM reservations ORDER BY DATE(finish_date) DESC LIMIT 1), (SELECT init_date FROM reservations ORDER BY DATE(init_date) ASC LIMIT 1)) FROM reservations r LIMIT 1) 'Total'
-		FROM properties p
-		LEFT JOIN reservations r ON
+	$query = self::$_db->query("SELECT id 'Propidad', name 'NombrePropiedad', CAST(IFNULL(((100 / Total) * (Ocupacion / IFNULL(NumReservaciones, 0))), 0) AS DECIMAL(9, 2)) 'Porcentaje'
+FROM (
+	SELECT p.id, p.name, SUM(DATEDIFF(finish_date, init_date)) 'Ocupacion',
+	(SELECT DATEDIFF((SELECT finish_date FROM reservations ORDER BY DATE(finish_date) DESC LIMIT 1), (SELECT init_date FROM reservations ORDER BY DATE(init_date) ASC LIMIT 1)) FROM reservations r LIMIT 1) 'Total',
+    (SELECT COUNT(*) FROM reservations WHERE property = p.id) 'NumReservaciones'
+	FROM properties p
+	LEFT JOIN reservations r ON
 		r.property = p.id
-		GROUP BY p.id
-		ORDER BY p.id
-	) X");
+	GROUP BY p.id
+	ORDER BY p.id
+) X");
 
 	$rows = array();
 	$sum = 0;
@@ -455,19 +456,17 @@ public function porcentajeOcupacionFechas($fechaInicial, $fechaFinal) {
 	}
 
 	for ($i = 0; $i < count($propiedades); $i++) {
-		$query = self::$_db->query("SELECT CAST(IFNULL(((100 / Total) * Ocupacion), 0) AS DECIMAL(9, 2)) 'Porcentaje'
+		$query = self::$_db->query("SELECT CAST(IFNULL((((100 / Total) * (Ocupacion / SUM(IFNULL(NumReservaciones, 0))))), 0) AS DECIMAL(9, 2)) 'Porcentaje'
 FROM (
-	SELECT COUNT(*) 'Ocupacion',
-    (SELECT DATEDIFF((SELECT finish_date FROM reservations ORDER BY DATE(finish_date) DESC LIMIT 1), (SELECT init_date FROM reservations ORDER BY DATE(init_date) ASC LIMIT 1)) FROM reservations r LIMIT 1) 'Total'
+	SELECT COUNT(*) 'Ocupacion', DATEDIFF('$fechaFinal', '$fechaInicial') 'Total',
+    (SELECT COUNT(*) FROM reservations WHERE reservation = rd.reservation AND property = p.id AND DATE(rd.date_reservation) BETWEEN '$fechaInicial' AND '$fechaFinal' GROUP BY reservation) 'NumReservaciones'
     FROM reservation_days rd
     INNER JOIN reservations r ON
 		r.id = rd.reservation
     INNER JOIN properties p ON
 		p.id = r.property
-	WHERE DATE(rd.date_reservation) BETWEEN '$fechaInicial' AND '$fechaFinal'
+	WHERE DATE(rd.date_reservation) BETWEEN '$fechaInicial' AND '" . date('Y-m-d', strtotime($fechaFinal . "-1 days")) . "'
 		AND p.id = " . $propiedades[$i]["Propiedad"] . "
-	GROUP BY p.id
-    ORDER BY p.id
 ) X");
 
 		while ($porcentaje = $query->fetch_assoc()) {
