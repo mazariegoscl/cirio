@@ -1,5 +1,3 @@
-		<footer>
-				<p><?=FOOTER?></p>
-		</footer>
-	</body>
+</main>
+</body>
 </html>

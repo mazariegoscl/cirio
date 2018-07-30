@@ -1,4 +1,5 @@
 <?
+
 namespace Models\Panel;
 use DB;
 class HelperModel extends DB\Database {

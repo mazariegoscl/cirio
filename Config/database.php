@@ -13,7 +13,7 @@ class Database {
         self::$_dbuser = $config["database_config"]["user"];
         self::$_dbpass = $config["database_config"]["pass"];
         self::$_dbdb = $config["database_config"]["db"];
-
+        var_dump( "SE CONECTO" );
         self::$_db = new \mysqli(self::$_dbserver, self::$_dbuser, self::$_dbpass, self::$_dbdb);
         if (self::$_db->connect_errno) {
             echo "Fallo al conectar a MySQL: " . $mysqli->connect_error;

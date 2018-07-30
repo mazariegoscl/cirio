@@ -32,16 +32,6 @@ RewriteRule ^projectFields/(.*)?$ index.php?mode=panel&controller=ProjectFieldsC
 ErrorDocument 404 /404.php
 </IfModule>
 
-<IfModule mod_rewrite.c>
-Options +FollowSymLinks
-RewriteEngine on
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(en|es)/team/(.*)?$ index.php?lang=$1&mode=page&controller=PageController&action=team&person=$2 [L,NC]
-RewriteRule ^(en|es)/projects/(.*)?$ index.php?lang=$1&mode=page&controller=PageController&action=getProject&id=$2 [L,NC]
-RewriteRule ^(en|es)/project/(.*)/(.*)?$ index.php?lang=$1&mode=page&controller=PageController&action=project&id=$2 [L,NC]
-ErrorDocument 404 /404.php
-</IfModule>
 
 <IfModule mod_rewrite.c>
 Options +FollowSymLinks
@@ -49,6 +39,6 @@ RewriteEngine on
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-l
-RewriteRule ^(en|es)/?$ index.php?lang=$1&mode=page&controller=PageController&action=home [L,NC]
-RewriteRule ^(en|es)/(.*)?$ index.php?lang=$1&mode=page&controller=PageController&action=$2 [L,NC]
+RewriteRule ^(.*)?$ index.php?mode=page&controller=PageController&action=$1 [L,NC]
+ErrorDocument 404 /404.php
 </IfModule>

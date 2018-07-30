@@ -2,6 +2,18 @@
 namespace Models\Panel;
 use DB;
 class UsersModel extends DB\Database {
+
+    public function resetPassword($email, $password) {
+        $query = self::$_db->query("UPDATE FROM users SET password='$password' WHERE email = '$email'");
+        $query2 = self::$_db->query("SELECT LAST_INSERT_ID() AS ID");
+        if($query2) {
+            $id = $query2->fetch_assoc();
+            return $id["ID"];
+        }else{
+            return false;
+        }
+    }
+
     public function save($users) {
         $sql = self::$_db->prepare("INSERT INTO users (name,email,pass,role) VALUES (:name, :email, :pass, :role)");
         $sql->execute(array(

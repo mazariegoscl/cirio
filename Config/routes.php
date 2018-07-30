@@ -23,7 +23,7 @@ require_once "Models/panel/ExpensesPropertiesModel.php";
 require_once "Models/panel/HelperModel.php";
 
 // CONTROLLERS
-// require_once "Controllers/page/PageController.php";
+require_once "Controllers/page/PageController.php";
 require_once "Controllers/panel/HomeController.php";
 require_once "Controllers/panel/UsersController.php";
 require_once "Controllers/panel/ProjectsController.php";

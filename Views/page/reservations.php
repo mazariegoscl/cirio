@@ -1,0 +1,473 @@
+<div class="wrapper-charts">
+    <h1 class="title-app">Reservaciones</h1>
+    <div class="buttons-top">
+        <button id="add_reservation" class="data-modal button-normal button-lblue" data-target="modal-reservaciones">Agregar Reservación</button>
+    </div>
+    <div class="filters">
+        <div class="form-control">
+            <label>
+                Fecha de inicio
+            </label>
+            <input id="first_date_find" type="date" value="2018-03-01" />
+        </div>
+
+        <div class="form-control">
+            <label>
+                Fecha final
+            </label>
+            <input id="second_date_find" type="date" value="2018-03-02" />
+        </div>
+        <div class="form-control">
+            <label>
+                Opciones
+            </label>
+            <div style="max-width:200px;">
+                <select style="width: 100%; max-width: 200px;" class="select-default" id="property_find">
+                    <option value="0">Selecciona una propiedad</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-control" style="vertical-align: bottom;">
+            <button id="find_reservations">Buscar</button>
+        </div>
+    </div>
+    <div class="wrapper-box-content" style="margin-top: 50px;">
+        <div id="exam"></div>
+    </div>
+</div>
+<div class="modal" id="modal-reservaciones">
+    <div class="close-button">
+        <i class="fa fa-times"></i>
+    </div>
+
+    <div class="wrapper-modal">
+        <div class="content-modal">
+            <div class="wrapper-content-modal">
+                <h3><i class="fa fa-calendar-alt" style="color: #c94646;"></i> <span id='title-modal-reservation'>Nueva reservación</span></h3>
+                <form class="form-modal">
+                    <div class="form-input">
+                        <label><i class="fa fa-home"></i> Propiedad: </label>
+                        <select id="property">
+                        </select>
+                    </div>
+                    <div class="form-input">
+                        <label><i class="fa fa-male"></i> Cliente: </label>
+                        <input type="text" id="customer" />
+                    </div>
+
+                    <div class="form-input">
+                        <label><i class="fa fa-calendar-alt"></i> Fecha de Entrada: </label>
+                        <input type="date" id="init_date" value="2018-03-03" />
+                    </div>
+
+                    <div class="form-input">
+                        <label><i class="fa fa-calendar-alt"></i> Fecha de Salida: </label>
+                        <input type="date" id="finish_date" value="2018-03-03" />
+                    </div>
+
+                    <div class="form-input">
+                        <label><i class="fa fa-home"></i> Tipo de Tarifa: </label>
+                        <select id="rate">
+                            <option value="1" selected>Base</option>
+                            <option value="2">Semanal</option>
+                            <option value="3">Mensual</option>
+                        </select>
+                    </div>
+
+                    <div class="form-input">
+                        <label><i class="fa fa-home"></i> Tarifa Calculada: </label>
+                        <span class="amount" id="rate_calculated" data-info="0">$0.00</span>
+                    </div>
+
+                    <div class="form-input">
+                        <label><i class="fa fa-money-bill-alt"></i> Deposito en Garantía: </label>
+                        <div class="form-input">
+                            <label>Entrada: </label>
+                            <input id="deposit_entry" type="number" pattern="[0-9]*" value="0" />
+                        </div>
+
+                        <div class="form-input">
+                            <label>Salida: </label>
+                            <input type="number" id="deposit_exit"  pattern="[0-9]*" value="0" />
+                        </div>
+                    </div>
+
+
+                    <div class="form-input">
+                        <label><i class="fa fa-dollar-sign"></i> Descuento: </label>
+                        <input type="number" id="disccount"  pattern="[0-9]*" />
+                    </div>
+
+                    <div class="form-input">
+                        <label><i class="fa fa-home"></i> Total con Descuento: </label>
+                        <span class="amount" id="disccount_calculated" data-info="0">$0.00</span>
+                    </div>
+
+                    <div class="form-input">
+                        <label><i class="fa fa-percent"></i> Comisiones: </label>
+                        <div class="modal-commissions">
+                            <label>Web</label> <input data-id="1" type="checkbox" name="commissions[]" />
+                            <label>Airbnb</label> <input data-id="2" type="checkbox" name="commissions[]" />
+                            <label>VRBO</label> <input data-id="3" type="checkbox" name="commissions[]" />
+                            <label>Agentes</label> <input data-id="4" type="checkbox" name="commissions[]" />
+                        </div>
+                    </div>
+
+                    <div class="submit-input">
+                        <input id="insert_reservation" type="button" value="RESERVAR" class="button-normal button-lblue" />
+                        <input id="update_reservation" type="button" value="ACTUALIZAR" class="button-normal button-lblue" style="display: none;" />
+                        <input id="delete_reservation" type="button" value="ELIMINAR" class="button-normal button-lred" style="display: none;" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+function formatNumber(valor) {
+  var decimales =  2;
+  return "$" + Number(valor).toFixed(decimales).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+}
+
+function eventsActions() {
+  data_modal();
+
+  $(".edit-reservation").click(function() {
+    var data = $(this).siblings('data');
+    var reservation = data.attr("reservation");
+    var parse = JSON.parse(reservation);
+    setData(parse);
+
+    position_box = $(this).parent('div').parent('div').parent('.wrapper-box-reservation').index();
+    $("#rate").change();
+    $("#insert_reservation").hide();
+    $("#update_reservation").show();
+    $("#delete_reservation").hide();
+    $("#title-modal-reservation").text("Actualizar reservación");
+  });
+
+  $(".delete-reservation").click(function() {
+    var data = $(this).siblings('data');
+    var reservation = data.attr("reservation");
+    var parse = JSON.parse(reservation);
+    setData(parse);
+
+    position_box = $(this).parent('div').parent('div').parent('.wrapper-box-reservation').index();
+    $("#rate").change();
+    $("#insert_reservation").hide();
+    $("#update_reservation").hide();
+    $("#delete_reservation").show();
+    $("#title-modal-reservation").text("Eliminar reservación");
+  });
+}
+
+function setData(data) {
+  id_reservation = Number(data.id);
+  $("#customer").val(data.customer);
+  $("#init_date").val(data.init_date);
+  $("#finish_date").val(data.finish_date);
+  $("#deposit_entry").val(data.deposit_entry);
+  $("#deposit_exit").val(data.deposit_exit);
+  $("#disccount").val(data.disccount);
+  $("#rate option[value='" + data.rate + "']").prop("selected", true);
+  $("#property option[value='" + data.property + "']").prop("selected", true);
+  if(data.commissions) {
+    $.each(data.commissions, function(key, val) {
+      console.log(val);
+      var chb = $(".modal-commissions").find("input[type='checkbox'][data-id='" + val.commission + "']");
+      chb.prop("checked", JSON.parse(val.status));
+    })
+  } else {
+    $("input[type='checkbox']").prop("checked", false);
+  }
+}
+
+function dataStructureReservation(data) {
+var dataStructureReservation = '<div class="wrapper-box-reservation"><div class="box-reservation">';
+dataStructureReservation += '<span class="res-person"><i class="fa fa-male"></i> ' + data.customer + '</span>';
+dataStructureReservation += '<div class="res-dates">';
+dataStructureReservation += '<span>';
+dataStructureReservation += '<i class="initial-date fa fa-calendar-alt"></i> ' + data.init_date;
+dataStructureReservation += '</span>';
+dataStructureReservation += ' ';
+dataStructureReservation += '<span>';
+dataStructureReservation += '<i class="end-date fa fa-calendar-alt"></i> ' + data.finish_date;
+dataStructureReservation += '</span>';
+dataStructureReservation += '</div>';
+dataStructureReservation += '<div class="res-actions">';
+dataStructureReservation += "<data reservation='" + JSON.stringify(data) + "'></data>";
+dataStructureReservation += '<i class="data-modal edit-reservation fa fa-edit" data-target="modal-reservaciones"></i>';
+dataStructureReservation += ' ';
+dataStructureReservation += '<i class="data-modal delete-reservation fa fa-trash" data-target="modal-reservaciones"></i>';
+dataStructureReservation += '</div>';
+dataStructureReservation += '</div>';
+dataStructureReservation += '</div>';
+return  dataStructureReservation;
+}
+
+function addCommissions() {
+var commissions = [];
+$(':checkbox').each(function(){
+  var id_com = $(this).attr("data-id");
+  var status = $(this).is(":checked");
+  commissions.push({
+    id: id_com,
+    status: status
+  });
+});
+return commissions;
+}
+
+$(document).ready(function() {
+
+$.ajax({
+  type: "GET",
+  url: "properties/get",
+  success: function(data) {
+    console.log(data);
+    var data = JSON.parse(data);
+    if(data.error) {
+      console.log(data);
+    }else{
+      for (var i in data) {
+        console.log(data[i]);
+        $("#property").append("<option value='" + data[i].id + "'>" + data[i].name + "</option>");
+        $("#property_find").append("<option value='" + data[i].id + "'>" + data[i].name + "</option>");
+      }
+    }
+  }
+});
+
+lista_fechas = "";
+total_noches = "";
+
+$("#init_date, #finish_date, #property, #rate").change(function() {
+  var property = $("#property").val();
+  var init_date = $("#init_date").val();
+  var finish_date = $("#finish_date").val();
+  var rate = $("#rate").val();
+  if(init_date != "" && finish_date != ""&& property != "" && rate != "") {
+    $.ajax({
+      type: "GET",
+      url: "helper/calcRatesReservation&property="+property+"&init_date="+init_date+"&finish_date="+finish_date+"&rate="+rate,
+      success: function(data) {
+        data = JSON.parse(data);
+        if(data.error) {
+
+        } else {
+          $("#rate_calculated").text(formatNumber(data.total));
+          $("#rate_calculated").attr("data-info", data.total);
+          lista_fechas = data.fechas;
+          total_noches = data.noches;
+        }
+
+        var rate = $("#rate_calculated").attr("data-info");
+        var disccount = $("#disccount").val();
+
+
+        if(disccount == "") {
+          disccount = 0;
+        }
+
+        $.ajax({
+          type: "GET",
+          url: "helper/calcDisccount&rate="+rate+"&disccount="+disccount,
+          success: function(data2) {
+            data = JSON.parse(data2);
+            $("#disccount_calculated").text(formatNumber(data2));
+            $("#disccount_calculated").attr("data-info", data2);
+          }
+        });
+      }
+    });
+  }
+});
+
+$("#disccount").on('input', function() {
+  var rate = $("#rate_calculated").attr("data-info");
+  var disccount = $(this).val();
+
+  if(disccount == '') {
+    disccount = 0;
+  }
+  $.ajax({
+    type: "GET",
+    url: "helper/calcDisccount&rate="+rate+"&disccount="+disccount,
+    success: function(data) {
+      data = JSON.parse(data);
+      $("#disccount_calculated").text(formatNumber(data));
+      $("#disccount_calculated").attr("data-info", data);
+    }
+  });
+});
+
+
+$("#find_reservations").click(function() {
+  var first_date = $("#first_date_find").val();
+  var second_date = $("#second_date_find").val();
+  var property = $("#property_find").val();
+
+  var dataString = 'first_date=' + first_date + '&second_date=' + second_date + '&property=' + property
+
+  $.ajax({
+    type: "GET",
+    url: "reservations/getBetweenDates&" + dataString,
+    data: dataString,
+    success: function( data ) {
+      $("#exam").html("");
+      var data = JSON.parse(data);
+      if(data.error) {
+        console.log(data);
+      }else{
+        for (var i in data) {
+          console.log(data[i]);
+          $("#exam").append(dataStructureReservation(data[i]));
+        }
+        eventsActions();
+      }
+    }
+  });
+});
+
+$("#insert_reservation").click(function() {
+  var dataString = {
+    property: $("#property").val(),
+    customer: $("#customer").val(),
+    init_date: $("#init_date").val(),
+    finish_date: $("#finish_date").val(),
+    rate: $("#rate").val(),
+    rate_amount: $("#rate_calculated").attr("data-info"),
+    deposit_entry: $("#deposit_entry").val(),
+    deposit_exit: $("#deposit_exit").val(),
+    disccount: $("#disccount").val(),
+    total: $("#disccount_calculated").attr("data-info"),
+    dates: lista_fechas,
+    nights: total_noches,
+    commissions: addCommissions()
+  };
+  $.ajax({
+    type: "POST",
+    url: "reservations/save",
+    data: dataString,
+    success: function(data) {
+      var data = JSON.parse(data);
+      if(data.error) {
+        console.log(data);
+      }else{
+        $("#exam").append(dataStructureReservation(data));
+        eventsActions();
+        $(".modal").hide();
+        $("body").css("overflow", "auto");
+      }
+    }
+  });
+});
+
+$("#delete_reservation").click(function() {
+  $.ajax({
+    type: "DELETE",
+    url: "reservations/delete",
+    data: {id: id_reservation},
+    success: function(data) {
+      var data = JSON.parse(data);
+      if(data.error) {
+        console.log(data);
+      }else{
+        $(".wrapper-box-reservation").eq(position_box).remove();
+        $(".modal").hide();
+        $("body").css("overflow", "auto");
+        console.log("SE ELIMINÓ");
+      }
+    }
+  });
+});
+
+$("#update_reservation").click(function() {
+  var dataString = {
+    id: id_reservation,
+    property: $("#property").val(),
+    customer: $("#customer").val(),
+    init_date: $("#init_date").val(),
+    finish_date: $("#finish_date").val(),
+    rate: $("#rate").val(),
+    rate_amount: $("#rate_calculated").attr("data-info"),
+    deposit_entry: $("#deposit_entry").val(),
+    deposit_exit: $("#deposit_exit").val(),
+    disccount: $("#disccount").val(),
+    total: $("#disccount_calculated").attr("data-info"),
+    dates: lista_fechas,
+    nights: total_noches,
+    commissions: addCommissions()
+  };
+  $.ajax({
+    type: "PUT",
+    url: "reservations/update",
+    data: dataString,
+    success: function(data) {
+      var data = JSON.parse(data);
+      if(data.error) {
+        console.log(data);
+      }else{
+        console.log(data);
+
+        $(".wrapper-box-reservation").eq(position_box).remove();
+        var who = dataStructureReservation(data);
+        position_box == 0 ? ($("#exam").prepend(dataStructureReservation(data))) : ($(who).insertAfter($(".wrapper-box-reservation").eq(position_box - 1)));
+        //$(who).insertAfter($(".wrapper-box-reservation").eq(actual_position));
+        eventsActions();
+        $(".modal").hide();
+        $("body").css("overflow", "auto");
+        console.log("SE ACTUALIZÓ");
+
+      }
+    }
+  });
+});
+
+$("#add_reservation").click(function() {
+  $("#customer").val("");
+  $("#init_date").val("");
+  $("#finish_date").val("");
+  $("#deposit_entry").val(0);
+  $("#deposit_exit").val(0);
+  $("#disccount").val(0);
+  //$("#property option[value='1']").prop("selected", true);
+  $("#property").prop("selectedIndex", 0);
+  $("#rate").prop("selectedIndex", 0);
+
+  $("#rate_calculated").text(formatNumber(0));
+  $("#rate_calculated").attr("data-info", "");
+  $("#disccount_calculated").text(formatNumber(0));
+  $("#disccount_calculated").attr("data-info", "");
+
+  $("#insert_reservation").show();
+  $("#update_reservation").hide();
+  $("#delete_reservation").hide();
+  $("#title-modal-reservation").text("Nueva reservación");
+  $("input[type='checkbox']").prop("checked", false);
+});
+
+
+$.ajax({
+  type: "GET",
+  url: "reservations/get",
+  success: function(data) {
+
+    data = JSON.parse(data);
+    if(data.error) {
+      console.log(data);
+    }else {
+      $("#first_date_find").val(data.date);
+      console.log(data.date);
+      console.log(data);
+      for (var i in data.reservaciones) {
+        $("#exam").append(dataStructureReservation(data.reservaciones[i]));
+      }
+      eventsActions();
+    }
+  }
+});
+
+});
+</script>
