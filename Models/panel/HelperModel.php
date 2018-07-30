@@ -527,4 +527,32 @@ public function getProperty($property) {
 		return false;
 	}
 }
+
+public function dashboardComisiones() {
+	$query = self::$_db->query("SELECT (100 / (SELECT count(*) FROM commissions_reservations WHERE status='true') * IFNULL(SUM(cr.status='true'),0)) AS PORCENTAJE, c.name AS COMISION FROM commissions c LEFT JOIN commissions_reservations cr ON cr.commission = c.id GROUP BY cr.commission");
+	if($query) {
+		$rows = array();
+		while($row = $query->fetch_assoc()) {
+			$row['PORCENTAJE'] = number_format($row['PORCENTAJE'],2);
+			$rows[] = $row;
+		}
+		echo json_encode($rows);
+	}else{
+		return false;
+	}
+}
+
+public function dashboardComisionesFechas($fechaInicial, $fechaFinal) {
+	$query = self::$_db->query("SELECT (100 / (SELECT count(*) FROM commissions_reservations WHERE status='true' AND DATE(date) BETWEEN '$fechaInicial' AND '$fechaFinal') * IFNULL(SUM(cr.status='true' AND DATE(cr.date) BETWEEN '$fechaInicial' AND '$fechaFinal'),0)) AS PORCENTAJE, c.name AS COMISION FROM commissions c LEFT JOIN commissions_reservations cr ON cr.commission = c.id WHERE DATE(cr.date) BETWEEN '$fechaInicial' AND '$fechaFinal' GROUP BY cr.commission");
+	if($query) {
+		$rows = array();
+		while($row = $query->fetch_assoc()) {
+			$row['PORCENTAJE'] = number_format($row['PORCENTAJE'],2);
+			$rows[] = $row;
+		}
+		echo json_encode($rows);
+	}else{
+		return false;
+	}
+}
 }

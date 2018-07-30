@@ -106,6 +106,17 @@ class HelperController {
         $response = $rateM::listaComisionesFechas($request->fechaInicial, $request->fechaFinal);
     }
 
+    public function dashboardComisiones() {
+      $rateM = new HelperModel;
+      $response = $rateM::dashboardComisiones();
+    }
+
+    public function dashboardComisionesFechas() {
+        $request = (object)$_REQUEST;
+      $rateM = new HelperModel;
+      $response = $rateM::dashboardComisionesFechas($request->fechaInicial, $request->fechaFinal);
+    }
+
     public function save() {
         $request = (object)$_REQUEST;
         $validator = Validator::make(self::$rules, $request);
