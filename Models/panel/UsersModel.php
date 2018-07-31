@@ -3,68 +3,45 @@ namespace Models\Panel;
 use DB;
 class UsersModel extends DB\Database {
 
-    public function resetPassword($email, $password) {
-        $query = self::$_db->query("UPDATE FROM users SET password='$password' WHERE email = '$email'");
-        $query2 = self::$_db->query("SELECT LAST_INSERT_ID() AS ID");
-        if($query2) {
-            $id = $query2->fetch_assoc();
-            return $id["ID"];
+    public function resetPassword($user, $oldPassword, $newPassword, $rNewPassword) {
+        $query0 = self::$_db->query("SELECT * FROM users WHERE password='$oldPassword' AND user='$user'");
+        if($query0) {
+            $num_rows = $query0->num_rows;
+            if($num_rows > 0) {
+                if($newPassword == $rNewPassword) {
+                    $query = self::$_db->query("UPDATE users SET password='$newPassword' WHERE user='$user'");
+                    if($query) {
+                        return true;
+                    }else{
+                        return false;
+                    }
+                } else{
+                    return false;
+                }
+            }else{
+                return false;
+            }
         }else{
             return false;
         }
     }
 
-    public function save($users) {
-        $sql = self::$_db->prepare("INSERT INTO users (name,email,pass,role) VALUES (:name, :email, :pass, :role)");
-        $sql->execute(array(
-            "name" => $users->name,
-            "email" => $users->email,
-            "pass" => $users->pass,
-            "role" => $users->role
-        ));
-        if($sql) {
-            return true;
+    public function login($user, $password) {
+        $query = self::$_db->query("SELECT * FROM users WHERE user='$user' AND password='$password'");
+        if($query) {
+            $num_rows = $query->num_rows;
+            if($num_rows > 0) {
+                while($info = $query->fetch_array()) {
+                    session_start();
+                    $_SESSION["username"]["user"] = $info["user"];
+                    return true;
+                }
+            }else{
+                return false;
+            }
         }else{
             return false;
         }
     }
 
-    public function get($user) {
-        $rows = array();
-        if(empty($user)) {
-            $sql = self::$_db->prepare("SELECT * FROM users");
-        }else{
-            $sql = self::$_db->prepare("SELECT * FROM users WHERE email = '$user'");
-        }
-        $sql->execute();
-        while($result = $sql->fetch(\PDO::FETCH_ASSOC)) {
-            $rows[] = $result;
-        }
-        return $rows;
-    }
-
-    public function find($id) {
-        $rows = array();
-        if(empty($id)) {
-            $sql = self::$_db->prepare("SELECT * FROM users");
-        }else{
-            $sql = self::$_db->prepare("SELECT * FROM users WHERE id = '$id'");
-        }
-        $sql->execute();
-        while($result = $sql->fetch(\PDO::FETCH_ASSOC)) {
-            $rows[] = $result;
-        }
-        return $rows;
-    }
-
-    public function verify($email) {
-        $sql = self::$_db->prepare("SELECT email FROM users WHERE email = '$email'");
-        $sql->execute();
-        $result = $sql->rowCount();
-        if($result > 0) {
-            return true;
-        }else{
-            return false;
-        }
-    }
 }

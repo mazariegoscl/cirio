@@ -18,7 +18,7 @@
 <body>
 	<header>
 		<div class="title-header">EL CIRIO - Administración</div>
-		<a class="logout-header" href="">Cerrar sesión</a>
+		<a class="logout-header" href="users/logout">Cerrar sesión</a>
 	</header>
 	<div class="burger-button"><i class="fa fa-bars"></i></div>
 	<nav>

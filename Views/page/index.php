@@ -15,24 +15,37 @@
 
 <div class="wrapper-login">
     <h3>Iniciar sesión</h3>
-    <form id="login-user" style="text-align: center;">
+    <form id="login_user" style="text-align: center;">
         <div class="box-input">
             <label>Usuario</label>
-            <input type="text" />
+            <input type="text" name="user" />
         </div>
 
         <div class="box-input">
             <label>Contraseña</label>
-            <input type="password" />
+            <input type="password" name="pass" />
         </div>
         <input type="submit" value="Entrar" />
     </form>
 </div>
 <script>
 $(document).ready(function() {
-    $("form#login-user").submit(function(e) {
+    $("form#login_user").submit(function(e) {
         e.preventDefault();
-        window.location.href = "home.html";
+        //
+        $.ajax({
+            type: 'POST',
+            url: 'users/login',
+            data: $(this).serialize(),
+            success: function(data) {
+                data = JSON.parse(data);
+                if(data.error) {
+                    alert("Datos incorrectos");
+                } else {
+                    window.location.href = "home";
+                }
+            }
+        })
     });
 });
 </script>

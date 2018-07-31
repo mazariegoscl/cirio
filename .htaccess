@@ -14,6 +14,7 @@ Options +FollowSymLinks
 RewriteEngine on
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^users/(.*)?$ index.php?mode=panel&controller=UsersController&action=$1 [L,NC]
 RewriteRule ^reservations/(.*)?$ index.php?mode=panel&controller=ReservationsController&action=$1 [L,NC]
 RewriteRule ^properties/(.*)?$ index.php?mode=panel&controller=PropertiesController&action=$1 [L,NC]
 RewriteRule ^tExpenses/(.*)?$ index.php?mode=panel&controller=TExpensesController&action=$1 [L,NC]

@@ -24,13 +24,12 @@
 $(document).ready(function() {
     $("#reset_password").submit(function(e) {
         e.preventDefault();
-        var dataString = $(this).serialize();
-
         $.ajax({
             type: "POST",
-            url: "users/resetePassword",
-            data: dataString,
+            url: "users/resetPassword",
+            data: $(this).serialize(),
             success: function(data) {
+                data = JSON.parse(data);
                 if(data.error) {
                     alert("Hubo un error al intentar actualizar tu contraseña, intentalo de nuevo.");
                 } else {

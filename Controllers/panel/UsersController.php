@@ -6,10 +6,8 @@ use Config\Response\Response;
 use Models\Panel\UsersModel;
 class UsersController {
     private static $rules = array(
-        "name" => "required",
-        "email" => "required",
-        "pass" => "required",
-        "role" => "required"
+        "user" => "required",
+        "pass" => "required"
     );
 
     private static $rulesRPassword = array(
@@ -18,7 +16,24 @@ class UsersController {
         "rNewPassword" => "required"
     );
 
-    public function home() {
+    public function login() {
+        $request = (object)$_REQUEST;
+        $validator = Validator::make(self::$rules, $request);
+        $response = json_decode($validator);
+        if(isset($response->error)) {
+            echo $validator;
+        }else{
+            $users = new \stdClass;
+            self::setDataLogin($users, $request);
+            $usersM = new UsersModel;
+            $login = $usersM::login($users->user, $users->pass);
+            if($login) {
+                echo Response::success(array("response" => "ok"));
+            } else {
+
+                echo Response::error(array("usuario" => "Hubo un error al iniciar sesión"));
+            }
+        }
     }
 
     public function resetPassword() {
@@ -31,13 +46,24 @@ class UsersController {
             $users = new \stdClass;
             self::setData($users, $request);
             $usersM = new UsersModel;
-            $save = $usersM::resetPassword($_SESSION["username"]["email"], $users->newPassword);
+            $save = $usersM::resetPassword($_SESSION["username"]["user"], $users->oldPassword, $users->newPassword, $users->rNewPassword);
             if($save) {
-                Response::success(array("usuario" => "Usuario agregado correctamente"));
+                echo Response::success(array("usuario" => "Usuario agregado correctamente"));
             } else {
-                Response::error(array("usuario" => "Hubo un error al cambiar tu contraseña"));
+                echo Response::error(array("usuario" => "Hubo un error al cambiar tu contraseña"));
             }
         }
+    }
+
+    public function logout() {
+        session_start();
+        session_destroy();
+        header("Location: ../login");
+    }
+
+    private function setDataLogin(&$users, $request) {
+        $users->user = $request->user;
+        $users->pass = $request->pass;
     }
 
     private function setData(&$users, $request) {
